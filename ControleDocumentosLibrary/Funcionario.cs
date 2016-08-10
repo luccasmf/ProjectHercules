@@ -23,7 +23,7 @@ namespace ControleDocumentosLibrary
         [StringLength(20)]
         public string IdUsuario { get; set; }
 
-        public int Permissao { get; set; }
+        public EnumPermissaoUsuario Permissao { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evento> Evento { get; set; }
