@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ControleDocumentosLibrary
 {
-    public class Class1
+    public enum EnumTipoDocumento : int
     {
+        certificado =1,
+        comprovanteDeEndereco,
+
+
     }
 }
