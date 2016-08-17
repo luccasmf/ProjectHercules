@@ -57,7 +57,7 @@ namespace ControleDocumentosLibrary
                 .IsUnicode(false);
 
             modelBuilder.Entity<Documento>()
-                .Property(e => e.Documento1)
+                .Property(e => e.CaminhoDocumento)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Evento>()

@@ -28,7 +28,7 @@ namespace ControleDocumentosLibrary
 
         [Column("Documento", TypeName = "text")]
         [Required]
-        public string Documento1 { get; set; }
+        public string CaminhoDocumento { get; set; }
 
         public int? IdAlunoCurso { get; set; }
 
@@ -40,5 +40,9 @@ namespace ControleDocumentosLibrary
         public virtual ICollection<SolicitacaoDocumento> SolicitacaoDocumento { get; set; }
 
         public virtual Evento Evento { get; set; }
+        
+        [NotMapped]
+        [Required]
+        public byte[] arquivo { get; set; }
     }
 }
