@@ -6,15 +6,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
     <!-- Bootstrap -->
-    <link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/style.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/retina.css")" rel="stylesheet">
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
-    @RenderBody()
+    <!-- start: Header -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span class="navbar-brand">Projeto Hercules</span>
+                <!-- start: Header Menu -->
+                <div class="nav-no-collapse header-nav">
+                    <ul class="nav pull-right">
+                        <!-- start: Notifications Dropdown -->
+                        <li class="dropdown hidden-xs">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="index.html#">
+                                <i class="halflings warning-sign white"></i>
+                            </a>
+                            <ul class="dropdown-menu notifications">
+                                <li>
+                                    <span class="dropdown-menu-title">You have 11 notifications</span>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-user"></i> <span class="message">New user registration</span> <span class="time">1 min</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-comment-o"></i> <span class="message">New comment</span> <span class="time">7 min</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-comment-o"></i> <span class="message">New comment</span> <span class="time">8 min</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-comment-o"></i> <span class="message">New comment</span> <span class="time">16 min</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-user"></i> <span class="message">New user registration</span> <span class="time">36 min</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-shopping-cart"></i> <span class="message">2 items sold</span> <span class="time">1 hour</span>
+                                    </a>
+                                </li>
+                                <li class="warning">
+                                    <a href="index.html#">
+                                        - <i class="fa fa-user"></i> <span class="message">User deleted account</span> <span class="time">2 hour</span>
+                                    </a>
+                                </li>
+                                <li class="warning">
+                                    <a href="index.html#">
+                                        - <i class="fa fa-shopping-cart"></i> <span class="message">Transaction was canceled</span> <span class="time">6 hour</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-comment-o"></i> <span class="message">New comment</span> <span class="time">yesterday</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        + <i class="fa fa-user"></i> <span class="message">New user registration</span> <span class="time">yesterday</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-menu-sub-footer">View all notifications</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- end: Notifications Dropdown -->
+                        <!-- start: User Dropdown -->
+                        <li class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="index.html#">
+                                <i class="halflings user white"></i> Nomiro da Pessoa
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#"><i class="halflings user white"></i> Meu Perfil (?? talvez n tenha)</a></li>
+                                <li><a href="login.html"><i class="halflings off white"></i> Sair</a></li>
+                            </ul>
+                        </li>
+                        <!-- end: User Dropdown -->
+                    </ul>
+                </div>
+                <!-- end: Header Menu -->
+            </div>
+        </div>
+    </div>
+    <!-- start: Menu -->
+
+    <div class="container">
+        <div class="row">
+            <!-- start: Main Menu -->
+            <div id="sidebar-left" class="col-sm-1">
+                <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
+                    <ul class="nav nav-tabs nav-stacked main-menu">
+                        <li>
+                            <a class="dropmenu" href="index.cshtml"><i class="fa fa-folder-open"></i><span class="hidden-sm">Documentação</span></a>
+                            <ul>
+                                <li><a class="submenu" href="ui-sliders-progress.html"><span class="hidden-sm">Documentos de alunos</span></a></li>
+                                <li><a class="submenu" href="ui-nestable-list.html"><span class="hidden-sm">Solicitações de documentos</span></a></li>
+                                <li><a class="submenu" href="ui-elements.html"><span class="hidden-sm">Tipos de documentos</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.cshtml"><i class="fa fa-calendar"></i><span class="hidden-sm">Eventos</span></a></li>
+                        <li><a href="index.cshtml"><i class="fa fa-clock-o"></i><span class="hidden-sm">Horas complementares</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            @*<a id="main-menu-toggle" class="hidden-xs open"><i class="fa fa-bars"></i></a>
+                TODO: aqui da pra adicionar um icone talvez sei lar
+            *@
+            <!-- end: Main Menu -->
+            <!-- start: Content -->
+            <div id="content" class="col-sm-11">
+                @RenderBody()
+            </div>
+            <!-- end: Content -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-sm-5">
+                &copy; 2016 - CNEC Campo Largo
+            </div>
+        </div>
+    </footer>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="@Url.Content("~/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.sparkline.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.pie.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.stack.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.resize.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/retina.js")"></script>
+    <script src="@Url.Content("~/Scripts/justgage.1.0.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/custom.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/core.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.10.3.custom.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.time.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/raphael.min.js")"></script>
 </body>
 </html>
