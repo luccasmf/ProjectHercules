@@ -399,6 +399,7 @@
     <Content Include="Scripts\retina.min.js" />
     <Content Include="Scripts\wizard.min.js" />
     <Content Include="Scripts\xcharts.min.js" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -416,7 +417,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Content\css\bootstrap-theme.css.map" />
     <Content Include="Content\css\bootstrap.css.map" />
     <Content Include="Content\css\style-old.less" />
