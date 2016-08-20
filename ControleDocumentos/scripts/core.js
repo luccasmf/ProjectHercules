@@ -238,11 +238,27 @@ jQuery(document).ready(function($){
 
 	/* ---------- Submenu  ---------- */
 
-	$('.dropmenu').click(function(e){
+	//$('.dropmenu').click(function(e){
 
-		e.preventDefault();
+	//	e.preventDefault();
 
-		$(this).parent().find('ul').slideToggle();
+	//	$(this).parent().find('ul').slideToggle();
+
+	//});
+
+	$('li.dropmenu').mouseenter(function (e) {
+
+	    e.preventDefault();
+
+	    $(this).parent().find('ul').slideToggle();
+
+	});
+
+	$('li.dropmenu').mouseleave(function (e) {
+
+	    e.preventDefault();
+
+	    $(this).parent().find('ul').slideToggle();
 
 	});
 

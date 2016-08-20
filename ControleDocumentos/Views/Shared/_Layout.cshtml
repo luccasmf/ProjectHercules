@@ -7,7 +7,7 @@
     <title>@ViewBag.Title</title>
     <!-- Bootstrap -->
     <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
-    <link href="@Url.Content("~/Content/css/style.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/css/retina.css")" rel="stylesheet">
 
     <!--[if lt IE 9]>
@@ -120,7 +120,7 @@
             <div id="sidebar-left" class="col-sm-1">
                 <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
                     <ul class="nav nav-tabs nav-stacked main-menu">
-                        <li>
+                        <li class="dropmenu drop-top">
                             <a class="dropmenu" href="index.cshtml"><i class="fa fa-folder-open"></i><span class="hidden-sm">Documentação</span></a>
                             <ul>
                                 <li><a class="submenu" href="ui-sliders-progress.html"><span class="hidden-sm">Documentos de alunos</span></a></li>
@@ -128,8 +128,8 @@
                                 <li><a class="submenu" href="ui-elements.html"><span class="hidden-sm">Tipos de documentos</span></a></li>
                             </ul>
                         </li>
-                        <li><a href="index.cshtml"><i class="fa fa-calendar"></i><span class="hidden-sm">Eventos</span></a></li>
-                        <li><a href="index.cshtml"><i class="fa fa-clock-o"></i><span class="hidden-sm">Horas complementares</span></a></li>
+                        <li class="drop-middle"><a href="index.cshtml"><i class="fa fa-calendar"></i><span class="hidden-sm">Eventos</span></a></li>
+                        <li class="drop-bottom"><a href="index.cshtml"><i class="fa fa-clock-o"></i><span class="hidden-sm">Horas complementares</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -164,7 +164,7 @@
     <script src="@Url.Content("~/Scripts/retina.js")"></script>
     <script src="@Url.Content("~/Scripts/justgage.1.0.1.min.js")"></script>
     <script src="@Url.Content("~/Scripts/custom.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/core.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/core.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-ui-1.10.3.custom.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.flot.time.min.js")"></script>
     <script src="@Url.Content("~/Scripts/raphael.min.js")"></script>

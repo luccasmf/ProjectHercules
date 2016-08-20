@@ -405,6 +405,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -437,6 +438,7 @@
     <Content Include="Content\fonts\glyphicons-social-regular.woff" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.otf" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

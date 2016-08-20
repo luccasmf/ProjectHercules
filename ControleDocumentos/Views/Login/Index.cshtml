@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>Projeto Hercules</title>
+    <!-- end: Meta -->
+
+    <!-- start: CSS -->
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../Content/css/style.css" rel="stylesheet">
+    <link href="../../Content/css/retina.min.css" rel="stylesheet">
+    <!-- end: CSS -->
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="../../Scripts/respond.min.js"></script>
+        <link href="../../Content/css/ie.css" rel="stylesheet">
+    <![endif]-->
+    <!--[if IE 9]>
+        <link id="ie9style" href="../../Content/css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <style type="text/css">
+        body {
+            /*background: url("../../Content/img/bg-login.jpg") !important;*/
+            background: rgba(242,247,104,0.7);
+            background: -moz-radial-gradient(center, ellipse cover, rgba(242,247,104,0.7) 0%, rgba(127,131,189,1) 100%);
+            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(242,247,104,0.7)), color-stop(100%, rgba(127,131,189,1)));
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(242,247,104,0.7) 0%, rgba(127,131,189,1) 100%);
+            background: -o-radial-gradient(center, ellipse cover, rgba(242,247,104,0.7) 0%, rgba(127,131,189,1) 100%);
+            background: -ms-radial-gradient(center, ellipse cover, rgba(242,247,104,0.7) 0%, rgba(127,131,189,1) 100%);
+            background: radial-gradient(ellipse at center, rgba(242,247,104,0.7) 0%, rgba(127,131,189,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f768', endColorstr='#7f83bd', GradientType=1 );
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+
+            <div class="row">
+                <div class="login-box">
+                    <div class="margin-login title-login"><span>Conecte-se</span></div>
+                    <form class="form-horizontal" action="index.html" method="post">
+                        <fieldset>
+                            <div class="input-wrap">
+                                <div class="input-prepend input-group" title="Username">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input class="form-control" name="username" id="username" type="text" placeholder="digite o usuário" />
+                                </div>
+                            </div>
+                            <div class="input-wrap">
+                                <div class="input-prepend input-group" title="Password">
+                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                    <input class="form-control" name="password" id="password" type="password" placeholder="digite a senha" />
+                                </div>
+                            </div>
+                            <label class="remember" for="remember"><input type="checkbox" id="remember" />&nbsp;Lembre me</label>
+                            <div class="button-login">
+                                <button type="submit" class="btn btn-primary">Entrar</button>
+                            </div>
+                            <div class="clearfix"></div>
+                    </form>
+                    <hr>
+                    <div class="margin-login"><a>Esqueci a senha</a></div>
+                </div><!--/col-->
+            </div><!--/row-->
+
+        </div><!--/row-->
+
+    </div><!--/container-->
+    <!-- start: JavaScript-->
+    <!--[if !IE]>-->
+    <script src="~/Scripts/"></script>
+    <!--<![endif]-->
+    <!--[if IE]>
+
+        <script src="Scripts/jquery-1.11.0.min.js"></script>
+
+    <![endif]-->
+    <!--[if !IE]>-->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='../../Scripts/jquery-2.1.0.min.js'>" + "<" + "/script>");
+    </script>
+    <!--<![endif]-->
+    <!--[if IE]>
+
+        <script type="text/javascript">
+        window.jQuery || document.write("<script src='../../Scripts/jquery-1.11.0.min.js'>"+"<"+"/script>");
+        </script>
+
+    <![endif]-->
+    <script src="../../Scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+
+
+    <!-- theme scripts -->
+    <script src="../../Scripts/custom.min.js"></script>
+    <script src="../../Scripts/core.min.js"></script>
+
+    <!-- end: JavaScript-->
+
+</body>
+</html>
