@@ -185,6 +185,11 @@
     <Content Include="Content\fonts\glyphiconshalflings-regular.svg" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.ttf" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.woff" />
+    <Content Include="Content\img\sort_asc.png" />
+    <Content Include="Content\img\sort_asc_disabled.png" />
+    <Content Include="Content\img\sort_both.png" />
+    <Content Include="Content\img\sort_desc.png" />
+    <Content Include="Content\img\sort_desc_disabled.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\img\arrows-active.png" />
     <Content Include="Content\img\arrows-normal.png" />
@@ -405,8 +410,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SolicitacaoDocumentoController.cs" />
+    <Compile Include="Controllers\TipoDocumentoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -440,6 +448,7 @@
     <Content Include="Content\fonts\glyphiconshalflings-regular.otf" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\TipoDocumento\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -451,6 +460,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Repository\" />
+    <Folder Include="Views\Documento\" />
+    <Folder Include="Views\SolicitacaoDocumento\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControleDocumentosAPI\ControleDocumentosAPI.csproj">

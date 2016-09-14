@@ -6,19 +6,12 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
-    public class LoginController : Controller
+    public class SolicitacaoDocumentoController : Controller
     {
-        // GET: Login
+        // GET: SolicitacaoDocumento
         public ActionResult Index()
         {
             return View();
-        }
-
-        public ActionResult Entrar(string username, string password)
-        {
-            // Logar
-
-            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -9,7 +9,6 @@
     <meta charset="utf-8">
     <title>Projeto Hercules</title>
     <!-- end: Meta -->
-
     <!-- start: CSS -->
     <link href="../../Content/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../Content/css/style.css" rel="stylesheet">
@@ -47,25 +46,24 @@
             <div class="row">
                 <div class="login-box">
                     <div class="margin-login title-login"><span>Conecte-se</span></div>
-                    <form class="form-horizontal" action="index.html" method="post">
-                        <fieldset>
-                            <div class="input-wrap">
-                                <div class="input-prepend input-group" title="Username">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input class="form-control" name="username" id="username" type="text" placeholder="digite o usuário" />
-                                </div>
+                    <form action="@Url.Action("Entrar", "Login")" method="@FormMethod.Post" id="frmLogin">
+                        <div class="input-wrap">
+                            <div class="input-prepend input-group" title="Username">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input class="form-control" name="username" id="username" type="text" placeholder="digite o usuário" />
                             </div>
-                            <div class="input-wrap">
-                                <div class="input-prepend input-group" title="Password">
-                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    <input class="form-control" name="password" id="password" type="password" placeholder="digite a senha" />
-                                </div>
+                        </div>
+                        <div class="input-wrap">
+                            <div class="input-prepend input-group" title="Password">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input class="form-control" name="password" id="password" type="password" placeholder="digite a senha" />
                             </div>
-                            <label class="remember" for="remember"><input type="checkbox" id="remember" />&nbsp;Lembre me</label>
-                            <div class="button-login">
-                                <button type="submit" class="btn btn-primary">Entrar</button>
-                            </div>
-                            <div class="clearfix"></div>
+                        </div>
+                        <label class="remember" for="remember"><input type="checkbox" id="remember" />&nbsp;Lembre me</label>
+                        <div class="button-login">
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </div>
+                        <div class="clearfix"></div>
                     </form>
                     <hr>
                     <div class="margin-login"><a>Esqueci a senha</a></div>
