@@ -57,10 +57,7 @@
     <Compile Include="Curso.cs" />
     <Compile Include="Documento.cs" />
     <Compile Include="DocumentosModel.cs" />
-    <Compile Include="EnumPermissaoUsuario.cs" />
-    <Compile Include="EnumStatusEvento.cs" />
-    <Compile Include="EnumStatusSolicitacao.cs" />
-    <Compile Include="EnumTipoDocumento.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Evento.cs" />
     <Compile Include="Funcionario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

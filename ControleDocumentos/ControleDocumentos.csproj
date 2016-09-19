@@ -419,6 +419,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DirDoc.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -464,10 +465,6 @@
     <Folder Include="Views\SolicitacaoDocumento\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ControleDocumentosAPI\ControleDocumentosAPI.csproj">
-      <Project>{bf688644-9a9f-4a94-a40a-624935c8f6af}</Project>
-      <Name>ControleDocumentosAPI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ControleDocumentosLibrary\ControleDocumentosLibrary.csproj">
       <Project>{5074d120-8913-409d-b404-3a1dc948adf6}</Project>
       <Name>ControleDocumentosLibrary</Name>

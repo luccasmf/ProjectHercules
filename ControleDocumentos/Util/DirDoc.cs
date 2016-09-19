@@ -5,7 +5,7 @@ using System.Web;
 using System.IO;
 using ControleDocumentosLibrary;
 
-namespace ControleDocumentosAPI.Models
+namespace ControleDocumentos
 {
     /// <summary>
     /// Classe responsável por manipular os documentos, separar em pastas e salvar no servidor de arquivos
