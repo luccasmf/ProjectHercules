@@ -7,7 +7,7 @@ using ControleDocumentos.Filter;
 
 namespace ControleDocumentos.Controllers
 {
-    [AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS")]
+   // [AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS")]
     public class HomeController : Controller
     {
         // GET: Home

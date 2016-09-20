@@ -27,49 +27,52 @@ namespace ControleDocumentos.Controllers
         {
             string returnUrl = model.ReturnUrl;
 
-            #region login teste
-            if(model.UserName == "admin" && model.Password == "admin")
-            {
-                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            return this.RedirectToAction("Index", "Home");
 
-                if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                {
-                    return this.Redirect(returnUrl);
-                }
 
-                return this.RedirectToAction("Index", "Home");
-            }
-            #endregion
+            //#region login teste
+            //if(model.UserName == "admin" && model.Password == "admin")
+            //{
+            //    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-            #region login Real
-            try
-            {
-                if (!this.ModelState.IsValid)
-                {
-                    return this.View(model);
-                }
+            //    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+            //        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            //    {
+            //        return this.Redirect(returnUrl);
+            //    }
 
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            //    return this.RedirectToAction("Index", "Home");
+            //}
+            //#endregion
 
-                    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        return this.Redirect(returnUrl);
-                    }
+            //#region login Real
+            //try
+            //{
+            //    if (!this.ModelState.IsValid)
+            //    {
+            //        return this.View(model);
+            //    }
 
-                    return this.RedirectToAction("Index", "Home");
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Erro = ex.Message;
-            }
-            #endregion
+            //    if (Membership.ValidateUser(model.UserName, model.Password))
+            //    {
+            //        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-            return this.View(model);
+            //        if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+            //            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            //        {
+            //            return this.Redirect(returnUrl);
+            //        }
+
+            //        return this.RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ViewBag.Erro = ex.Message;
+            //}
+            //#endregion
+
+            //return this.View(model);
         }
 
         public ActionResult LogOff()
