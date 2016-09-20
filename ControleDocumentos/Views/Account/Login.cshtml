@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ControleDocumentos.Models.LoginModel
+@{
     Layout = null;
 }
 
@@ -50,16 +51,16 @@
                         <div class="input-wrap">
                             <div class="input-prepend input-group" title="Username">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input class="form-control" name="username" id="username" type="text" placeholder="digite o usuário" />
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @type = "text", @placeholder = "digite o usuário" })
                             </div>
                         </div>
                         <div class="input-wrap">
                             <div class="input-prepend input-group" title="Password">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                <input class="form-control" name="password" id="password" type="password" placeholder="digite a senha" />
+                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control" , @type = "password", @placeholder = "digite a senha" })
                             </div>
                         </div>
-                        <label class="remember" for="remember"><input type="checkbox" id="remember" />&nbsp;Lembre me</label>
+                        <label class="remember" for="RememberMe">@Html.CheckBoxFor(x => x.RememberMe)&nbsp;Lembre me</label>
                         <div class="button-login">
                             <button type="submit" class="btn btn-primary">Entrar</button>
                         </div>

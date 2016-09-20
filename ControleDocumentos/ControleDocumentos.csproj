@@ -424,7 +424,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SolicitacaoDocumentoController.cs" />
     <Compile Include="Controllers\TipoDocumentoController.cs" />
     <Compile Include="Filter\AuthorizeADAttribute.cs" />
@@ -462,7 +461,7 @@
     <Content Include="Content\fonts\glyphicons-social-regular.woff" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.otf" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
-    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\TipoDocumento\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
