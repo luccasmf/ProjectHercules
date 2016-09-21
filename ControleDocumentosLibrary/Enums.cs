@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,33 +9,52 @@ namespace ControleDocumentosLibrary
 {
     public enum EnumPermissaoUsuario :int
     {
+        [Description("Aluno")]
         aluno=1,
+        [Description("Professor")]
         professor,
+        [Description("Coordenador")]
         coordenador,
+        [Description("Secretaria")]
         secretaria,
     }
 
     public enum EnumStatusSolicitacao : int
     {
+        [Description("Pendente")]
         pendente = 1,
+        [Description("Visualizado")]
         visualizado,
+        [Description("Processando")]
         processando,
+        [Description("Concluído")]
         concluido,
+        [Description("Cancelado")]
         cancelado,
     }
 
     public enum EnumStatusEvento : int
     {
+        [Description("Aprovado")]
         aprovado = 1,
+        [Description("Cancelado")]
         cancelado,
+        [Description("Adiado")]
         adiado,
+        [Description("Concluído")]
         concluido,
 
     }
 
     public enum EnumTipoDocumento : int
     {
+        [Description("Certificado")]
         certificado = 1,
+        [Description("Comprovante de endereço")]
         comprovanteDeEndereco,
+        [Description("Histórico escolar")]
+        historico,
+        [Description("Declaração de matrícula")]
+        declaracaoDeMatricula,
     }
 }
