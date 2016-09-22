@@ -58,8 +58,10 @@
     <Compile Include="Documento.cs" />
     <Compile Include="DocumentosModel.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="EnumsLog.cs" />
     <Compile Include="Evento.cs" />
     <Compile Include="Funcionario.cs" />
+    <Compile Include="Logs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolicitacaoDocumento.cs" />
     <Compile Include="Usuario.cs" />

@@ -19,6 +19,7 @@ namespace ControleDocumentosLibrary
         public virtual DbSet<Documento> Documento { get; set; }
         public virtual DbSet<Evento> Evento { get; set; }
         public virtual DbSet<Funcionario> Funcionario { get; set; }
+        public virtual DbSet<Logs> Logs { get; set; }
         public virtual DbSet<SolicitacaoDocumento> SolicitacaoDocumento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
@@ -86,6 +87,14 @@ namespace ControleDocumentosLibrary
                 .WithOptional(e => e.Funcionario)
                 .HasForeignKey(e => e.IdFuncionarioCriador);
 
+            modelBuilder.Entity<Logs>()
+                .Property(e => e.IdUsuario)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Logs>()
+                .Property(e => e.EstadoAnterior)
+                .IsUnicode(false);
+
             modelBuilder.Entity<SolicitacaoDocumento>()
                 .Property(e => e.Observacao)
                 .IsUnicode(false);
@@ -109,6 +118,11 @@ namespace ControleDocumentosLibrary
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(e => e.Funcionario)
+                .WithRequired(e => e.Usuario)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Usuario>()
+                .HasMany(e => e.Logs)
                 .WithRequired(e => e.Usuario)
                 .WillCascadeOnDelete(false);
         }
