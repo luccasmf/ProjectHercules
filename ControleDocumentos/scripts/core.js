@@ -238,7 +238,7 @@ jQuery(document).ready(function($){
 
     /* ---------- Submenu  ---------- */
 
-    $('li.dropmenu').click(function (e) {
+    $('a.dropmenu').click(function (e) {
         e.stopImmediatePropagation();
         e.preventDefault();
 

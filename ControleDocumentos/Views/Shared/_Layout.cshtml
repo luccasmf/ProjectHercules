@@ -35,6 +35,7 @@
 </head>
 <body>
     <!-- start: Header -->
+
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container">
@@ -127,6 +128,7 @@
                     </ul>
                 </div>
                 <!-- end: Header Menu -->
+
             </div>
         </div>
     </div>
@@ -143,7 +145,7 @@
                             <ul>
                                 <li><a class="submenu" href="ui-sliders-progress.html"><span class="hidden-sm">Documentos de alunos</span></a></li>
                                 <li><a class="submenu" href="ui-nestable-list.html"><span class="hidden-sm">Solicitações de documentos</span></a></li>
-                                <li><a class="submenu" href="ui-elements.html"><span class="hidden-sm">Tipos de documentos</span></a></li>
+                                <li><a class="submenu" href="@Url.Action("Index","TipoDocumento")"><span class="hidden-sm">Tipos de documentos</span></a></li>
                             </ul>
                         </li>
                         <li class="drop-middle"><a href="index.cshtml"><i class="fa fa-calendar"></i><span class="hidden-sm">Eventos</span></a></li>
@@ -163,6 +165,12 @@
         </div>
     </div>
 
+    <div class="container">
+        <div class="modal fade" id="divModalGlobal" aria-hidden="false" style="display: none;">
+            <div id="divModalGlobalBody" class="modal-dialog">
+            </div>
+        </div>
+    </div>
     <footer>
         <div class="row">
             <div class="col-sm-5">
@@ -170,5 +178,6 @@
             </div>
         </div>
     </footer>
+
 </body>
 </html>

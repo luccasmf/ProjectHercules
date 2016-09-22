@@ -465,6 +465,8 @@
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\TipoDocumento\Index.cshtml" />
+    <Content Include="Views\TipoDocumento\_CadastroTipoDocumento.cshtml" />
+    <Content Include="Views\TipoDocumento\_ExclusaoTipoDocumento.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

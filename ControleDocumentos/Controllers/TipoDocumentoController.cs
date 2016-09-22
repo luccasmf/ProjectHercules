@@ -13,5 +13,23 @@ namespace ControleDocumentos.Controllers
         {
             return View();
         }
+
+        public ActionResult CarregaModalCadastro(int? idTipo)
+        {
+            //instancia model
+            if (idTipo.HasValue)
+            {
+                //pega model pelo id
+            }
+            //retorna model
+            return PartialView("_CadastroTipoDocumento");
+        }
+
+        public ActionResult CarregaModalExclusao(int idTipo)
+        {
+            //get no tipo
+            //retorna o tipo na partial
+            return PartialView("_ExclusaoTipoDocumento");
+        }
     }
 }
