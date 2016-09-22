@@ -18,7 +18,7 @@ namespace ControleDocumentosLibrary
         [Key]
         public int IdDocumento { get; set; }
 
-        public EnumTipoDocumento TipoDocumento { get; set; }
+        public int IdTipoDoc { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -26,7 +26,7 @@ namespace ControleDocumentosLibrary
 
         public DateTime Data { get; set; }
 
-        [Column("Documento", TypeName = "text")]
+        [Column(TypeName = "text")]
         [Required]
         public string CaminhoDocumento { get; set; }
 
@@ -40,7 +40,9 @@ namespace ControleDocumentosLibrary
         public virtual ICollection<SolicitacaoDocumento> SolicitacaoDocumento { get; set; }
 
         public virtual Evento Evento { get; set; }
-        
+
+        public virtual TipoDocumento TipoDocumento { get; set; }
+
         [NotMapped]
         [Required]
         public byte[] arquivo { get; set; }

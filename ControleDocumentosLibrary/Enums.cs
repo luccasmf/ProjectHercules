@@ -46,15 +46,4 @@ namespace ControleDocumentosLibrary
 
     }
 
-    public enum EnumTipoDocumento : int
-    {
-        [Description("Certificado")]
-        certificado = 1,
-        [Description("Comprovante de endereço")]
-        comprovanteDeEndereco,
-        [Description("Histórico escolar")]
-        historico,
-        [Description("Declaração de matrícula")]
-        declaracaoDeMatricula,
-    }
 }

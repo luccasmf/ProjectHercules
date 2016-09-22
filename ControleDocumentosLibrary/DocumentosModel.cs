@@ -21,6 +21,7 @@ namespace ControleDocumentosLibrary
         public virtual DbSet<Funcionario> Funcionario { get; set; }
         public virtual DbSet<Logs> Logs { get; set; }
         public virtual DbSet<SolicitacaoDocumento> SolicitacaoDocumento { get; set; }
+        public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -98,6 +99,15 @@ namespace ControleDocumentosLibrary
             modelBuilder.Entity<SolicitacaoDocumento>()
                 .Property(e => e.Observacao)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<TipoDocumento>()
+                .Property(e => e.TipoDocumento1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TipoDocumento>()
+                .HasMany(e => e.Documento)
+                .WithRequired(e => e.TipoDocumento)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Usuario>()
                 .Property(e => e.IdUsuario)

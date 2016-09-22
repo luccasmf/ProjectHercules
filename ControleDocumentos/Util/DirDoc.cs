@@ -24,7 +24,7 @@ namespace ControleDocumentos
 
             string curso = doc.AlunoCurso.Curso.Nome;
             string idAluno = doc.AlunoCurso.IdAluno.ToString();
-            string tipoDoc = ((EnumTipoDocumento)doc.TipoDocumento).ToString();
+            string tipoDoc = doc.TipoDocumento.TipoDocumento1;
 
             List<string> caminho = new List<string>();
 
