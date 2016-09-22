@@ -8,6 +8,9 @@ using System.Web.Security;
 
 namespace ControleDocumentos.Controllers
 {
+    /// <summary>
+    /// Controller para manipulação de informações gerais de contas (login, senha)
+    /// </summary>
     public class AccountController : Controller
     {
         // GET: Account
@@ -22,6 +25,11 @@ namespace ControleDocumentos.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Método responsável pela autenticação
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {

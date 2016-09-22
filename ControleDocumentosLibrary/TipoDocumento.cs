@@ -20,7 +20,7 @@ namespace ControleDocumentosLibrary
 
         [Column("TipoDocumento")]
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         public string TipoDocumento1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
