@@ -1,0 +1,269 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tipos de Documento</h2>
+
+<div class="text-right">
+    <button class="btn btn-primary btnCadastro" id="btnCadastro" url="@Url.Action("CarregaModalCadastro","TipoDocumento")">Cadastrar novo</button>
+
+</div>
+
+<div class="row">
+    <div class="box">
+        <div class="box-content">
+            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Anton Phunihel</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit btnCadastro" url="@Url.Action("CarregaModalCadastro","TipoDocumento", new { idTipo = 1 })"></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o btnExclusao" url="@Url.Action("CarregaModalExclusao","TipoDocumento", new { idTipo = 1 })"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Alphonse Ivo</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thancmar Theophanes</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Walerian Khwaja</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Clemens Janko</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Chidubem Gottlob</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hristofor Sergio</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tadhg Griogair</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pollux Beaumont</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Adam Alister</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Carlito Roffe</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sana Amrin</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Adinah Ralph</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dederick Mihail</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hipólito András</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fricis Arieh</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Scottie Maximilian</td>
+                        <td class="center">
+                            <a class="btn btn-info" href="#">
+                                <i class="fa fa-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-trash-o "></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        /* ---------- Datable ---------- */
+        $('.datatable').dataTable({
+            "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-12'i><'col-lg-12 center'p>>",
+            "sPaginationType": "bootstrap",
+            "iDisplayLength": "5",
+            "oLanguage": {
+                "semptyTable": "",
+                "sinfo": "Mostrando _START_ até _END_ de _TOTAL_ registros",
+                "sinfoEmpty": "",
+                "sinfoFiltered": "(Filtrado de _MAX_ registros)",
+                "ssearch": "Buscar:",
+                "szeroRecords": "Nenhum registro encontrado",
+                "spaginate": {
+                    "first": "Primeiro",
+                    "last": "Último",
+                    "next": "Próximo",
+                }
+            }
+        });
+
+        $(document).on("click", ".btnCadastro", function () {
+            $.ajax({
+                url: $(this).attr("url"),
+                type: 'GET',
+                success: function (data) {
+                    $("#divModalGlobalBody").html(data);
+                    $("#divModalGlobal").modal("show");
+                },
+                error: function () {
+                    alert("erro")
+                }
+            });
+        });
+
+        $(document).on("click", ".btnExclusao", function () {
+            $.ajax({
+                url: $(this).attr("url"),
+                type: 'GET',
+                success: function (data) {
+                    $("#divModalGlobalBody").html(data);
+                    $("#divModalGlobal").modal("show");
+                },
+                error: function () {
+                    alert("erro")
+                }
+            });
+        });
+
+    });
+</script>

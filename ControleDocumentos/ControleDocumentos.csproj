@@ -417,6 +417,7 @@
     <Content Include="Scripts\wizard.min.js" />
     <Content Include="Scripts\xcharts.min.js" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\TipoDocumento\Index.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -464,7 +465,6 @@
     <Content Include="Content\fonts\glyphiconshalflings-regular.otf" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\TipoDocumento\Index.cshtml" />
     <Content Include="Views\TipoDocumento\_CadastroTipoDocumento.cshtml" />
     <Content Include="Views\TipoDocumento\_ExclusaoTipoDocumento.cshtml" />
     <None Include="Web.Debug.config">
