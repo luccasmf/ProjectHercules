@@ -3,9 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Scripts.Render("~/Scripts/PageScripts/TipoDocumento.js")
 
 <h2>Tipos de Documento</h2>
-
 <div class="text-right">
     <button class="btn btn-primary btnCadastro" id="btnCadastro" url="@Url.Action("CarregaModalCadastro","TipoDocumento")">Cadastrar novo</button>
 
@@ -214,56 +214,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        /* ---------- Datable ---------- */
-        $('.datatable').dataTable({
-            "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-12'i><'col-lg-12 center'p>>",
-            "sPaginationType": "bootstrap",
-            "iDisplayLength": "5",
-            "oLanguage": {
-                "semptyTable": "",
-                "sinfo": "Mostrando _START_ até _END_ de _TOTAL_ registros",
-                "sinfoEmpty": "",
-                "sinfoFiltered": "(Filtrado de _MAX_ registros)",
-                "ssearch": "Buscar:",
-                "szeroRecords": "Nenhum registro encontrado",
-                "spaginate": {
-                    "first": "Primeiro",
-                    "last": "Último",
-                    "next": "Próximo",
-                }
-            }
-        });
-
-        $(document).on("click", ".btnCadastro", function () {
-            $.ajax({
-                url: $(this).attr("url"),
-                type: 'GET',
-                success: function (data) {
-                    $("#divModalGlobalBody").html(data);
-                    $("#divModalGlobal").modal("show");
-                },
-                error: function () {
-                    alert("erro")
-                }
-            });
-        });
-
-        $(document).on("click", ".btnExclusao", function () {
-            $.ajax({
-                url: $(this).attr("url"),
-                type: 'GET',
-                success: function (data) {
-                    $("#divModalGlobalBody").html(data);
-                    $("#divModalGlobal").modal("show");
-                },
-                error: function () {
-                    alert("erro")
-                }
-            });
-        });
-
-    });
-</script>

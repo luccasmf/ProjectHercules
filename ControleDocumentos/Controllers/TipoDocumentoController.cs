@@ -41,5 +41,24 @@ namespace ControleDocumentos.Controllers
             //retorna o tipo na partial
             return PartialView("_ExclusaoTipoDocumento", tipoDoc);
         }
+
+        public object SalvarTipoDocumento(TipoDocumento model)
+        {
+            try
+            {
+                if (model.IdTipoDoc > 0)
+                {
+                    //update
+                }
+                else {
+                    //create
+                }
+                return Json (new { Status = true, Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json (new { Status = false, Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+            }           
+        }
     }
 }
