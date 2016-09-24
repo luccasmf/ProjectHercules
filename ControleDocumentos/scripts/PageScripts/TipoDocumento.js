@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿/// <reference path="Util.js" />
+$(document).ready(function () {
     bindDatatable();
     bindCadastro();
     bindExclusao();
@@ -7,21 +8,28 @@
 });
 
 function bindDatatable() {
-    $('.datatable').dataTable({
-        "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-12'i><'col-lg-12 center'p>>",
-        "sPaginationType": "bootstrap",
-        "iDisplayLength": "5",
-        "oLanguage": {
-            "semptyTable": "",
-            "sinfo": "Mostrando _START_ até _END_ de _TOTAL_ registros",
-            "sinfoEmpty": "",
-            "sinfoFiltered": "(Filtrado de _MAX_ registros)",
-            "ssearch": "Buscar:",
-            "szeroRecords": "Nenhum registro encontrado",
-            "spaginate": {
-                "first": "Primeiro",
-                "last": "Último",
-                "next": "Próximo",
+    $('#tipoDocTable').DataTable({
+        "language": {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ atÃ© _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 atÃ© 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ resultados por pÃ¡gina",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "PrÃ³ximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Ãšltimo"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
             }
         }
     });
@@ -74,24 +82,29 @@ function bindFormSubmit() {
             type: frm.attr("method"),
             data: frm.serialize(),
             success: function (result) {
-                if (result.Status == true) {
-                    var n = noty({
-                        text: result.Message,
-                        layout: "topCenter",
-                        type: "success"
-                    });
-                    $("#divModalGlobal").modal("hide")
-                }
-                else {
-                    var n = noty({
-                        text: result.Message,
-                        layout: "topCenter",
-                        type: "error"
-                    });
-                }
+                showNotificationRedirect(result);
+                //if (result.Status == true) {
+                //    var n = noty({
+                //        text: result.Message,
+                //        layout: "topCenter",
+                //        type: "success"
+                //    });
+                //    $("#divModalGlobal").modal("hide")
+                //}
+                //else {
+                //    var n = noty({
+                //        text: result.Message,
+                //        layout: "topCenter",
+                //        type: "error"
+                //    });
+                //}
             },
             error: function (result) {
-                alert("Failed");
+                var n = noty({
+                    text: result.Message,
+                    layout: "topCenter",
+                    type: "error"
+                });
             }
         });
         return false;

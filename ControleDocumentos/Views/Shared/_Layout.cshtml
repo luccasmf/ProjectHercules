@@ -6,33 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
     <!-- Bootstrap -->
-    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
-    <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet">
-    <link href="@Url.Content("~/Content/css/retina.css")" rel="stylesheet">
+    @Styles.Render("~/Content/css")
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="~/Scripts/jquery-1.11.0.min.js"></script>
-    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.sparkline.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.flot.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.flot.pie.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.flot.stack.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.flot.resize.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/retina.js")"></script>
-    <script src="@Url.Content("~/Scripts/justgage.1.0.1.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/custom.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/core.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery-ui-1.10.3.custom.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.flot.time.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/raphael.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/dataTables.bootstrap.min.js")"></script>
-    <script src="~/Scripts/jquery.noty.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/util")
+
 </head>
 <body>
     <!-- start: Header -->

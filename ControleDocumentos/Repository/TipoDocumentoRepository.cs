@@ -46,9 +46,9 @@ namespace ControleDocumentos.Repository
         /// Busca todos os tipos de documento já cadastrados no sistema
         /// </summary>
         /// <returns>retorna um array de tipos de documento</returns>
-        public TipoDocumento[] listaTipos()
+        public List<TipoDocumento> listaTipos()
         {
-            return db.TipoDocumento.ToArray();
+            return db.TipoDocumento.ToList();
         }
 
 

@@ -53,11 +53,11 @@ namespace ControleDocumentos.Controllers
                 else {
                     //create
                 }
-                return Json (new { Status = true, Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                return Json (new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json (new { Status = false, Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+                return Json (new { Status = false, TYpe = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
             }           
         }
     }
