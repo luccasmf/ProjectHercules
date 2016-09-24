@@ -15,18 +15,21 @@ namespace ControleDocumentos.Repository
         /// </summary>
         /// <param name="tipo">nome do novo tipo de documeto</param>
         /// <returns>retorna o tipo cadastrado</returns>
-        public TipoDocumento CadastraTipoDoc(string tipo)
+        public bool CadastraTipoDoc(TipoDocumento tipo)
         {
             TipoDocumento tipoDoc = new TipoDocumento();
-            tipoDoc.TipoDocumento1 = tipo;
 
-            db.TipoDocumento.Add(tipoDoc);
-
-            if (db.SaveChanges() > 1)
+            if (tipo.IdTipoDoc > 0)
             {
-                return tipoDoc;
+                tipoDoc = db.TipoDocumento.Find(tipo.IdTipoDoc);
+                tipoDoc.TipoDocumento1 = tipo.TipoDocumento1;
             }
-            return null;
+            else
+            {
+                db.TipoDocumento.Add(tipo);
+            }
+
+            return db.SaveChanges() > 1;            
         }
 
         /// <summary>

@@ -46,14 +46,19 @@ namespace ControleDocumentos.Controllers
         {
             try
             {
-                if (model.IdTipoDoc > 0)
-                {
-                    //update
-                }
-                else {
-                    //create
-                }
-                return Json(new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+
+                //if (model.IdTipoDoc > 0)
+                //{
+                //    tipoDocumentoRepository.CadastraTipoDoc(model);
+                //}
+                //else {
+                //    tipoDocumentoRepository.CadastraTipoDoc(model);
+                //}
+
+                if (tipoDocumentoRepository.CadastraTipoDoc(model))
+                    return Json(new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                else
+                    throw new Exception("erro ao cadastrar tipo");
             }
             catch (Exception ex)
             {

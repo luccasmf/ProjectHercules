@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using ControleDocumentosLibrary;
+using System.Security.Cryptography;
+using System.Text;
+using ControleDocumentos.Repository;
 
 namespace ControleDocumentos
 {
@@ -12,19 +15,25 @@ namespace ControleDocumentos
     /// </summary>
     public static class DirDoc
     {
+        private static DocumentoRepository documentoRepository = new DocumentoRepository();
+
+        // key for encryption
+        static byte[] Key = Encoding.UTF8.GetBytes("qA!$p(SKJkOK}s&~lZZ4E87s{_6Y9Wv7YZc.q/C1{10_l9!Hk&yI&I<.#4");
         private static string caminhoPadrao = @".//Documentos/";
+        private static string caminhoDownload = caminhoPadrao + "Download/";
 
         /// <summary>
         /// Salva o arquivo enviado
         /// </summary>
         /// <param name="doc">documento a ser salvo</param>
         /// <returns>Documento com endereço e nome corretos para inserção no banco de dados</returns>
-        public static Documento SalvaArquivo(Documento doc)
+        public static string SalvaArquivo(Documento doc)
         {
 
             string curso = doc.AlunoCurso.Curso.Nome;
             string idAluno = doc.AlunoCurso.IdAluno.ToString();
             string tipoDoc = doc.TipoDocumento.TipoDocumento1;
+
 
             List<string> caminho = new List<string>();
 
@@ -32,22 +41,90 @@ namespace ControleDocumentos
             caminho.Add(idAluno);
             caminho.Add(tipoDoc);
 
-            string path = CriaDiretorio(caminho.ToArray());
+            CriaDiretorio(caminho.ToArray());
             doc.NomeDocumento = GeraNomeArquivo(doc.NomeDocumento);
 
+            string outputFile = CriaDiretorio(caminho.ToArray()) + doc.NomeDocumento;
+            doc.CaminhoDocumento = outputFile;
 
-            string caminhoSalvar = Path.Combine(path, doc.NomeDocumento);
-            try
+           try
             {
-                File.WriteAllBytes(caminhoSalvar, doc.arquivo);
-                doc.CaminhoDocumento = caminhoSalvar;
-                return doc;
+                if (File.Exists(outputFile))
+                {
+                    return "Arquivo existente";
+                }
+                else
+                {
+                    FileStream fs = new FileStream(outputFile, FileMode.Create);
+                    RijndaelManaged rmCryp = new RijndaelManaged();
+                    CryptoStream cs = new CryptoStream(fs, rmCryp.CreateEncryptor(Key, Key), CryptoStreamMode.Write);
+
+                    foreach (var data in doc.arquivo)
+                    {
+                        cs.WriteByte((byte)data);
+                    }
+                    cs.Close();
+                    fs.Close();
+                }
+
+                if (documentoRepository.PersisteDocumento(doc))
+                {
+                    return "Sucesso";
+                }
+
+                return "Falha ao persistir";
+                
             }
             catch
             {
-                return null;
-                    
+                return "Falha ao criptografar";
             }
+            
+            
+        }
+        /// <summary>
+        /// Desencripta arquivo para download
+        /// </summary>
+        /// <param name="nomeArquivo">nome do arquivo desejado</param>
+        /// <returns>um caminho temporário para baixar o arquivo</returns>
+        public static byte[] BaixaArquivo(string nomeArquivo)
+        {
+            Documento doc = documentoRepository.GetDocumentoByNome(nomeArquivo);
+            FileStream fs = new FileStream(doc.CaminhoDocumento, FileMode.Open);
+            RijndaelManaged rmCryp = new RijndaelManaged();
+            CryptoStream cs = new CryptoStream(fs, rmCryp.CreateDecryptor(Key, Key), CryptoStreamMode.Read);
+            string caminho = caminhoDownload + doc.AlunoCurso.IdAluno + doc.NomeDocumento;
+            StreamWriter fsDecrypted = new StreamWriter(caminho);
+            fsDecrypted.Write(new StreamReader(cs).ReadToEnd());
+            fsDecrypted.Flush();
+            fsDecrypted.Close();
+            fs.Close();
+            cs.Close();
+
+            byte[] arquivo = File.ReadAllBytes(caminho);
+            File.Delete(caminho);
+
+            return arquivo;
+
+        }
+
+        /// <summary>
+        /// Deleta o arquivo especificado
+        /// </summary>
+        /// <param name="caminhoArquivo">caminho do arquivo</param>
+        /// <returns>retorna true ou false</returns>
+        public static bool DeletaArquivo(string caminhoArquivo)
+        {
+            try
+            {
+                File.Delete(caminhoArquivo);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         /// <summary>
@@ -92,7 +169,7 @@ namespace ControleDocumentos
         {
             string novoNome = "";
             DateTime dt = DateTime.Now;
-            string formato = novoNome.Substring(novoNome.Length-4);
+            string formato = Path.GetExtension(nomeAntigo);
 
             novoNome = string.Format("{0}{1}{2}{3}", dt.Year, dt.Month, dt.Day, formato);
 
