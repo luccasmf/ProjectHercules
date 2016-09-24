@@ -5,27 +5,28 @@ $(document).ready(function () {
     bindExclusao();
 
     bindCamposModal();
+    bindFormFilter();
 });
 
 function bindDatatable() {
     $('#tipoDocTable').DataTable({
         "language": {
             "sEmptyTable": "Nenhum registro encontrado",
-            "sInfo": "Mostrando de _START_ atÃ© _END_ de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando 0 atÃ© 0 de 0 registros",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
             "sInfoFiltered": "(Filtrados de _MAX_ registros)",
             "sInfoPostFix": "",
             "sInfoThousands": ".",
-            "sLengthMenu": "_MENU_ resultados por pÃ¡gina",
+            "sLengthMenu": "_MENU_ resultados por página",
             "sLoadingRecords": "Carregando...",
             "sProcessing": "Processando...",
             "sZeroRecords": "Nenhum registro encontrado",
             "sSearch": "Pesquisar",
             "oPaginate": {
-                "sNext": "PrÃ³ximo",
+                "sNext": "Próximo",
                 "sPrevious": "Anterior",
                 "sFirst": "Primeiro",
-                "sLast": "Ãšltimo"
+                "sLast": "Último"
             },
             "oAria": {
                 "sSortAscending": ": Ordenar colunas de forma ascendente",
@@ -82,29 +83,17 @@ function bindFormSubmit() {
             type: frm.attr("method"),
             data: frm.serialize(),
             success: function (result) {
-                showNotificationRedirect(result);
-                //if (result.Status == true) {
-                //    var n = noty({
-                //        text: result.Message,
-                //        layout: "topCenter",
-                //        type: "success"
-                //    });
-                //    $("#divModalGlobal").modal("hide")
-                //}
-                //else {
-                //    var n = noty({
-                //        text: result.Message,
-                //        layout: "topCenter",
-                //        type: "error"
-                //    });
-                //}
+                if (result.Status == true)
+                    showNotificationReloadFilter(result,true);
+                else
+                    showNotification(result);
             },
             error: function (result) {
-                var n = noty({
-                    text: result.Message,
-                    layout: "topCenter",
-                    type: "error"
-                });
+                var obj = new {
+                    Type: "error", 
+                    Message: "Ocorreu um erro ao realizar esta operação" 
+                }
+                showNotification(obj);
             }
         });
         return false;

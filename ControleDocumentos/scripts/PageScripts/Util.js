@@ -1,32 +1,45 @@
-﻿function showNotificationRedirect(notification) {
-    var type = notification.Type;
-    var text = notification.Message;
-
-
-    $.ajax({
-        url: notification.ReturnUrl,
-        type: "get",
-        success: function (result) {
-            $("body").html(result);
-
-            var n = noty({
-                text: text,
-                layout: "topCenter",
-                type: type
-            });
-
-        },
-        error: function (result) {
-            var n = noty({
-                text: result.Message,
-                layout: "topCenter",
-                type: "error"
-            });
-        },
-        async: true
+﻿function bindFormFilter() {
+    $('.form-filter').submit(function () {
+        var frm = $('.form-filter');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                $(".partialList").html(result);
+            },
+            error: function (result) {
+                var obj = new {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
     });
+}
+
+function showNotificationReloadFilter(notification, hideModal) {
+    if (hideModal != undefined && hideModal != null && hideModal == true) {
+        $("#divModalGlobal").modal("hide");
+    }
+
+    $(".form-filter").submit(function () {
+        bindFormFilter();
+    });
+    var n = noty({
+        text: notification.Message,
+        layout: "topCenter",
+        type: notification.Type,
+    })
+    
 };
 
-function showNotification() {
-
+function showNotification(notification) {
+    var n = noty({
+        text: notification.Message,
+        layout: "topCenter",
+        type: notification.Type
+    });
 };

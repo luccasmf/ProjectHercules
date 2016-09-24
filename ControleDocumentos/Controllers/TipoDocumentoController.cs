@@ -53,12 +53,17 @@ namespace ControleDocumentos.Controllers
                 else {
                     //create
                 }
-                return Json (new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                return Json(new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json (new { Status = false, TYpe = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
-            }           
+                return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult List()
+        {
+            return PartialView("_List", tipoDocumentoRepository.listaTipos());
         }
     }
 }

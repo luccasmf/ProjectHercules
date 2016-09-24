@@ -162,6 +162,7 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\chosen.css" />
     <Content Include="Content\css\chosen.min.css" />
+    <Content Include="Content\css\datatables.min.css" />
     <Content Include="Content\css\dropzone.css" />
     <Content Include="Content\css\elfinder.min.css" />
     <Content Include="Content\css\elfinder.theme.css" />
@@ -350,6 +351,7 @@
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\custom.min.js" />
     <Content Include="Scripts\d3.min.js" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
     <Content Include="Scripts\dropzone.min.js" />
     <Content Include="Scripts\excanvas.js" />
@@ -545,6 +547,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\TipoDocumento\_CadastroTipoDocumento.cshtml" />
     <Content Include="Views\TipoDocumento\_ExclusaoTipoDocumento.cshtml" />
+    <Content Include="Views\TipoDocumento\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

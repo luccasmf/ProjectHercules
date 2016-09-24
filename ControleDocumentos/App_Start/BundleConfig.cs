@@ -16,7 +16,7 @@ namespace ControleDocumentos
                         "~/Scripts/jquery.flot.stack.js",
                         "~/Scripts/jquery-ui-1.10.3.custom.min.js",
                         "~/Scripts/jquery.flot.time.min.js",
-                        //"~/Scripts/jquery.dataTables.min.js",
+                        "~/Scripts/datatables.min.js",
                         "~/Scripts/jquery.flot.resize.min.js",
                         "~/Scripts/jquery.noty.min.js"));
 
@@ -37,8 +37,8 @@ namespace ControleDocumentos
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/css/bootstrap.min.css",
                       "~/Content/css/style.css",
-                      "~/Content/css/retina.css"
-                      //"~/Content/css/jquery.dataTables.min.css"
+                      "~/Content/css/retina.css",
+                      "~/Content/css/datatables.min.css"
                       ));
 
         }
