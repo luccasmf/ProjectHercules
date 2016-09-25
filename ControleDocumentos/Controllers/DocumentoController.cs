@@ -14,14 +14,15 @@ namespace ControleDocumentos.Controllers
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
         CursoRepository cursoRepository = new CursoRepository();
         AlunoRepository alunoRepository = new AlunoRepository();
+        DocumentoRepository documentoRepository = new DocumentoRepository();
 
         // GET: Documento
         public ActionResult Index()
         {
             // apenas se decidirmos n usar o datatables como filtro
-            PopularDropDowns();
+           // PopularDropDowns();
 
-            return View(new List<Documento>());
+            return View(documentoRepository.GetAllDocs());
         }
 
         public ActionResult CadastrarDocumento(int? idDoc)

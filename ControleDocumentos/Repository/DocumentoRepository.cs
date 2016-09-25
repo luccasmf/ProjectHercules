@@ -18,6 +18,11 @@ namespace ControleDocumentos.Repository
             return doc;
         }
 
+        public List<Documento> GetAllDocs()
+        {
+            return db.Documento.ToList();
+        }
+
         public bool PersisteDocumento(Documento doc)
         {
             db.Documento.Add(doc);
