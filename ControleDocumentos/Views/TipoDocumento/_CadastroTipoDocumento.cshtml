@@ -9,6 +9,7 @@
         <div class="modal-body">
             @Html.HiddenFor(x => x.IdTipoDoc)
             <div class="form-group">
+                @Html.Label("Nome*")
                 @Html.TextBoxFor(x => x.TipoDocumento1, new { @class = "form-control", @maxlength = 50, @required="required" })
             </div>
         </div>

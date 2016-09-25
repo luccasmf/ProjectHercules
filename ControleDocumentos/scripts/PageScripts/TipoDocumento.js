@@ -18,23 +18,11 @@ function bindCadastro() {
                 $("#divModalGlobal").modal("show");
             },
             error: function () {
-                alert("erro")
-            }
-        });
-    });
-}
-
-function bindExclusao() {
-    $(document).on("click", ".btnExclusao", function () {
-        $.ajax({
-            url: $(this).attr("url"),
-            type: 'GET',
-            success: function (data) {
-                $("#divModalGlobalBody").html(data);
-                $("#divModalGlobal").modal("show");
-            },
-            error: function () {
-                alert("erro")
+                var obj = new {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
             }
         });
     });
@@ -56,7 +44,7 @@ function bindFormSubmit() {
             data: frm.serialize(),
             success: function (result) {
                 if (result.Status == true)
-                    showNotificationReloadFilter(result,true);
+                    showNotificationModal(result,true);
                 else
                     showNotification(result);
             },

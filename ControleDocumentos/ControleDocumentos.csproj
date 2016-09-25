@@ -486,6 +486,7 @@
     <Content Include="Scripts\misc\elfinder-connector\mime.types" />
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\PageScripts\Documento.js" />
     <Content Include="Scripts\PageScripts\TipoDocumento.js" />
     <Content Include="Scripts\PageScripts\Util.js" />
     <Content Include="Scripts\raphael.2.1.0.min.js" />
@@ -511,6 +512,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DocumentoRepository.cs" />
@@ -549,6 +551,9 @@
     <Content Include="Views\TipoDocumento\_CadastroTipoDocumento.cshtml" />
     <Content Include="Views\TipoDocumento\_ExclusaoTipoDocumento.cshtml" />
     <Content Include="Views\TipoDocumento\_List.cshtml" />
+    <Content Include="Views\Documento\Index.cshtml" />
+    <Content Include="Views\Documento\_List.cshtml" />
+    <Content Include="Views\Documento\CadastroDocumento.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -558,7 +563,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Documento\" />
     <Folder Include="Views\SolicitacaoDocumento\" />
   </ItemGroup>
   <ItemGroup>

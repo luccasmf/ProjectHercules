@@ -20,21 +20,41 @@
     });
 }
 
-function showNotificationReloadFilter(notification, hideModal) {
-    if (hideModal != undefined && hideModal != null && hideModal == true) {
-        $("#divModalGlobal").modal("hide");
-    }
+function showNotificationModal(notification) {
+    $("#divModalGlobal").modal("hide");
 
     $(".form-filter").submit(function () {
         bindFormFilter();
     });
-    var n = noty({
-        text: notification.Message,
-        layout: "topCenter",
-        type: notification.Type,
-    })
-    
+    var obj = new {
+        Type: notification.Type,
+        Message: notification.Message
+    }
+    showNotification(obj);
+
 };
+
+function showNotificationRedirect(notification) {
+    $.ajax({
+        url: notification.ReturnUrl,
+        type: 'GET',
+        success: function (data) {
+            $("body").html(data);
+            var obj = new {
+                Type: notification.Type,
+                Message: notification.Message
+            }
+            showNotification(obj);
+        },
+        error: function () {
+            var obj = new {
+                Type: "error",
+                Message: "Ocorreu um erro ao realizar esta operação"
+            }
+            showNotification(obj);
+        }
+    });
+}
 
 function showNotification(notification) {
     var n = noty({
@@ -69,5 +89,25 @@ function bindDatatable() {
                 "sSortDescending": ": Ordenar colunas de forma descendente"
             }
         }
+    });
+}
+
+function bindExclusao() {
+    $(document).on("click", ".btnExclusao", function () {
+        $.ajax({
+            url: $(this).attr("url"),
+            type: 'GET',
+            success: function (data) {
+                $("#divModalGlobalBody").html(data);
+                $("#divModalGlobal").modal("show");
+            },
+            error: function () {
+                var obj = new {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
     });
 }

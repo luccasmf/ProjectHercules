@@ -1,0 +1,31 @@
+﻿@model List<ControleDocumentosLibrary.Documento>
+<table class="table table-striped table-bordered commmon-datatable">
+    <thead>
+        <tr>
+            <th>Nome do aluno</th>
+            <th>Curso</th>
+            <th>Tipo de documento</th>
+            <th>Documento</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doc in Model)
+            {
+            <tr>
+                <td>@doc.AlunoCurso.Aluno.Usuario.Nome</td>
+                <td>@doc.AlunoCurso.Curso.Nome</td>
+                <td>@doc.TipoDocumento.TipoDocumento1</td>
+                <td><a href="@Url.Action("Download", new { doc = doc })">@doc.NomeDocumento</a></td>
+                <td class="center">
+                    <a class="btn btn-info btnCadastro" url="@Url.Action("CadastrarDocumento","Documento", new { idDoc = doc.IdDocumento })" href="#">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-danger btnExclusao" url="@Url.Action("CarregaModalExclusao","Documento", new { idDoc = doc.IdDocumento })" href="#">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
