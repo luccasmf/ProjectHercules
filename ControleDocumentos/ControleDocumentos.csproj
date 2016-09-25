@@ -515,6 +515,8 @@
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AlunoRepository.cs" />
+    <Compile Include="Repository\CursoRepository.cs" />
     <Compile Include="Repository\DocumentoRepository.cs" />
     <Compile Include="Repository\TipoDocumentoRepository.cs" />
     <Compile Include="Repository\UtilRepository.cs" />

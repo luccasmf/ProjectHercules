@@ -12,12 +12,14 @@ namespace ControleDocumentos.Controllers
     public class DocumentoController : Controller
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
+        CursoRepository cursoRepository = new CursoRepository();
+        AlunoRepository alunoRepository = new AlunoRepository();
 
         // GET: Documento
         public ActionResult Index()
         {
             // apenas se decidirmos n usar o datatables como filtro
-            // PopularDropDowns();
+            PopularDropDowns();
 
             return View(new List<Documento>());
         }
@@ -55,12 +57,13 @@ namespace ControleDocumentos.Controllers
         private void PopularDropDowns()
         {
             //get todos os cursos
-            var listCursos = new List<Curso>().Select(item => new SelectListItem
+            var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
             {
                 Value = item.IdCurso.ToString(),
                 Text = item.Nome.ToString(),
             });
             ViewBag.Cursos = new SelectList(listCursos, "Value", "Text");
+
 
             var listTiposDoc = tipoDocumentoRepository.listaTipos().Select(item => new SelectListItem
             {
@@ -125,10 +128,14 @@ namespace ControleDocumentos.Controllers
             return data;
         }
 
-        public JsonResult GetAlunosByIdCurso(int idCurso) {
-            //get alunos por curso
-            var lstAlunos = new List<Aluno>();
-            return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
+        public JsonResult GetAlunosByIdCurso(int idCurso)
+        {
+            if (idCurso > 0)
+            {
+                var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
+                return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
+            }
+            return Json(null);
         }
         #endregion
     }
