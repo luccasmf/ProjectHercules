@@ -128,7 +128,7 @@ namespace ControleDocumentos.Controllers
         public JsonResult GetAlunosByIdCurso(int idCurso) {
             //get alunos por curso
             var lstAlunos = new List<Aluno>();
-            return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome });
+            return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
         }
         #endregion
     }
