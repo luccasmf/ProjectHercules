@@ -54,7 +54,9 @@ namespace ControleDocumentos.Controllers
                 //else {
                 //    tipoDocumentoRepository.CadastraTipoDoc(model);
                 //}
-
+                if(tipoDocumentoRepository.TipoDocExists(model))
+                    return Json(new { Status = false, Type = "error", Message = "Tipo de documento já existente" }, JsonRequestBehavior.AllowGet);
+                
                 if (tipoDocumentoRepository.CadastraTipoDoc(model))
                     return Json(new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 else

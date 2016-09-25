@@ -29,7 +29,7 @@ namespace ControleDocumentos.Repository
                 db.TipoDocumento.Add(tipo);
             }
 
-            return db.SaveChanges() > 1;            
+            return db.SaveChanges() > 0;            
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace ControleDocumentos.Repository
             TipoDocumento tipo = db.TipoDocumento.Find(id);
             db.TipoDocumento.Remove(tipo);
 
-            return db.SaveChanges() > 1;
+            return db.SaveChanges() > 0;
         }
 
         /// <summary>
@@ -65,6 +65,11 @@ namespace ControleDocumentos.Repository
             if (id.HasValue)
                 return db.TipoDocumento.Find(id);
             return null;
+        }
+
+        public bool TipoDocExists(TipoDocumento tipo)
+        {
+            return db.TipoDocumento.Any(t => t.TipoDocumento1 == tipo.TipoDocumento1);
         }
 
     }

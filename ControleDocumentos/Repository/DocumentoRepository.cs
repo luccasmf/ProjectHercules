@@ -27,7 +27,7 @@ namespace ControleDocumentos.Repository
         {
             db.Documento.Add(doc);
 
-            return db.SaveChanges() > 1;
+            return db.SaveChanges() > 0;
         }
     }
 }
