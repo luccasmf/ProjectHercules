@@ -504,7 +504,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
+    <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SolicitacaoDocumentoController.cs" />
     <Compile Include="Controllers\TipoDocumentoController.cs" />
@@ -518,10 +520,12 @@
     <Compile Include="Repository\AlunoRepository.cs" />
     <Compile Include="Repository\CursoRepository.cs" />
     <Compile Include="Repository\DocumentoRepository.cs" />
+    <Compile Include="Repository\EventoRepository.cs" />
     <Compile Include="Repository\TipoDocumentoRepository.cs" />
     <Compile Include="Repository\UtilRepository.cs" />
     <Compile Include="Util\DirDoc.cs" />
     <Compile Include="Util\Extension\EnumExtensions.cs" />
+    <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -565,6 +569,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Curso\" />
+    <Folder Include="Views\Evento\" />
     <Folder Include="Views\SolicitacaoDocumento\" />
   </ItemGroup>
   <ItemGroup>
