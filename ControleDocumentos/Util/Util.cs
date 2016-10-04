@@ -7,6 +7,14 @@ namespace ControleDocumentos.Util
 {
     public static class Generics
     {
+        /// <summary>
+        /// Compara propriedades dos objetos passados e caso haja mudanças, substitui os valores e retorna o "atualizado"
+        /// </summary>
+        /// <typeparam name="T">tipo do objeto</typeparam>
+        /// <param name="old">versão persistida do objeto</param>
+        /// <param name="to">nova versão do objeto</param>
+        /// <param name="alterar">nome dos campos a serem alterados (string[])</param>
+        /// <returns>retorna o objeto com as informações atualizadas</returns>
         public static T ComparaValores<T>(T old, T to, params string[] alterar) where T : class
         {
             if (old != null && to != null)

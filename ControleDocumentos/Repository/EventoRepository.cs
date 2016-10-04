@@ -16,6 +16,11 @@ namespace ControleDocumentos.Repository
             return db.Evento.ToList();
         }
 
+        public Evento GetEventoById(int idEvento)
+        {
+            return db.Evento.Find(idEvento);
+        }
+
         public List<Evento> GetEventoByCurso(int idCurso)
         {
             List<Evento> eventos = (from e in db.Evento
@@ -56,6 +61,26 @@ namespace ControleDocumentos.Repository
             {
                 return "Erro";
             }
+        }
+
+        public bool InscreveAluno(int idAluno, int idEvento)
+        {
+            AlunoEvento ae = new AlunoEvento();
+            ae.IdAluno = idAluno;
+            ae.IdEvento = idEvento;
+            ae.Presenca = 0;
+
+            db.AlunoEvento.Add(ae);
+
+            return db.SaveChanges() > 0;
+        }
+
+        public bool AdicionaPresenca(int idAluno, int idEvento)
+        {
+            AlunoEvento ae = db.AlunoEvento.Find(idAluno, idEvento);
+            ae.Presenca++;
+
+            return db.SaveChanges() > 0;
         }
 
         private string ComparaInfos(Evento ev)

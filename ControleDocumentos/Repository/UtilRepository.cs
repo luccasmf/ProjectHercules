@@ -41,7 +41,7 @@ namespace ControleDocumentos.Repository
             return list;
         }
 
-
+        
         public static bool PublicInstancePropertiesEqual<T>(T self, T to, params string[] alterar) where T : class
         {
             if (self != null && to != null)
