@@ -42,12 +42,6 @@ namespace ControleDocumentos.Util
             }
             return old;
         }
-
-        public static Usuario GetSession(LoginModel ob)
-        {
-            Usuario us = usuarioRepository.GetUsuarioById(ob.UserName);
-
-            return us;
-        }
+        
     }
 }

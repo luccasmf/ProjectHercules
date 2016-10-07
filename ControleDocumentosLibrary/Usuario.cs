@@ -25,7 +25,6 @@ namespace ControleDocumentosLibrary
         public string Nome { get; set; }
 
         [Column("E-mail")]
-        [Required]
         [StringLength(50)]
         public string E_mail { get; set; }
 
