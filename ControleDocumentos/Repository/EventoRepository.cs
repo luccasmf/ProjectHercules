@@ -87,7 +87,7 @@ namespace ControleDocumentos.Repository
         {
             Evento eventoOld = db.Evento.Find(ev.IdEvento);
 
-            eventoOld = Generics.ComparaValores(eventoOld, ev, new string[] { "NomeEvento", "Vagas", "VagasPreenchidas", "CargaHoraria", "PresencaNecessaria", "DataInicio", "DataFim", "Status", "Local", "Observacao" });
+            eventoOld = Utilidades.ComparaValores(eventoOld, ev, new string[] { "NomeEvento", "Vagas", "VagasPreenchidas", "CargaHoraria", "PresencaNecessaria", "DataInicio", "DataFim", "Status", "Local", "Observacao" });
 
             if (db.SaveChanges() > 0)
             {

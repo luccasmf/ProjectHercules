@@ -46,4 +46,9 @@ namespace ControleDocumentosLibrary
 
     }
 
+    public enum EnumSession : int
+    {
+        Usuario
+    }
+
 }

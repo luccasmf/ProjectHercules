@@ -7,11 +7,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ControleDocumentosLibrary;
+using ControleDocumentos.Util;
+using ControleDocumentos.Util.Extension;
 
 namespace ControleDocumentos.Filter
 {
     public class AuthorizeADAttribute : AuthorizeAttribute
     {
+        DocumentosModel db = new DocumentosModel();
         public string Groups { get; set; }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
@@ -37,7 +41,61 @@ namespace ControleDocumentos.Filter
 
                 var perm = userPrincipal.GetGroups();   //ver os grupos que o usuario participa
 
+                try
+                {
+                    Usuario user = db.Usuario.Find(httpContext.User.Identity.Name);
 
+                    if (user == null)
+                    {
+                        user = new Usuario();
+                        Funcionario f;
+                        Aluno al;
+
+                        user.IdUsuario = httpContext.User.Identity.Name;
+                        user.Nome = userPrincipal.Name;
+
+                        if (userPrincipal.IsMemberOf(context, IdentityType.Name, "G_FACULDADE_COORDENADOR_R") || userPrincipal.IsMemberOf(context, IdentityType.Name, "G_FACULDADE_COORDENADOR_RW"))
+                        {
+                            user.Permissao = EnumPermissaoUsuario.coordenador;
+                            f = new Funcionario();
+                            f.IdUsuario = user.IdUsuario;
+                            f.Permissao = EnumPermissaoUsuario.coordenador;
+                            db.Funcionario.Add(f);
+                        }
+                        else if (userPrincipal.IsMemberOf(context, IdentityType.Name, "G_FACULDADE_PROFESSOR_R") || userPrincipal.IsMemberOf(context, IdentityType.Name, "G_FACULDADE_PROFESSOR_RW"))
+                        {
+                            user.Permissao = EnumPermissaoUsuario.professor;
+                            f = new Funcionario();
+                            f.IdUsuario = user.IdUsuario;
+                            f.Permissao = EnumPermissaoUsuario.professor;
+                            db.Funcionario.Add(f);
+                        }
+                        else if (userPrincipal.IsMemberOf(context, IdentityType.Name, "G_FACULDADE_SECRETARIA_R") || userPrincipal.IsMemberOf(context, IdentityType.Name, "G_FACULDADE_SECRETARIA_RW"))
+                        {
+                            user.Permissao = EnumPermissaoUsuario.secretaria;
+                            f = new Funcionario();
+                            f.IdUsuario = user.IdUsuario;
+                            f.Permissao = EnumPermissaoUsuario.secretaria;
+                            db.Funcionario.Add(f);
+                        }
+                        else
+                        {
+                            user.Permissao = EnumPermissaoUsuario.aluno;
+                            al = new Aluno();
+                            al.IdUsuario = user.IdUsuario;
+                            db.Aluno.Add(al);
+                        }
+                        db.Usuario.Add(user);
+
+                        db.SaveChanges();
+
+                        httpContext.Session[EnumSession.Usuario.GetEnumDescription()] = user;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
 
                 foreach (var group in groups)
                     if (userPrincipal.IsMemberOf(context,
@@ -47,6 +105,8 @@ namespace ControleDocumentos.Filter
             }
             return false;
         }
+
+
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {

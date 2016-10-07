@@ -90,7 +90,7 @@ namespace ControleDocumentos.Repository
         {
             Curso cursoOld = db.Curso.Find(c.IdCurso);
 
-            cursoOld = Generics.ComparaValores(cursoOld, c, new string[] { "Nome", "Nível", "HoraComplementar", "IdCoordenador" });
+            cursoOld = Utilidades.ComparaValores(cursoOld, c, new string[] { "Nome", "Nível", "HoraComplementar", "IdCoordenador" });
 
             if (db.SaveChanges() > 0)
             {

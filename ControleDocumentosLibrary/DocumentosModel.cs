@@ -23,6 +23,7 @@ namespace ControleDocumentosLibrary
         public virtual DbSet<SolicitacaoDocumento> SolicitacaoDocumento { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Presenca> Presenca { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -38,6 +39,12 @@ namespace ControleDocumentosLibrary
             modelBuilder.Entity<Aluno>()
                 .HasMany(e => e.AlunoCurso)
                 .WithRequired(e => e.Aluno)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AlunoEvento>()
+                .HasMany(e => e.Presenca1)
+                .WithRequired(e => e.AlunoEvento)
+                .HasForeignKey(e => new { e.IdAluno, e.IdEvento })
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Curso>()
@@ -138,3 +145,4 @@ namespace ControleDocumentosLibrary
         }
     }
 }
+

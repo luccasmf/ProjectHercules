@@ -6,8 +6,8 @@ namespace ControleDocumentosLibrary
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("AlunoEvento")]
-    public partial class AlunoEvento
+    [Table("Presenca")]
+    public partial class Presenca
     {
         [Key]
         [Column(Order = 0)]
@@ -19,13 +19,10 @@ namespace ControleDocumentosLibrary
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdEvento { get; set; }
 
-        public int Presenca { get; set; }
+        [Key]
+        [Column(Order = 2)]
+        public DateTime Data { get; set; }
 
-        public virtual Aluno Aluno { get; set; }
-
-        public virtual Evento Evento { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Presenca> Presenca1 { get; set; }
+        public virtual AlunoEvento AlunoEvento { get; set; }
     }
 }

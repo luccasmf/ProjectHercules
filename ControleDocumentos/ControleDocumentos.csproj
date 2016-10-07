@@ -526,7 +526,7 @@
     <Compile Include="Repository\UtilRepository.cs" />
     <Compile Include="Util\DirDoc.cs" />
     <Compile Include="Util\Extension\EnumExtensions.cs" />
-    <Compile Include="Util\Util.cs" />
+    <Compile Include="Util\Utilidades.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

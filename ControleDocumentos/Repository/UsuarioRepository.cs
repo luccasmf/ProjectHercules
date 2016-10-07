@@ -57,7 +57,7 @@ namespace ControleDocumentos.Repository
         {
             Usuario userOld = db.Usuario.Find(user.IdUsuario);
 
-            userOld = Generics.ComparaValores(userOld, user, new string[] {"Nome","E_mail","Permissao"});
+            userOld = Utilidades.ComparaValores(userOld, user, new string[] {"Nome","E_mail","Permissao"});
 
             if (db.SaveChanges() > 0)
             {
