@@ -19,16 +19,8 @@ namespace ControleDocumentos.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            Usuario usuario;
-            try
-            {
-                usuario = Utilidades.GetSession((LoginModel)Session[EnumSession.Usuario.GetEnumDescription()]);
-            }
-            catch
-            {
-                usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
-            }
-
+            Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
+            
             return View(usuario);
         }
 
