@@ -10,12 +10,14 @@ using System.Web.Routing;
 using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
 using ControleDocumentos.Util.Extension;
+using ControleDocumentos.Repository;
 
 namespace ControleDocumentos.Filter
 {
     public class AuthorizeADAttribute : AuthorizeAttribute
     {
-        DocumentosModel db = new DocumentosModel();
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+
         public string Groups { get; set; }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
@@ -43,7 +45,8 @@ namespace ControleDocumentos.Filter
 
                 try
                 {
-                    Usuario user = db.Usuario.Find(httpContext.User.Identity.Name);
+                    DocumentosModel db = new DocumentosModel();
+                    Usuario user = usuarioRepository.GetUsuarioById(httpContext.User.Identity.Name);
 
                     if (user == null)
                     {
@@ -91,8 +94,9 @@ namespace ControleDocumentos.Filter
 
                         httpContext.Session[EnumSession.Usuario.GetEnumDescription()] = user;
                     }
+                    httpContext.Session[EnumSession.Usuario.GetEnumDescription()] = user;
                 }
-                catch
+                catch (Exception e)
                 {
                     return false;
                 }
