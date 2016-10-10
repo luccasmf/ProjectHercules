@@ -37,7 +37,7 @@ namespace ControleDocumentos.Controllers
         {
             string returnUrl = model.ReturnUrl;
 
-           // return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
 
 
             //#region login teste
@@ -56,31 +56,31 @@ namespace ControleDocumentos.Controllers
             //#endregion
 
             #region login Real
-            try
-            {
-                if (!this.ModelState.IsValid)
-                {
-                    return this.View(model);
-                }
+            //try
+            //{
+            //    if (!this.ModelState.IsValid)
+            //    {
+            //        return this.View(model);
+            //    }
 
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    Session.Add(EnumSession.Usuario.GetEnumDescription(), model);
+            //    if (Membership.ValidateUser(model.UserName, model.Password))
+            //    {
+            //        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            //        Session.Add(EnumSession.Usuario.GetEnumDescription(), model);
 
-                    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        return this.Redirect(returnUrl);
-                    }
+            //        if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+            //            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            //        {
+            //            return this.Redirect(returnUrl);
+            //        }
 
-                    return this.RedirectToAction("Index", "Home");
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Erro = ex.Message;
-            }
+            //        return this.RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ViewBag.Erro = ex.Message;
+            //}
             #endregion
 
             return this.View(model);

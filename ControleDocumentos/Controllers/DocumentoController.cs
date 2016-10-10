@@ -101,6 +101,16 @@ namespace ControleDocumentos.Controllers
             
         }
 
+        public object DeletaDocumento(Documento doc)
+        {
+            if(documentoRepository.DeletaArquivo(doc))
+            {
+                return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso !", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+
+        }
+
         /// <summary>
         /// Baixa arquivo
         /// </summary>

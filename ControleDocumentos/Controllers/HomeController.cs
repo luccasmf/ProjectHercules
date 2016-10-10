@@ -12,7 +12,7 @@ using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
-    [AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW")]
+    //[AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW")]
     public class HomeController : Controller
     {
         UsuarioRepository usuarioRepository = new UsuarioRepository();

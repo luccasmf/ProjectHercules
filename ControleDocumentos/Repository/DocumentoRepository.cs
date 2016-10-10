@@ -29,5 +29,17 @@ namespace ControleDocumentos.Repository
 
             return db.SaveChanges() > 0;
         }
+
+        public bool DeletaArquivo(Documento doc)
+        {
+            doc = db.Documento.Find(doc.IdDocumento);
+            if(DirDoc.DeletaArquivo(doc.CaminhoDocumento))
+            {
+                db.Documento.Remove(doc);
+
+                return db.SaveChanges() > 0;
+            }
+            return false;
+        }
     }
 }
