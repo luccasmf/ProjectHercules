@@ -11,12 +11,12 @@
     <title>Projeto Hercules</title>
     <!-- end: Meta -->
     <!-- start: CSS -->
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/modernizr")
-@Scripts.Render("~/bundles/bootstrap")
-@Scripts.Render("~/bundles/util")
-<!-- Bootstrap -->
-@Styles.Render("~/Content/style")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/util")
+    <!-- Bootstrap -->
+    @Styles.Render("~/Content/style")
     <!-- end: CSS -->
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -60,7 +60,7 @@
                         <div class="input-wrap">
                             <div class="input-prepend input-group" title="Password">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control" , @type = "password", @placeholder = "digite a senha" })
+                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password", @placeholder = "digite a senha" })
                             </div>
                         </div>
                         <label class="remember" for="RememberMe">@Html.CheckBoxFor(x => x.RememberMe)&nbsp;Lembre me</label>
