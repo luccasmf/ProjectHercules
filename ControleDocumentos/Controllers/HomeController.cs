@@ -22,8 +22,6 @@ namespace ControleDocumentos.Controllers
             Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
             
             return View(usuario);
-        }
-
-        
+        }        
     }
 }

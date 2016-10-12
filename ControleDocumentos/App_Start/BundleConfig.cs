@@ -34,12 +34,14 @@ namespace ControleDocumentos
                       "~/Scripts/core.min.js",
                       "~/Scripts/raphael.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/style").Include(
                       "~/Content/css/bootstrap.min.css",
                       "~/Content/css/style.css",
                       "~/Content/css/retina.css",
                       "~/Content/css/datatables.min.css"
                       ));
+
+            BundleTable.EnableOptimizations = false;
 
         }
     }
