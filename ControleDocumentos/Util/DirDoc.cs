@@ -7,6 +7,7 @@ using ControleDocumentosLibrary;
 using System.Security.Cryptography;
 using System.Text;
 using ControleDocumentos.Repository;
+using Novacode;
 
 namespace ControleDocumentos
 {
@@ -16,10 +17,13 @@ namespace ControleDocumentos
     public static class DirDoc
     {
         private static DocumentoRepository documentoRepository = new DocumentoRepository();
+        private static TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
+        private static EventoRepository eventoRepository = new EventoRepository();
 
         // key for encryption
         static byte[] Key = Encoding.UTF8.GetBytes("qA!$p(SKJkOK}s&~lZZ4E87s{_6Y9Wv7YZc.q/C1{10_l9!Hk&yI&I<.#4");
         private static string caminhoPadrao = @".//Documentos/";
+        private static string caminhoTemplates = caminhoPadrao + "Templates/";
         private static string caminhoDownload = caminhoPadrao + "Download/";
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace ControleDocumentos
             string outputFile = CriaDiretorio(caminho.ToArray()) + doc.NomeDocumento;
             doc.CaminhoDocumento = outputFile;
 
-           try
+            try
             {
                 if (File.Exists(outputFile))
                 {
@@ -73,14 +77,14 @@ namespace ControleDocumentos
                 }
 
                 return "Falha ao persistir";
-                
+
             }
             catch
             {
                 return "Falha ao criptografar";
             }
-            
-            
+
+
         }
         /// <summary>
         /// Desencripta arquivo para download
@@ -124,8 +128,99 @@ namespace ControleDocumentos
             {
                 return false;
             }
-            
+
         }
+
+        /// <summary>
+        /// Gera certificado para todos os alunos que tiverem 100% de presença no evento
+        /// </summary>
+        /// <param name="idEvento">evento desejado</param>
+        /// <returns></returns>
+        public static bool GeraCertificado(int idEvento)
+        {
+            Evento ev = eventoRepository.GetEventoById(idEvento);
+            bool flag = true;
+            string templatePath = caminhoTemplates + "certificado.docx"; //caminhoDoTemplate
+            List<Documento> certificadosDoc = new List<Documento>();
+            var template = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+            List<Aluno> alunos = eventoRepository.GetAlunosPresentes(ev); //alunos com presença            
+          
+            foreach (Aluno al in alunos)
+            {         
+                string curso = al.AlunoCurso.Select(x => x.Curso.Nome).FirstOrDefault().ToString();
+                string novoArquivo = CriaDiretorio(new string[] { curso, al.IdAluno.ToString(), "Certificado" });
+                novoArquivo = novoArquivo + ev.NomeEvento + ".docx";
+                Documento documento = new Documento();
+                TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc("Certificado");
+
+                documento.IdTipoDoc = tipoDoc.IdTipoDoc;
+                documento.NomeDocumento = ev.NomeEvento + ".docx";
+                documento.Data = DateTime.Now;
+                documento.CaminhoDocumento = novoArquivo;
+                documento.IdAlunoCurso = al.AlunoCurso.Select(x => x.IdAlunoCurso).FirstOrDefault();
+                documento.IdEvento = ev.IdEvento;
+
+                if (File.Exists(novoArquivo))
+                {
+                    certificadosDoc.Add(documento);                                        
+                }                
+                else
+                {
+                    #region substitui informaçoes seguindo a template       
+                    using (DocX doc = DocX.Create(novoArquivo))
+                    {
+                        doc.ApplyTemplate(template, true);
+
+
+                        if (doc.Text.Contains("<NOME>"))
+                        {
+                            doc.ReplaceText("<NOME>", al.Usuario.Nome);
+                        }
+                        if (doc.Text.Contains("<EVENTO>"))
+                        {
+                            doc.ReplaceText("<EVENTO>", ev.NomeEvento);
+                        }
+                        if (doc.Text.Contains("<HORAS>"))
+                        {
+                            doc.ReplaceText("<HORAS>", ev.CargaHoraria.ToString());
+                        }
+
+                        #region criptografa certificado
+                        try
+                        {
+
+                            FileStream fs = new FileStream(novoArquivo, FileMode.Create);
+                            byte[] arquivo = File.ReadAllBytes(novoArquivo);
+                            File.Delete(novoArquivo);
+                            RijndaelManaged rmCryp = new RijndaelManaged();
+                            CryptoStream cs = new CryptoStream(fs, rmCryp.CreateEncryptor(Key, Key), CryptoStreamMode.Write);
+
+                            foreach (var data in arquivo)
+                            {
+                                cs.WriteByte((byte)data);
+                            }
+                            cs.Close();
+                            fs.Close();
+
+                            certificadosDoc.Add(documento);
+                        }
+                        catch
+                        {
+                            flag = false;
+                        }
+                        #endregion
+                    }
+                    #endregion
+                }
+            }
+
+            if (!documentoRepository.PersisteDocumento(certificadosDoc))
+                flag = false;
+
+            return flag;
+
+        }
+
 
         /// <summary>
         /// Verifica a existencia do diretorio, caso não exista, cria
@@ -136,7 +231,7 @@ namespace ControleDocumentos
         {
             string pasta = caminhoPadrao;
 
-            for (int i = 0; i < dir.Length-1; i++)
+            for (int i = 0; i < dir.Length - 1; i++)
             {
                 pasta += dir[i] + "/";
                 if (!Directory.Exists(pasta))

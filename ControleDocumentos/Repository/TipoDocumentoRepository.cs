@@ -58,12 +58,12 @@ namespace ControleDocumentos.Repository
         /// <summary>
         /// Retorna o tipo do id buscado
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="param"></param>
         /// <returns>retorna o tipo de documento desejado</returns>
-        public TipoDocumento GetTipoDoc(int? id)
+        public TipoDocumento GetTipoDoc(object param)
         {
-            if (id.HasValue)
-                return db.TipoDocumento.Find(id);
+            if (string.IsNullOrEmpty(param.ToString()))
+                return db.TipoDocumento.Find(param);
             return null;
         }
 
@@ -72,5 +72,6 @@ namespace ControleDocumentos.Repository
             return db.TipoDocumento.Any(t => t.TipoDocumento1 == tipo.TipoDocumento1);
         }
 
+        public
     }
 }

@@ -30,10 +30,18 @@ namespace ControleDocumentos.Repository
             return db.SaveChanges() > 0;
         }
 
+        public bool PersisteDocumento(List<Documento> docs)
+        {
+            foreach (Documento doc in docs)
+                db.Documento.Add(doc);
+
+            return db.SaveChanges() > 0;
+        }
+
         public bool DeletaArquivo(Documento doc)
         {
             doc = db.Documento.Find(doc.IdDocumento);
-            if(DirDoc.DeletaArquivo(doc.CaminhoDocumento))
+            if (DirDoc.DeletaArquivo(doc.CaminhoDocumento))
             {
                 db.Documento.Remove(doc);
 

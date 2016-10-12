@@ -32,5 +32,17 @@ namespace ControleDocumentos.Controllers
                     return Json(new { Status = false, Type = "error", Message = "" }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public object GeraCertificados(int idEvento)
+        {
+            bool flag = DirDoc.GeraCertificado(idEvento);
+
+            if (flag)
+            {
+                return Json(new { Status = true, Type = "success", Message = "Certificados gerados!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }
