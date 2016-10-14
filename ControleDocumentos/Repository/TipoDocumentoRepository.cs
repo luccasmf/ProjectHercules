@@ -29,7 +29,7 @@ namespace ControleDocumentos.Repository
                 db.TipoDocumento.Add(tipo);
             }
 
-            return db.SaveChanges() > 0;            
+            return db.SaveChanges() > 0;
         }
 
         /// <summary>
@@ -71,7 +71,5 @@ namespace ControleDocumentos.Repository
         {
             return db.TipoDocumento.Any(t => t.TipoDocumento1 == tipo.TipoDocumento1);
         }
-
-        public
-    }
+    }      
 }
