@@ -21,7 +21,7 @@ namespace ControleDocumentos
         private static EventoRepository eventoRepository = new EventoRepository();
 
         // key for encryption
-        static byte[] Key = Encoding.UTF8.GetBytes("qA!$p(SKJkOK}s&~lZZ4E87s{_6Y9Wv7YZc.q/C1{10_l9!Hk&yI&I<.#4");
+        static byte[] Key = Encoding.UTF8.GetBytes("qA!$p(SKJkOK}s&~lZZ4E87s{_6Y9");
         private static string caminhoPadrao = @".//Documentos/";
         private static string caminhoTemplates = caminhoPadrao + "Templates/";
         private static string caminhoDownload = caminhoPadrao + "Download/";
