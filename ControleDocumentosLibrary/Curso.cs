@@ -20,7 +20,7 @@ namespace ControleDocumentosLibrary
         public int IdCurso { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         public string Nome { get; set; }
 
         public int Nível { get; set; }
