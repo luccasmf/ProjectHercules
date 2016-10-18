@@ -31,31 +31,6 @@ function bindCadastro() {
 function bindCamposModal() {
     $('.modal').on('shown.bs.modal', function () {
         $("#TipoDocumento1").focus();
-        bindFormSubmit();
+        bindFormSubmitModal();
     })
-}
-
-function bindFormSubmit() {
-    $('#frmTipoDoc').submit(function () {
-        var frm = $('#frmTipoDoc');
-        $.ajax({
-            url: frm.attr("action"),
-            type: frm.attr("method"),
-            data: frm.serialize(),
-            success: function (result) {
-                if (result.Status == true)
-                    showNotificationModal(result,true);
-                else
-                    showNotification(result);
-            },
-            error: function (result) {
-                var obj = new {
-                    Type: "error", 
-                    Message: "Ocorreu um erro ao realizar esta operação" 
-                }
-                showNotification(obj);
-            }
-        });
-        return false;
-    });
 }

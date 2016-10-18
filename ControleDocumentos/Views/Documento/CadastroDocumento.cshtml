@@ -3,22 +3,24 @@
     ViewBag.Title = "CadastroDocumento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Scripts.Render("~/Scripts/PageScripts/Documento.js")
 <h1>Cadastro de documento</h1>
 
-<form action="@Url.Action("SalvarDocumento", "Documento")" method="post" id=frmDoc>
+@using (Html.BeginForm("SalvarDocumento", "Documento", FormMethod.Post, new { @enctype = "multipart/form-data", @class="frm-submit" }))
+{
     @Html.HiddenFor(x => x.IdDocumento)
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Curso*")
-            @Html.DropDownListFor(x => x.AlunoCurso.IdCurso, (SelectList)ViewBag.Cursos, "Selecione", new { @class = "form-control", @required="required" })
+            @Html.DropDownListFor(x => x.AlunoCurso.IdCurso, (SelectList)ViewBag.Cursos, "Selecione", new { @id = "ddlCurso", @class = "form-control", @required = "required", @url = Url.Action("GetAlunosByIdCurso", "Documento") })
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Aluno*")
-            @Html.DropDownListFor(x => x.AlunoCurso.IdAluno, (SelectList)ViewBag.Alunos, new { @class = "form-control", @required = "required" })
+            @Html.DropDownListFor(x => x.AlunoCurso.IdAluno, (SelectList)ViewBag.Alunos, new { @id = "ddlAluno", @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(x => x.AlunoCurso.IdAluno)
         </div>
     </div>
 
@@ -33,9 +35,7 @@
         <div class="col-md-6">
             @Html.Label("Arquivo*")
             <div class="fileinput fileinput-new" data-provides="fileinput">
-                <input name="File" type="file" class="filestyle" data-buttontext="Procurar">
-                <br />
-                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 256px; max-width: 200px; max-height: 150px;"></div>
+                <input id="uploadFile" name="uploadFile" type="file" class="filestyle" data-buttontext="Procurar">
             </div>
         </div>
     </div>
@@ -44,4 +44,4 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="submit" class="btn btn-primary">Salvar</button>
     </div>
-</form>
+}

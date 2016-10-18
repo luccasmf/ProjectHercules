@@ -19,8 +19,10 @@ namespace ControleDocumentosLibrary
         [Key]
         public int IdAlunoCurso { get; set; }
 
+        [Required]
         public int IdAluno { get; set; }
 
+        [Required]
         public int IdCurso { get; set; }
 
         public int HoraNecessaria { get; set; }

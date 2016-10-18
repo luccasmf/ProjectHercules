@@ -20,14 +20,12 @@ namespace ControleDocumentosLibrary
 
         public int IdTipoDoc { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string NomeDocumento { get; set; }
 
         public DateTime Data { get; set; }
 
         [Column(TypeName = "text")]
-        [Required]
         public string CaminhoDocumento { get; set; }
 
         public int? IdAlunoCurso { get; set; }
@@ -44,7 +42,6 @@ namespace ControleDocumentosLibrary
         public virtual TipoDocumento TipoDocumento { get; set; }
 
         [NotMapped]
-        [Required]
         public byte[] arquivo { get; set; }
     }
 }

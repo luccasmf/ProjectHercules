@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h4 class="modal-title">Cadastro de tipo de documento</h4>
     </div>
-    <form action="@Url.Action("SalvarTipoDocumento", "TipoDocumento")" method="post" id=frmTipoDoc>
+    <form action="@Url.Action("SalvarTipoDocumento", "TipoDocumento")" method="post" id=frmTipoDoc class="frm-submit">
         <div class="modal-body">
             @Html.HiddenFor(x => x.IdTipoDoc)
             <div class="form-group">

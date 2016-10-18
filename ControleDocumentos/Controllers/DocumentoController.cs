@@ -29,7 +29,7 @@ namespace ControleDocumentos.Controllers
         {
             PopularDropDowns();
             ViewBag.Alunos = new SelectList(new List<SelectListItem>() {
-                new SelectListItem() {Text="Selecione um curso", Value="0"}
+                new SelectListItem() {Text="Selecione um curso", Value=""}
             }, "Value", "Text");
 
             //instancia model
@@ -75,37 +75,45 @@ namespace ControleDocumentos.Controllers
 
         }
 
-        public object SalvarDocumento(Documento doc, HttpPostedFileBase File) //da pra negociarmos esse parametro
+        public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile) //da pra negociarmos esse parametro
         {
-            try
+            if (ModelState.IsValid)
             {
-                doc.arquivo = converterFileToArray(File);
-                string mensagem = DirDoc.SalvaArquivo(doc);
-
-                switch (mensagem)
+                try
                 {
-                    case "Sucesso":
-                        return Json(new { Status = true, Type = "success", Message = mensagem, ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
-                    case "Falha ao persistir":
-                        return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
-                    case "Falha ao criptografar":
-                        return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
-                    default:
-                        return null;
+                    if (uploadFile == null)
+                        return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
+
+                    doc.arquivo = converterFileToArray(uploadFile);
+                    string mensagem = DirDoc.SalvaArquivo(doc);
+
+                    switch (mensagem)
+                    {
+                        case "Sucesso":
+                            return Json(new { Status = true, Type = "success", Message = mensagem, ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                        case "Falha ao persistir":
+                            return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
+                        case "Falha ao criptografar":
+                            return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
+                        default:
+                            return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception)
-            {
-                return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+            else {
+                return Json(new { Status = false, Type = "error", Message = "Campos inválidos" }, JsonRequestBehavior.AllowGet);
             }
-            
         }
 
         public object DeletaDocumento(Documento doc)
         {
             if(documentoRepository.DeletaArquivo(doc))
             {
-                return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso !", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
 
@@ -139,7 +147,7 @@ namespace ControleDocumentos.Controllers
             return data;
         }
 
-        public JsonResult GetAlunosByIdCurso(int idCurso)
+       public JsonResult GetAlunosByIdCurso(int idCurso)
         {
             if (idCurso > 0)
             {

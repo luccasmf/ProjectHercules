@@ -9,7 +9,7 @@
                 $(".partialList").html(result);
             },
             error: function (result) {
-                var obj = new {
+                var obj = {
                     Type: "error",
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
@@ -26,7 +26,7 @@ function showNotificationModal(notification) {
     $(".form-filter").submit(function () {
         bindFormFilter();
     });
-    var obj = new {
+    var obj = {
         Type: notification.Type,
         Message: notification.Message
     }
@@ -40,14 +40,14 @@ function showNotificationRedirect(notification) {
         type: 'GET',
         success: function (data) {
             $("body").html(data);
-            var obj = new {
+            var obj = {
                 Type: notification.Type,
                 Message: notification.Message
             }
             showNotification(obj);
         },
         error: function () {
-            var obj = new {
+            var obj = {
                 Type: "error",
                 Message: "Ocorreu um erro ao realizar esta operação"
             }
@@ -102,12 +102,62 @@ function bindExclusao() {
                 $("#divModalGlobal").modal("show");
             },
             error: function () {
-                var obj = new {
+                var obj = {
                     Type: "error",
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
             }
         });
+    });
+}
+
+function bindFormSubmitModal() {
+    $(document).on("submit", '.frm-submit', function () {
+        var frm = $('.frm-submit');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationModal(result, true);
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
+    });
+}
+
+function bindFormSubmit() {
+    $(document).on("submit", '.frm-submit', function () {
+        var frm = $('.frm-submit');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRedirect(result, true);
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
     });
 }
