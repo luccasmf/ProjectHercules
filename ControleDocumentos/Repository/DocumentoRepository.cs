@@ -10,12 +10,18 @@ namespace ControleDocumentos.Repository
     public class DocumentoRepository
     {
         DocumentosModel db = new DocumentosModel();
+        AlunoRepository alunoRepository = new AlunoRepository();
 
         public Documento GetDocumentoByNome(string nome)
         {
             Documento doc = db.Documento.Where(d => d.NomeDocumento == nome).FirstOrDefault();
 
             return doc;
+        }
+
+        public Documento GetDocumentoById(int id)
+        {
+            return db.Documento.Find(id);
         }
 
         public List<Documento> GetAllDocs()
@@ -25,6 +31,7 @@ namespace ControleDocumentos.Repository
 
         public bool PersisteDocumento(Documento doc)
         {
+            doc.AlunoCurso = db.AlunoCurso.Where(x => x.IdAluno == doc.AlunoCurso.IdAluno && x.IdCurso == doc.AlunoCurso.IdCurso).FirstOrDefault();
             db.Documento.Add(doc);
 
             return db.SaveChanges() > 0;

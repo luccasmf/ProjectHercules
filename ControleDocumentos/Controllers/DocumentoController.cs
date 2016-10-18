@@ -15,6 +15,7 @@ namespace ControleDocumentos.Controllers
         CursoRepository cursoRepository = new CursoRepository();
         AlunoRepository alunoRepository = new AlunoRepository();
         DocumentoRepository documentoRepository = new DocumentoRepository();
+        
 
         // GET: Documento
         public ActionResult Index()
@@ -37,7 +38,7 @@ namespace ControleDocumentos.Controllers
 
             if (idDoc.HasValue)
             {
-                //pega model pelo id
+                doc = documentoRepository.GetDocumentoById((int)idDoc);
             }
             //retorna model
             return View("CadastroDocumento", doc);
@@ -83,8 +84,9 @@ namespace ControleDocumentos.Controllers
                 {
                     if (uploadFile == null)
                         return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
-
+                    
                     doc.arquivo = converterFileToArray(uploadFile);
+                    doc.NomeDocumento = uploadFile.FileName;
                     string mensagem = DirDoc.SalvaArquivo(doc);
 
                     switch (mensagem)
@@ -99,7 +101,7 @@ namespace ControleDocumentos.Controllers
                             return null;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
                 }

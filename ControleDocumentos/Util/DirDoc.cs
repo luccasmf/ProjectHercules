@@ -19,10 +19,11 @@ namespace ControleDocumentos
         private static DocumentoRepository documentoRepository = new DocumentoRepository();
         private static TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
         private static EventoRepository eventoRepository = new EventoRepository();
-
+        private static CursoRepository cursoRepository = new CursoRepository();
+        private static UnicodeEncoding ue = new UnicodeEncoding();
         // key for encryption
-        static byte[] Key = Encoding.UTF8.GetBytes("qA!$p(SKJkOK}s&~lZZ4E87s{_6Y9");
-        private static string caminhoPadrao = @".//Documentos/";
+        static byte[] Key = ue.GetBytes(@"qA!$p(SK");
+        private static string caminhoPadrao = @"C:/Documentos/";
         private static string caminhoTemplates = caminhoPadrao + "Templates/";
         private static string caminhoDownload = caminhoPadrao + "Download/";
 
@@ -34,9 +35,9 @@ namespace ControleDocumentos
         public static string SalvaArquivo(Documento doc)
         {
 
-            string curso = doc.AlunoCurso.Curso.Nome;
+            string curso = cursoRepository.GetCursoById(doc.AlunoCurso.IdCurso).Nome;
             string idAluno = doc.AlunoCurso.IdAluno.ToString();
-            string tipoDoc = doc.TipoDocumento.TipoDocumento1;
+            string tipoDoc = tipoDocumentoRepository.GetTipoDocById(doc.IdTipoDoc).TipoDocumento1;
 
 
             List<string> caminho = new List<string>();
@@ -70,7 +71,7 @@ namespace ControleDocumentos
                     cs.Close();
                     fs.Close();
                 }
-
+                doc.Data = DateTime.Now;
                 if (documentoRepository.PersisteDocumento(doc))
                 {
                     return "Sucesso";
@@ -79,7 +80,7 @@ namespace ControleDocumentos
                 return "Falha ao persistir";
 
             }
-            catch
+            catch(Exception e)
             {
                 return "Falha ao criptografar";
             }
