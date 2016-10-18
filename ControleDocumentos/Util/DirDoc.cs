@@ -232,7 +232,7 @@ namespace ControleDocumentos
         {
             string pasta = caminhoPadrao;
 
-            for (int i = 0; i < dir.Length - 1; i++)
+            for (int i = 0; i < dir.Length; i++)
             {
                 pasta += dir[i] + "/";
                 if (!Directory.Exists(pasta))
