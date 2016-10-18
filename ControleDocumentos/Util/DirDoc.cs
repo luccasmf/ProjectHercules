@@ -215,7 +215,7 @@ namespace ControleDocumentos
                 }
             }
 
-            if (!documentoRepository.PersisteDocumento(certificadosDoc))
+            if (!documentoRepository.PersisteCertificados(certificadosDoc))
                 flag = false;
 
             return flag;

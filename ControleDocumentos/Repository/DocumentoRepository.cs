@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ControleDocumentosLibrary;
+using ControleDocumentos.Util;
 
 
 namespace ControleDocumentos.Repository
@@ -31,13 +32,22 @@ namespace ControleDocumentos.Repository
 
         public bool PersisteDocumento(Documento doc)
         {
-            doc.AlunoCurso = db.AlunoCurso.Where(x => x.IdAluno == doc.AlunoCurso.IdAluno && x.IdCurso == doc.AlunoCurso.IdCurso).FirstOrDefault();
-            db.Documento.Add(doc);
+            Documento docOld = new Documento();
+            if (!(doc.IdDocumento>0))
+            {
+                doc.AlunoCurso = db.AlunoCurso.Where(x => x.IdAluno == doc.AlunoCurso.IdAluno && x.IdCurso == doc.AlunoCurso.IdCurso).FirstOrDefault();
+                db.Documento.Add(doc);
+            }
+            else
+            {
+                docOld = db.Documento.Find(doc.IdDocumento);
+                docOld = Utilidades.ComparaValores(docOld, doc, new string[] { "NomeDocumento", "Data", "CaminhoDocumento" });
+            }
 
             return db.SaveChanges() > 0;
         }
 
-        public bool PersisteDocumento(List<Documento> docs)
+        public bool PersisteCertificados(List<Documento> docs)
         {
             foreach (Documento doc in docs)
                 db.Documento.Add(doc);
