@@ -101,11 +101,20 @@ namespace ControleDocumentos
                 RijndaelManaged rmCryp = new RijndaelManaged();
                 CryptoStream cs = new CryptoStream(fs, rmCryp.CreateDecryptor(Key, Key), CryptoStreamMode.Read);
                 string caminho = caminhoDownload + doc.AlunoCurso.IdAluno + doc.NomeDocumento;
-                StreamWriter fsDecrypted = new StreamWriter(caminho);
-                fsDecrypted.Write(new StreamReader(cs).ReadToEnd());
-                fsDecrypted.Flush();
-                fsDecrypted.Close();
+                FileStream fsOut = new FileStream(caminho, FileMode.Create);
+
+                //StreamWriter fsDecrypted = new StreamWriter(caminho);
+                //fsDecrypted.Write(new StreamReader(cs).ReadToEnd());
+                //fsDecrypted.Flush();
+                //fsDecrypted.Close();
+
+                int data;
+
+                while ((data = cs.ReadByte()) != -1)
+                    fsOut.WriteByte((byte)data);
+
                 fs.Close();
+                fsOut.Close();
                 cs.Close();
 
                 byte[] arquivo = File.ReadAllBytes(caminho);
