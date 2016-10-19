@@ -1,16 +1,16 @@
-﻿@model ControleDocumentosLibrary.TipoDocumento
+﻿@model ControleDocumentosLibrary.Documento
 
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Exclusão de tipo de documento</h4>
+        <h4 class="modal-title">Exclusão de documento</h4>
     </div>
-@using (Html.BeginForm("ExcluirTipoDocumento", "TipoDocumento", FormMethod.Post, new { @class = "frmSubmitExclusao" }))
+@using (Html.BeginForm("ExcluirDocumento", "Documento", FormMethod.Post, new { @class="frmSubmitExclusao" }))
 {
-    @Html.HiddenFor(x => x.IdTipoDoc)
+    @Html.HiddenFor(x => x.IdDocumento)
     <div class="modal-body">
         <div class="form-group">
-            @Html.Raw(string.Format("Tem certeza que deseja excluir o tipo {0} ?", Model.TipoDocumento1))
+            @Html.Raw(string.Format("Tem certeza que deseja excluir o documento {0} ?", Model.NomeDocumento))
         </div>
     </div>
     <div class="modal-footer">

@@ -1,11 +1,13 @@
 ﻿/// <reference path="Util.js" />
 $(document).ready(function () {
     bindCadastro();
-    bindExclusao();
     bindCamposModal();
 
+    //Util
     bindDatatable();
-    bindFormFilter();
+    bindFormSubmit();
+    bindExclusao();
+    bindFormSubmitExclusao();
 });
 
 function bindCadastro() {
@@ -31,6 +33,6 @@ function bindCadastro() {
 function bindCamposModal() {
     $('.modal').on('shown.bs.modal', function () {
         $("#TipoDocumento1").focus();
-        bindFormSubmitModal();
+        bindFormSubmit();
     })
 }

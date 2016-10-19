@@ -25,13 +25,13 @@ namespace ControleDocumentos
         static byte[] Key = ue.GetBytes(@"qA!$p(SK");
 
         //facul
-        private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
+        //private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
         //casa
-        // private static string caminhoBase = @"C:/Hercules/";
+         private static string caminhoBase = @"C:/Hercules/";
 
-        private static string caminhoPadrao = caminhoBase + "Documentos";
-        private static string caminhoTemplates = caminhoBase + "Templates";
-        private static string caminhoDownload = caminhoBase + "Download";
+        private static string caminhoPadrao = caminhoBase + "Documentos/";
+        private static string caminhoTemplates = caminhoBase + "Templates/";
+        private static string caminhoDownload = caminhoBase + "Download/";
 
         /// <summary>
         /// Salva o arquivo enviado

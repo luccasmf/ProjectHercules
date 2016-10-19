@@ -15,13 +15,13 @@ namespace ControleDocumentos.Controllers
         CursoRepository cursoRepository = new CursoRepository();
         AlunoRepository alunoRepository = new AlunoRepository();
         DocumentoRepository documentoRepository = new DocumentoRepository();
-        
+
 
         // GET: Documento
         public ActionResult Index()
         {
             // apenas se decidirmos n usar o datatables como filtro
-           // PopularDropDowns();
+            // PopularDropDowns();
 
             return View(documentoRepository.GetAllDocs());
         }
@@ -29,16 +29,20 @@ namespace ControleDocumentos.Controllers
         public ActionResult CadastrarDocumento(int? idDoc)
         {
             PopularDropDowns();
-            ViewBag.Alunos = new SelectList(new List<SelectListItem>() {
-                new SelectListItem() {Text="Selecione um curso", Value=""}
-            }, "Value", "Text");
-
             //instancia model
             Documento doc = new Documento();
 
             if (idDoc.HasValue)
             {
                 doc = documentoRepository.GetDocumentoById((int)idDoc);
+                PopularDropDownAlunos(doc.AlunoCurso.Curso.IdCurso);
+            }
+            else
+            {
+                ViewBag.Alunos = new SelectList(new List<SelectListItem>() { new SelectListItem() {
+                    Text ="Selecione um curso",
+                    Value =""}
+                }, "Value", "Text");
             }
             //retorna model
             return View("CadastroDocumento", doc);
@@ -52,6 +56,14 @@ namespace ControleDocumentos.Controllers
             //busca os documentos com base no filtro
 
             return PartialView("_List", retorno);
+        }
+
+        public ActionResult CarregaModalExclusao(int idDoc)
+        {
+            Documento doc = documentoRepository.GetDocumentoById(idDoc);
+
+            //retorna o tipo na partial
+            return PartialView("_ExclusaoDocumento", doc);
         }
 
         #region Métodos auxiliares
@@ -76,6 +88,16 @@ namespace ControleDocumentos.Controllers
 
         }
 
+        private void PopularDropDownAlunos(int idCurso) {
+            //get todos alunos pelo id do curso
+            var listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
+            {
+                Value = item.IdAluno.ToString(),
+                Text = item.Usuario.Nome.ToString(),
+            });
+            ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
+        }
+
         public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile) //da pra negociarmos esse parametro
         {
             if (ModelState.IsValid)
@@ -84,7 +106,7 @@ namespace ControleDocumentos.Controllers
                 {
                     if (uploadFile == null)
                         return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
-                    
+
                     doc.arquivo = converterFileToArray(uploadFile);
                     doc.NomeDocumento = uploadFile.FileName;
                     string mensagem = DirDoc.SalvaArquivo(doc);
@@ -111,9 +133,9 @@ namespace ControleDocumentos.Controllers
             }
         }
 
-        public object DeletaDocumento(Documento doc)
+        public object ExcluirDocumento(Documento doc)
         {
-            if(documentoRepository.DeletaArquivo(doc))
+            if (documentoRepository.DeletaArquivo(doc))
             {
                 return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
@@ -149,7 +171,7 @@ namespace ControleDocumentos.Controllers
             return data;
         }
 
-       public JsonResult GetAlunosByIdCurso(int idCurso)
+        public JsonResult GetAlunosByIdCurso(int idCurso)
         {
             if (idCurso > 0)
             {

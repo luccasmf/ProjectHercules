@@ -4,6 +4,7 @@ $(document).ready(function () {
     bindDatatable();
     bindFormFilter();
     bindGetAlunos();
+    bindFormSubmitExclusao();
 
     $(document).on("submit", '.frm-submit', function () {
         var frm = $('.frm-submit');

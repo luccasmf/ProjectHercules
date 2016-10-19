@@ -20,19 +20,19 @@
     });
 }
 
-function showNotificationModal(notification) {
-    $("#divModalGlobal").modal("hide");
+//function showNotificationModal(notification) {
+//    $("#divModalGlobal").modal("hide");
 
-    $(".form-filter").submit(function () {
-        bindFormFilter();
-    });
-    var obj = {
-        Type: notification.Type,
-        Message: notification.Message
-    }
-    showNotification(obj);
+//    $(".form-filter").submit(function () {
+//        bindFormFilter();
+//    });
+//    var obj = {
+//        Type: notification.Type,
+//        Message: notification.Message
+//    }
+//    showNotification(obj);
 
-};
+//};
 
 function showNotificationRedirect(notification) {
     $.ajax({
@@ -112,7 +112,32 @@ function bindExclusao() {
     });
 }
 
-function bindFormSubmitModal() {
+//function bindFormSubmitModal() {
+//    $(document).on("submit", '.frm-submit', function () {
+//        var frm = $('.frm-submit');
+//        $.ajax({
+//            url: frm.attr("action"),
+//            type: frm.attr("method"),
+//            data: frm.serialize(),
+//            success: function (result) {
+//                if (result.Status == true)
+//                    showNotificationRedirect(result);
+//                else
+//                    showNotification(result);
+//            },
+//            error: function (result) {
+//                var obj = {
+//                    Type: "error",
+//                    Message: "Ocorreu um erro ao realizar esta operação"
+//                }
+//                showNotification(obj);
+//            }
+//        });
+//        return false;
+//    });
+//}
+
+function bindFormSubmit() {
     $(document).on("submit", '.frm-submit', function () {
         var frm = $('.frm-submit');
         $.ajax({
@@ -121,7 +146,7 @@ function bindFormSubmitModal() {
             data: frm.serialize(),
             success: function (result) {
                 if (result.Status == true)
-                    showNotificationModal(result, true);
+                    showNotificationRedirect(result, true);
                 else
                     showNotification(result);
             },
@@ -137,16 +162,16 @@ function bindFormSubmitModal() {
     });
 }
 
-function bindFormSubmit() {
-    $(document).on("submit", '.frm-submit', function () {
-        var frm = $('.frm-submit');
+function bindFormSubmitExclusao() {
+    $(document).on("submit", '.frmSubmitExclusao', function () {
+        var frm = $('.frmSubmitExclusao');
         $.ajax({
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
             success: function (result) {
                 if (result.Status == true)
-                    showNotificationRedirect(result, true);
+                    showNotificationRedirect(result);
                 else
                     showNotification(result);
             },

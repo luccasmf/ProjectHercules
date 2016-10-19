@@ -533,7 +533,6 @@
     <Compile Include="Util\Utilidades.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -565,6 +564,8 @@
     <Content Include="Views\Documento\Index.cshtml" />
     <Content Include="Views\Documento\_List.cshtml" />
     <Content Include="Views\Documento\CadastroDocumento.cshtml" />
+    <Content Include="Views\Documento\_ExclusaoDocumento.cshtml" />
+    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

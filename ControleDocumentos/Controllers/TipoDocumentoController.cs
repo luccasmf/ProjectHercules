@@ -72,5 +72,15 @@ namespace ControleDocumentos.Controllers
         {
             return PartialView("_List", tipoDocumentoRepository.listaTipos());
         }
+
+        public object ExcluirTipoDocumento(TipoDocumento tipoDoc)
+        {
+            if (tipoDocumentoRepository.DeletaTipoDoc(tipoDoc.IdTipoDoc))
+            {
+                return Json(new { Status = true, Type = "success", Message = "Tipo de documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }
