@@ -284,7 +284,7 @@ namespace ControleDocumentos
             DateTime dt = DateTime.Now;
             string formato = Path.GetExtension(nomeAntigo);
 
-            novoNome = string.Format("{0}{1}{2}{3}", dt.Year, dt.Month, dt.Day, formato);
+            novoNome = string.Format("{0}{1}{2}{3}{4}{5}{6}{7}", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond, formato);
 
             return novoNome;
 
