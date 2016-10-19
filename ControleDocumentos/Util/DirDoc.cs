@@ -23,7 +23,12 @@ namespace ControleDocumentos
         private static UnicodeEncoding ue = new UnicodeEncoding();
         // key for encryption
         static byte[] Key = ue.GetBytes(@"qA!$p(SK");
-        private static string caminhoPadrao = @"C:/Documentos/";
+        //facul
+        private static string caminhoPadrao = @"\\DEVELOPER\Temp\hercules\Documentos\";
+
+        //casa
+        // private static string caminhoPadrao = @"C:/Documentos/";
+
         private static string caminhoTemplates = caminhoPadrao + "Templates/";
         private static string caminhoDownload = caminhoPadrao + "Download/";
 
