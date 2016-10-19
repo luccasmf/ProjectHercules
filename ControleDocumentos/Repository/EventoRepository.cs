@@ -43,11 +43,11 @@ namespace ControleDocumentos.Repository
 
         public List<Aluno> GetAlunosPresentes(Evento ev)
         {
-            List<Aluno> alunos = (from a in db.Aluno                                   
-                                   join ae in db.AlunoEvento on a.IdAluno equals ae.IdAluno
+            List<Aluno> alunos = (from a in db.Aluno
+                                  join ae in db.AlunoEvento on a.IdAluno equals ae.IdAluno
                                   join e in db.Evento on ae.IdEvento equals e.IdEvento
                                   join p in db.Presenca on e.IdEvento equals p.IdEvento
-                                   where ((e.IdEvento == ev.IdEvento) && (ae.Presenca == e.PresencaNecessaria))
+                                  where ((e.IdEvento == ev.IdEvento) && (ae.Presenca >= e.PresencaNecessaria))
                                   select a).ToList();
             return alunos;
 
@@ -86,12 +86,45 @@ namespace ControleDocumentos.Repository
             return db.SaveChanges() > 0;
         }
 
-        public bool AdicionaPresenca(int idAluno, int idEvento)
+        /// <summary>
+        /// Confirma presença para a lista de alunos
+        /// </summary>
+        /// <param name="idAluno">array com id dos alunos presentes</param>
+        /// <param name="idEvento">id do evento</param>
+        /// <returns>retorna um bool, dizendo se foi salvo ou não</returns>
+        public bool AdicionaPresenca(int[] idAluno, int idEvento)
         {
-            AlunoEvento ae = db.AlunoEvento.Find(idAluno, idEvento);
-            ae.Presenca++;
+            Evento ev = db.Evento.Find(idEvento);
+
+            foreach (AlunoEvento ae in ev.AlunoEvento)
+            {
+                if (idAluno.Contains(ae.IdAluno))
+                {
+                    ae.Presenca++;
+                    Presenca p = new Presenca();
+                    p.IdAluno = ae.IdAluno;
+                    p.IdEvento = idEvento;
+                    p.Data = DateTime.Now;
+                    ae.Presenca1.Add(p);
+                }
+            }
 
             return db.SaveChanges() > 0;
+        }
+
+        /// <summary>
+        /// Pega relação de alunos inscritos no evento
+        /// </summary>
+        /// <param name="idEvento">id do evento desejado</param>
+        /// <returns>lista de alunos inscritos no evento</returns>
+        public List<Aluno> GetListaChamada(int idEvento)
+        {
+            List<Aluno> alunos = (from a in db.Aluno
+                                  join ae in db.AlunoEvento on a.IdAluno equals ae.IdAluno
+                                  where ae.IdEvento == idEvento
+                                  select a).ToList();
+
+            return alunos;
         }
 
         private string ComparaInfos(Evento ev)

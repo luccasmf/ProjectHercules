@@ -44,5 +44,23 @@ namespace ControleDocumentos.Controllers
             return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult Chamada(int idEvento)
+        {
+            List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento);
+            return View(alunos);
+        }
+
+        public object FazerChamada(int[] idAlunos, int idEvento)
+        {
+            //id dos alunos presentes :)
+            bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento);
+
+            if (flag)
+            {
+                return Json(new { Status = true, Type = "success", Message = "Chamada concluída!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
