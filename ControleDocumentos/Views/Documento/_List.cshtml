@@ -16,7 +16,7 @@
                 <td>@doc.AlunoCurso.Aluno.Usuario.Nome</td>
                 <td>@doc.AlunoCurso.Curso.Nome</td>
                 <td>@doc.TipoDocumento.TipoDocumento1</td>
-                <td><a href="@Url.Action("Download", new { doc = doc })">@doc.NomeDocumento</a></td>
+                <td><a href="@Url.Action("Download","Documento", doc)">@doc.NomeDocumento</a></td>
                 <td class="center">
                     <a class="btn btn-info btnCadastro" url="@Url.Action("CadastrarDocumento","Documento", new { idDoc = doc.IdDocumento })" href="#">
                         <i class="fa fa-edit"></i>

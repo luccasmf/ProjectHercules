@@ -94,22 +94,30 @@ namespace ControleDocumentos
         /// <returns>um caminho temporário para baixar o arquivo</returns>
         public static byte[] BaixaArquivo(string nomeArquivo)
         {
-            Documento doc = documentoRepository.GetDocumentoByNome(nomeArquivo);
-            FileStream fs = new FileStream(doc.CaminhoDocumento, FileMode.Open);
-            RijndaelManaged rmCryp = new RijndaelManaged();
-            CryptoStream cs = new CryptoStream(fs, rmCryp.CreateDecryptor(Key, Key), CryptoStreamMode.Read);
-            string caminho = caminhoDownload + doc.AlunoCurso.IdAluno + doc.NomeDocumento;
-            StreamWriter fsDecrypted = new StreamWriter(caminho);
-            fsDecrypted.Write(new StreamReader(cs).ReadToEnd());
-            fsDecrypted.Flush();
-            fsDecrypted.Close();
-            fs.Close();
-            cs.Close();
+            try
+            {
+                Documento doc = documentoRepository.GetDocumentoByNome(nomeArquivo);
+                FileStream fs = new FileStream(doc.CaminhoDocumento, FileMode.Open);
+                RijndaelManaged rmCryp = new RijndaelManaged();
+                CryptoStream cs = new CryptoStream(fs, rmCryp.CreateDecryptor(Key, Key), CryptoStreamMode.Read);
+                string caminho = caminhoDownload + doc.AlunoCurso.IdAluno + doc.NomeDocumento;
+                StreamWriter fsDecrypted = new StreamWriter(caminho);
+                fsDecrypted.Write(new StreamReader(cs).ReadToEnd());
+                fsDecrypted.Flush();
+                fsDecrypted.Close();
+                fs.Close();
+                cs.Close();
 
-            byte[] arquivo = File.ReadAllBytes(caminho);
-            File.Delete(caminho);
+                byte[] arquivo = File.ReadAllBytes(caminho);
+                File.Delete(caminho);
 
-            return arquivo;
+                return arquivo;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
 
         }
 
