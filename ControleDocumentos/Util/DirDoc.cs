@@ -26,7 +26,8 @@ namespace ControleDocumentos
 
         //facul
         //private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
-        //casa
+       
+         //casa
          private static string caminhoBase = @"C:/Hercules/";
 
         private static string caminhoPadrao = caminhoBase + "Documentos/";
