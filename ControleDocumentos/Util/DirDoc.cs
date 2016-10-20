@@ -97,13 +97,13 @@ namespace ControleDocumentos
         /// <summary>
         /// Desencripta arquivo para download
         /// </summary>
-        /// <param name="nomeArquivo">nome do arquivo desejado</param>
+        /// <param name="doc">arquivo desejado</param>
         /// <returns>um caminho temporário para baixar o arquivo</returns>
-        public static byte[] BaixaArquivo(string nomeArquivo)
+        public static byte[] BaixaArquivo(Documento doc)
         {
             try
             {
-                Documento doc = documentoRepository.GetDocumentoByNome(nomeArquivo);
+                //Documento doc = documentoRepository.GetDocumentoByNome(nomeArquivo);
                 FileStream fs = new FileStream(doc.CaminhoDocumento, FileMode.Open);
                 RijndaelManaged rmCryp = new RijndaelManaged();
                 CryptoStream cs = new CryptoStream(fs, rmCryp.CreateDecryptor(Key, Key), CryptoStreamMode.Read);

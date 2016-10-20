@@ -5,6 +5,7 @@
             <th>Nome do aluno</th>
             <th>Curso</th>
             <th>Tipo de documento</th>
+            <th>Data de envio</th>
             <th>Documento</th>
             <th>Ações</th>
         </tr>
@@ -16,14 +17,15 @@
                 <td>@doc.AlunoCurso.Aluno.Usuario.Nome</td>
                 <td>@doc.AlunoCurso.Curso.Nome</td>
                 <td>@doc.TipoDocumento.TipoDocumento1</td>
-                <td><a href="@Url.Action("Download","Documento", doc)">@doc.NomeDocumento</a></td>
+                <td>@doc.Data.ToShortDateString()</td>
+                <td><a href="@Url.Action("Download","Documento",new { nomeDoc = doc.NomeDocumento })">@doc.NomeDocumento</a></td>
                 <td class="center">
                     <a class="btn btn-info btnCadastro" href="@Url.Action("CadastrarDocumento","Documento", new { idDoc = doc.IdDocumento })">
                         <i class="fa fa-edit"></i>
                     </a>
                     <a class="btn btn-danger btnExclusao" url="@Url.Action("CarregaModalExclusao","Documento", new { idDoc = doc.IdDocumento })" href="#">
                         <i class="fa fa-trash-o"></i>
-                    </a>
+                    </a>                    
                 </td>
             </tr>
         }

@@ -149,14 +149,16 @@ namespace ControleDocumentos.Controllers
         /// <param name="doc"></param>
         /// <returns>retorna o arquivo pra download</returns>
         /// 
-        public FileResult Download(Documento doc) //da pra vermos o melhor parametro
+        public FileResult Download(string nomeDoc) //da pra vermos o melhor parametro
         {
+            Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
+
             string nomeArquivo = doc.NomeDocumento;
             string extensao = Path.GetExtension(nomeArquivo);
 
             string contentType = "application/" + extensao.Substring(1);
 
-            byte[] bytes = DirDoc.BaixaArquivo(doc.NomeDocumento);
+            byte[] bytes = DirDoc.BaixaArquivo(doc);
 
             return File(bytes, contentType, nomeArquivo);
 
