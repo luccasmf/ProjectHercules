@@ -8,12 +8,14 @@ using System.Security.Cryptography;
 using System.Text;
 using ControleDocumentos.Repository;
 using Novacode;
+using ControleDocumentos.Filter;
 
 namespace ControleDocumentos
 {
     /// <summary>
     /// Classe responsável por manipular os documentos, separar em pastas e salvar no servidor de arquivos
     /// </summary>
+   // [AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW")]
     public static class DirDoc
     {
         private static DocumentoRepository documentoRepository = new DocumentoRepository();
@@ -25,10 +27,10 @@ namespace ControleDocumentos
         static byte[] Key = ue.GetBytes(@"qA!$p(SK");
 
         //facul
-        //private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
+        private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
        
          //casa
-         private static string caminhoBase = @"C:/Hercules/";
+         //private static string caminhoBase = @"C:/Hercules/";
 
         private static string caminhoPadrao = caminhoBase + "Documentos/";
         private static string caminhoTemplates = caminhoBase + "Templates/";

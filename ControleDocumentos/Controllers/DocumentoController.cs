@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using ControleDocumentosLibrary;
 using System.IO;
 using ControleDocumentos.Repository;
+using ControleDocumentos.Filter;
 
 namespace ControleDocumentos.Controllers
 {
+   // [AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW")]
     public class DocumentoController : Controller
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
