@@ -36,7 +36,7 @@ namespace ControleDocumentos.Controllers
         public ActionResult CarregaModalExclusao(int idTipo)
         {
             //get no tipo
-            TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc(idTipo);
+            TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDocById(idTipo);
 
             //retorna o tipo na partial
             return PartialView("_ExclusaoTipoDocumento", tipoDoc);
@@ -46,14 +46,6 @@ namespace ControleDocumentos.Controllers
         {
             try
             {
-
-                //if (model.IdTipoDoc > 0)
-                //{
-                //    tipoDocumentoRepository.CadastraTipoDoc(model);
-                //}
-                //else {
-                //    tipoDocumentoRepository.CadastraTipoDoc(model);
-                //}
                 if(tipoDocumentoRepository.TipoDocExists(model))
                     return Json(new { Status = false, Type = "error", Message = "Tipo de documento já existente" }, JsonRequestBehavior.AllowGet);
                 

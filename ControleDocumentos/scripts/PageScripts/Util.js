@@ -1,38 +1,24 @@
-﻿function bindFormFilter() {
-    $('.form-filter').submit(function () {
-        var frm = $('.form-filter');
-        $.ajax({
-            url: frm.attr("action"),
-            type: frm.attr("method"),
-            data: frm.serialize(),
-            success: function (result) {
-                $(".partialList").html(result);
-            },
-            error: function (result) {
-                var obj = {
-                    Type: "error",
-                    Message: "Ocorreu um erro ao realizar esta operação"
-                }
-                showNotification(obj);
-            }
-        });
-        return false;
+﻿// Início Notification
+
+function showNotificationRefresh(notification, hideModal, hideForm) {
+    if (hideModal == true)
+        $("#divModalGlobal").modal("hide");
+
+    if (hideForm) {
+        $(".divFormSave").hide();
+        $(".divList").show();
+    }
+
+    $('.form-filter').trigger('submit', function () {
+        bindFormFilter();
     });
+
+    var obj = {
+        Type: notification.Type,
+        Message: notification.Message
+    }
+    showNotification(obj);
 }
-
-//function showNotificationModal(notification) {
-//    $("#divModalGlobal").modal("hide");
-
-//    $(".form-filter").submit(function () {
-//        bindFormFilter();
-//    });
-//    var obj = {
-//        Type: notification.Type,
-//        Message: notification.Message
-//    }
-//    showNotification(obj);
-
-//};
 
 function showNotificationRedirect(notification) {
     $.ajax({
@@ -64,6 +50,119 @@ function showNotification(notification) {
     });
 };
 
+// Fim Notification
+
+/*--------------------------------------------------------*/
+
+// Início Submit
+
+function bindFormSubmitModal() {
+    $(document).on("submit", ".frm-submit", function (e) {
+        e.preventDefault();
+        var frm = $('.frm-submit');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRefresh(result, true, false);
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
+    });
+}
+
+function bindFormSubmit() {
+    $(document).on("submit", ".frm-submit", function (e) {
+        e.preventDefault();
+        var frm = $('.frm-submit');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRefresh(result, false, true);
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
+    });
+}
+
+function bindFormSubmitExclusao() {
+    $(document).on("submit", '.frmSubmitExclusao', function (e) {
+        e.preventDefault();
+        var frm = $('.frmSubmitExclusao');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRefresh(result, true, false);
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
+    });
+}
+
+// Fim Submit
+
+/*--------------------------------------------------------*/
+
+// Início List
+
+function bindFormFilter() {
+    $(document).on('submit', '.form-filter', function (e) {
+        e.preventDefault();
+        var frm = $('.form-filter');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                $(".partialList").html(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
+    });
+}
+
 function bindDatatable() {
     $(".commmon-datatable").DataTable({
         "language": {
@@ -92,8 +191,15 @@ function bindDatatable() {
     });
 }
 
+// Fim List
+
+/*--------------------------------------------------------*/
+
+// Início Form Binds
+
 function bindExclusao() {
-    $(document).on("click", ".btnExclusao", function () {
+    $(document).on("click", ".btnExclusao", function (e) {
+        e.preventDefault();
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
@@ -112,77 +218,32 @@ function bindExclusao() {
     });
 }
 
-//function bindFormSubmitModal() {
-//    $(document).on("submit", '.frm-submit', function () {
-//        var frm = $('.frm-submit');
-//        $.ajax({
-//            url: frm.attr("action"),
-//            type: frm.attr("method"),
-//            data: frm.serialize(),
-//            success: function (result) {
-//                if (result.Status == true)
-//                    showNotificationRedirect(result);
-//                else
-//                    showNotification(result);
-//            },
-//            error: function (result) {
-//                var obj = {
-//                    Type: "error",
-//                    Message: "Ocorreu um erro ao realizar esta operação"
-//                }
-//                showNotification(obj);
-//            }
-//        });
-//        return false;
-//    });
-//}
-
-function bindFormSubmit() {
-    $(document).on("submit", '.frm-submit', function () {
-        var frm = $('.frm-submit');
+function bindCadastro() {
+    $(document).on("click", ".btnCadastro", function () {
         $.ajax({
-            url: frm.attr("action"),
-            type: frm.attr("method"),
-            data: frm.serialize(),
-            success: function (result) {
-                if (result.Status == true)
-                    showNotificationRedirect(result, true);
-                else
-                    showNotification(result);
+            url: $(this).attr("url"),
+            type: 'GET',
+            success: function (data) {
+                $(".formSave").html(data);
+                $(".divFormSave").show();
+                $(".divList").hide();
             },
-            error: function (result) {
-                var obj = {
+            error: function () {
+                var obj = new {
                     Type: "error",
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
             }
         });
-        return false;
     });
 }
 
-function bindFormSubmitExclusao() {
-    $(document).on("submit", '.frmSubmitExclusao', function () {
-        var frm = $('.frmSubmitExclusao');
-        $.ajax({
-            url: frm.attr("action"),
-            type: frm.attr("method"),
-            data: frm.serialize(),
-            success: function (result) {
-                if (result.Status == true)
-                    showNotificationRedirect(result);
-                else
-                    showNotification(result);
-            },
-            error: function (result) {
-                var obj = {
-                    Type: "error",
-                    Message: "Ocorreu um erro ao realizar esta operação"
-                }
-                showNotification(obj);
-            }
-        });
-        return false;
+function bindCancelar() {
+    $(document).on("click", ".btnCancelar", function () {
+        $(".divFormSave").hide();
+        $(".divList").show();
     });
 }
+
+// Fim Form Binds

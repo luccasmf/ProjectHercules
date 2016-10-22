@@ -4,8 +4,9 @@ $(document).ready(function () {
     bindCamposModal();
 
     //Util
+    bindFormFilter();
+    bindFormSubmitModal();
     bindDatatable();
-    bindFormSubmit();
     bindExclusao();
     bindFormSubmitExclusao();
 });
@@ -33,6 +34,5 @@ function bindCadastro() {
 function bindCamposModal() {
     $('.modal').on('shown.bs.modal', function () {
         $("#TipoDocumento1").focus();
-        bindFormSubmit();
     })
 }

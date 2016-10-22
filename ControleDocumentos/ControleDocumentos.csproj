@@ -563,9 +563,9 @@
     <Content Include="Views\TipoDocumento\_List.cshtml" />
     <Content Include="Views\Documento\Index.cshtml" />
     <Content Include="Views\Documento\_List.cshtml" />
-    <Content Include="Views\Documento\CadastroDocumento.cshtml" />
     <Content Include="Views\Documento\_ExclusaoDocumento.cshtml" />
     <Content Include="Views\web.config" />
+    <Content Include="Views\Documento\_CadastroDocumento.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -47,17 +47,12 @@ namespace ControleDocumentos.Controllers
                 }, "Value", "Text");
             }
             //retorna model
-            return View("CadastroDocumento", doc);
+            return PartialView("_CadastroDocumento", doc);
         }
 
-        public ActionResult List(Models.DocumentoModel filter)
+        public ActionResult List()
         {
-            // apenas caso decidirmos n usar o datatables como filtro
-
-            var retorno = new List<Documento>();
-            //busca os documentos com base no filtro
-
-            return PartialView("_List", retorno);
+            return PartialView("_List", documentoRepository.GetAllDocs());
         }
 
         public ActionResult CarregaModalExclusao(int idDoc)
@@ -116,7 +111,7 @@ namespace ControleDocumentos.Controllers
                     switch (mensagem)
                     {
                         case "Sucesso":
-                            return Json(new { Status = true, Type = "success", Message = mensagem, ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                            return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Falha ao persistir":
                             return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
                         case "Falha ao criptografar":
