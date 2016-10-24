@@ -490,6 +490,7 @@
     <Content Include="Scripts\misc\elfinder-connector\mime.types" />
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
     <Content Include="Scripts\PageScripts\TipoDocumento.js" />
     <Content Include="Scripts\PageScripts\Util.js" />
@@ -523,6 +524,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AlunoRepository.cs" />
     <Compile Include="Repository\CursoRepository.cs" />
+    <Compile Include="Repository\SolicitacaoDocumentoRepository.cs" />
     <Compile Include="Repository\DocumentoRepository.cs" />
     <Compile Include="Repository\EventoRepository.cs" />
     <Compile Include="Repository\TipoDocumentoRepository.cs" />
@@ -566,6 +568,10 @@
     <Content Include="Views\Documento\_ExclusaoDocumento.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\Documento\_CadastroDocumento.cshtml" />
+    <Content Include="Views\SolicitacaoDocumento\_CadastroSolicitacao.cshtml" />
+    <Content Include="Views\SolicitacaoDocumento\_ExclusaoSolicitacao.cshtml" />
+    <Content Include="Views\SolicitacaoDocumento\_List.cshtml" />
+    <Content Include="Views\SolicitacaoDocumento\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -577,7 +583,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Curso\" />
     <Folder Include="Views\Evento\" />
-    <Folder Include="Views\SolicitacaoDocumento\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControleDocumentosLibrary\ControleDocumentosLibrary.csproj">
