@@ -1,6 +1,8 @@
 ﻿using ControleDocumentos.Repository;
+using ControleDocumentosLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,169 +15,173 @@ namespace ControleDocumentos.Controllers
         CursoRepository cursoRepository = new CursoRepository();
         AlunoRepository alunoRepository = new AlunoRepository();
         SolicitacaoDocumentoRepository solicitacaoRepository = new SolicitacaoDocumentoRepository();
+        DocumentoRepository documentoRepository = new DocumentoRepository();
+
+        // GET: SolicitacaoDocumento
+        public ActionResult Index()
+        {
+            PopularDropDowns();
+
+            return View(solicitacaoRepository.GetAll());
+        }
+
+        public ActionResult CadastrarSolicitacao(int? idSol)
+        {
+            PopularDropDownsCadastro();
+            SolicitacaoDocumento sol = new SolicitacaoDocumento();
+
+            if (idSol.HasValue)
+            {
+                sol = solicitacaoRepository.GetSolicitacaoById((int)idSol);
+                PopularDropDownAlunos(sol.AlunoCurso.Curso.IdCurso);
+            }
+            else
+            {
+                ViewBag.Alunos = new SelectList(new List<SelectListItem>() { new SelectListItem() {
+                    Text ="Selecione um curso",
+                    Value =""}
+                }, "Value", "Text");
+            }
+            //retorna model
+            return PartialView("_CadastroSolicitacao", sol);
+        }
+
+        public ActionResult List(Models.SolicitacaoDocumentoFilter filter)
+        {
+            //dps nos ve esse esquema de filtro loko aqui
+            return PartialView("_List", solicitacaoRepository.GetAll());
+        }
+
+        public ActionResult CarregaModalExclusao(int idSol)
+        {
+            SolicitacaoDocumento sol = solicitacaoRepository.GetSolicitacaoById(idSol);
+            return PartialView("_ExclusaoSolicitacao", sol);
+        }
+
+        #region Métodos auxiliares
+
+        private void PopularDropDowns()
+        {
+            //get todos os cursos
+            var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
+            {
+                Value = item.IdCurso.ToString(),
+                Text = item.Nome.ToString(),
+            });
+            ViewBag.Cursos = new SelectList(listCursos, "Value", "Text");
 
 
-        //// GET: SolicitacaoDocumento
-        //public ActionResult Index()
-        //{
-        //    // apenas se decidirmos n usar o datatables como filtro
-        //    // PopularDropDowns();
+            var listStatus = Enum.GetValues(typeof(EnumStatusSolicitacao)).
+                Cast<EnumStatusSolicitacao>().Select(v => new SelectListItem
+                {
+                    Text = Util.Extension.EnumExtensions.GetEnumDescription(v),
+                    Value = ((int)v).ToString()
+                }).ToList();
+            ViewBag.Status = new SelectList(listStatus, "Value", "Text");
+        }
 
-        //    return View(documentoRepository.GetAllDocs());
-        //}
+        private void PopularDropDownsCadastro()
+        {
+            var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
+            {
+                Value = item.IdCurso.ToString(),
+                Text = item.Nome.ToString(),
+            });
+            ViewBag.Cursos = new SelectList(listCursos, "Value", "Text");
 
-        //public ActionResult CadastrarDocumento(int? idDoc)
-        //{
-        //    PopularDropDowns();
-        //    //instancia model
-        //    Documento doc = new Documento();
+            var listTiposDoc = tipoDocumentoRepository.listaTipos().Select(item => new SelectListItem
+            {
+                Value = item.IdTipoDoc.ToString(),
+                Text = item.TipoDocumento1.ToString(),
+            });
+            ViewBag.TiposDocumento = new SelectList(listTiposDoc, "Value", "Text");
+        }
 
-        //    if (idDoc.HasValue)
-        //    {
-        //        doc = documentoRepository.GetDocumentoById((int)idDoc);
-        //        PopularDropDownAlunos(doc.AlunoCurso.Curso.IdCurso);
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Alunos = new SelectList(new List<SelectListItem>() { new SelectListItem() {
-        //            Text ="Selecione um curso",
-        //            Value =""}
-        //        }, "Value", "Text");
-        //    }
-        //    //retorna model
-        //    return PartialView("_CadastroDocumento", doc);
-        //}
+        private void PopularDropDownAlunos(int idCurso)
+        {
+            //get todos alunos pelo id do curso
+            var listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
+            {
+                Value = item.IdAluno.ToString(),
+                Text = item.Usuario.Nome.ToString(),
+            });
+            ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
+        }
 
-        //public ActionResult List()
-        //{
-        //    return PartialView("_List", documentoRepository.GetAllDocs());
-        //}
+        public object SalvarSolicitacao(SolicitacaoDocumento sol)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // implementar esse metodo
+                    bool ok = solicitacaoRepository.Salvar(sol);
 
-        //public ActionResult CarregaModalExclusao(int idDoc)
-        //{
-        //    Documento doc = documentoRepository.GetDocumentoById(idDoc);
+                    if(ok)
+                        return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    else
+                        return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else {
+                return Json(new { Status = false, Type = "error", Message = "Campos inválidos" }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        //    //retorna o tipo na partial
-        //    return PartialView("_ExclusaoDocumento", doc);
-        //}
+        public object ExcluirDocumento(SolicitacaoDocumento sol)
+        {
+            // implementar
+            // adicionar regra que só deleta se tiver com status pendente
+            // vou colocar a regra na view tbm mas é bom ter aqui tb
+            if (solicitacaoRepository.DeletaArquivo(sol))
+            {
+                return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
 
-        //#region Métodos auxiliares
+        }
 
-        //private void PopularDropDowns()
-        //{
-        //    //get todos os cursos
-        //    var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
-        //    {
-        //        Value = item.IdCurso.ToString(),
-        //        Text = item.Nome.ToString(),
-        //    });
-        //    ViewBag.Cursos = new SelectList(listCursos, "Value", "Text");
+        /// <summary>
+        /// Baixa arquivo
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns>retorna o arquivo pra download</returns>
+        public FileResult Download(string nomeDoc)
+        {
+            Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
 
+            string nomeArquivo = doc.NomeDocumento;
+            string extensao = Path.GetExtension(nomeArquivo);
 
-        //    var listTiposDoc = tipoDocumentoRepository.listaTipos().Select(item => new SelectListItem
-        //    {
-        //        Value = item.IdTipoDoc.ToString(),
-        //        Text = item.TipoDocumento1.ToString(),
-        //    });
-        //    ViewBag.TiposDoc = new SelectList(listTiposDoc, "Value", "Text");
+            string contentType = "application/" + extensao.Substring(1);
 
-        //}
+            byte[] bytes = DirDoc.BaixaArquivo(doc);
 
-        //private void PopularDropDownAlunos(int idCurso)
-        //{
-        //    //get todos alunos pelo id do curso
-        //    var listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
-        //    {
-        //        Value = item.IdAluno.ToString(),
-        //        Text = item.Usuario.Nome.ToString(),
-        //    });
-        //    ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
-        //}
+            return File(bytes, contentType, nomeArquivo);
+        }
 
-        //public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile) //da pra negociarmos esse parametro
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            if (uploadFile == null)
-        //                return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
+        public static byte[] converterFileToArray(HttpPostedFileBase x)
+        {
+            MemoryStream tg = new MemoryStream();
+            x.InputStream.CopyTo(tg);
+            byte[] data = tg.ToArray();
 
-        //            doc.arquivo = converterFileToArray(uploadFile);
-        //            doc.NomeDocumento = uploadFile.FileName;
-        //            string mensagem = DirDoc.SalvaArquivo(doc);
+            return data;
+        }
 
-        //            switch (mensagem)
-        //            {
-        //                case "Sucesso":
-        //                    return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
-        //                case "Falha ao persistir":
-        //                    return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
-        //                case "Falha ao criptografar":
-        //                    return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
-        //                default:
-        //                    return null;
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    else {
-        //        return Json(new { Status = false, Type = "error", Message = "Campos inválidos" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public object ExcluirDocumento(Documento doc)
-        //{
-        //    if (documentoRepository.DeletaArquivo(doc))
-        //    {
-        //        return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
-
-        //}
-
-        ///// <summary>
-        ///// Baixa arquivo
-        ///// </summary>
-        ///// <param name="doc"></param>
-        ///// <returns>retorna o arquivo pra download</returns>
-        ///// 
-        //public FileResult Download(string nomeDoc) //da pra vermos o melhor parametro
-        //{
-        //    Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
-
-        //    string nomeArquivo = doc.NomeDocumento;
-        //    string extensao = Path.GetExtension(nomeArquivo);
-
-        //    string contentType = "application/" + extensao.Substring(1);
-
-        //    byte[] bytes = DirDoc.BaixaArquivo(doc);
-
-        //    return File(bytes, contentType, nomeArquivo);
-
-        //}
-
-        //public static byte[] converterFileToArray(HttpPostedFileBase x)
-        //{
-        //    MemoryStream tg = new MemoryStream();
-        //    x.InputStream.CopyTo(tg);
-        //    byte[] data = tg.ToArray();
-
-        //    return data;
-        //}
-
-        //public JsonResult GetAlunosByIdCurso(int idCurso)
-        //{
-        //    if (idCurso > 0)
-        //    {
-        //        var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
-        //        return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
-        //    }
-        //    return Json(null);
-        //}
-        //#endregion
+        public JsonResult GetAlunosByIdCurso(int idCurso)
+        {
+            if (idCurso > 0)
+            {
+                var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
+                return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
+            }
+            return Json(null);
+        }
+        #endregion
     }
 }

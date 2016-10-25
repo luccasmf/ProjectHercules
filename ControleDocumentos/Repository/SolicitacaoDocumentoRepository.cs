@@ -21,5 +21,15 @@ namespace ControleDocumentos.Repository
         {
             return db.SolicitacaoDocumento.ToList();
         }
+
+        public bool Salvar(SolicitacaoDocumento sol)
+        {
+            return true;
+        }
+
+        public bool DeletaArquivo(SolicitacaoDocumento sol)
+        {
+            return true;
+        }
     }
 }

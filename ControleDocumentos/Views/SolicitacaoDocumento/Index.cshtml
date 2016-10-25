@@ -8,7 +8,8 @@
 <div class="divList">
     <h1>Solicitações de documentos</h1>
     <br />
-    @*
+
+    <form action="@Url.Action("List", "SolicitacaoDocumento")" method="get" class="form-filter">
         <div class="box">
             <div class="box-header">
                 <h2>Filtro</h2>
@@ -17,39 +18,28 @@
                 </div>
             </div>
             <div class="box-content">
-                <form action="@Url.Action("List", "Documento")" method="get" class="form-filter">
-                    <div class="form-group row">
-                        <div class="col-md-10">
-                            @Html.Label("Nome do aluno")
-                            @Html.TextBox("NomeAluno", string.Empty, new { @class = "form-control" })
-                        </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        @Html.Label("Curso")
+                        @Html.DropDownList("IdCurso", (SelectList)ViewBag.Cursos, string.Empty, new { @class = "form-control" })
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            @Html.Label("Curso")
-                            @Html.DropDownList("IdCurso", (SelectList)ViewBag.Cursos, string.Empty, new { @class = "form-control" })
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        @Html.Label("Status")
+                        @Html.DropDownList("IdStatus", (SelectList)ViewBag.Status, string.Empty, new { @class = "form-control" })
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            @Html.Label("Tipo de documento")
-                            @Html.DropDownList("IdTipoDocumento", (SelectList)ViewBag.TiposDoc, string.Empty, new { @class = "form-control" })
-                        </div>
-                    </div>
+                </div>
 
-
-                    <div class="text-right">
-                        <button class="btn btn-default btnCadastro" id="btnCadastro" url="@Url.Action("CarregaModalCadastro","TipoDocumento")">Cadastrar novo</button>
-                        <button type="submit" class="btn btn-primary btnPesquisar" id="btnPesquisar">Pesquisar</button>
-                    </div>
-                </form>
             </div>
         </div>
-    *@
 
-    <div class="text-right">
-        <a type="button" class="btn btn-primary btnCadastro" id="btnCadastro" url="@Url.Action("CadastrarSolicitacao","SolicitacaoDocumento")" href="#">Nova Solicitação</a>
-    </div>
+
+        <div class="text-right">
+            <a type="button" class="btn btn-primary btnCadastro" id="btnCadastro" url="@Url.Action("CadastrarSolicitacao","SolicitacaoDocumento")" href="#">Nova Solicitação</a>
+            <button type="submit" class="btn btn-primary btnPesquisar" id="btnPesquisar">Pesquisar</button>
+        </div>
+    </form>
 
     <div class="row">
         <div class="box">

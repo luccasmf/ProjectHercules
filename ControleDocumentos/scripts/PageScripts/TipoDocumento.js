@@ -21,7 +21,7 @@ function bindCadastro() {
                 $("#divModalGlobal").modal("show");
             },
             error: function () {
-                var obj = new {
+                var obj = {
                     Type: "error",
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }

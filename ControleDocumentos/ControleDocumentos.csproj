@@ -521,6 +521,7 @@
     </Compile>
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\SolicitacaoDocumentoFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AlunoRepository.cs" />
     <Compile Include="Repository\CursoRepository.cs" />

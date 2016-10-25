@@ -5,6 +5,7 @@ $(document).ready(function () {
     bindDatatable();
     bindFormFilter();
     bindFormSubmitExclusao();
+    bindCancelar();
 
     bindCadastro();
     bindGetAlunos();
