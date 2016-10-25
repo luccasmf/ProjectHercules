@@ -12,7 +12,7 @@ namespace ControleDocumentosLibrary
         [Key]
         public int IdSolicitacao { get; set; }
 
-        public int TipoSolicitacao { get; set; }
+        public EnumTipoSolicitacao TipoSolicitacao { get; set; }
 
         public DateTime DataAbertura { get; set; }
 

@@ -115,9 +115,9 @@ namespace ControleDocumentos.Controllers
                 try
                 {
                     // implementar esse metodo
-                    bool ok = solicitacaoRepository.Salvar(sol);
+                    string ok = solicitacaoRepository.PersisteSolicitacao(sol);
 
-                    if(ok)
+                    if(ok != "Erro")
                         return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
@@ -137,10 +137,14 @@ namespace ControleDocumentos.Controllers
             // implementar
             // adicionar regra que só deleta se tiver com status pendente
             // vou colocar a regra na view tbm mas é bom ter aqui tb
-            if (solicitacaoRepository.DeletaArquivo(sol))
+
+            if (sol.Status == EnumStatusSolicitacao.pendente) //regra q soh deleta se status for pendente
             {
-                return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
-            }
+                if (solicitacaoRepository.DeletaArquivo(sol))
+                {
+                    return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                }
+            }            
             return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
 
         }

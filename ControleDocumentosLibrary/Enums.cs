@@ -51,4 +51,13 @@ namespace ControleDocumentosLibrary
         Usuario
     }
 
+    public enum EnumTipoSolicitacao: int
+    {
+        [Description("Solicitação do aluno")]
+        aluno=1,
+
+        [Description("Solicitação da secretaria")]
+        secretaria
+    }
+
 }
