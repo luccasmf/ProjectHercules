@@ -120,6 +120,7 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
+            sol.DataAbertura = DateTime.Now;
             if (ModelState.IsValid)
             {
                 try
