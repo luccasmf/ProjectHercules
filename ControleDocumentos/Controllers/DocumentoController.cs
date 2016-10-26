@@ -7,6 +7,7 @@ using ControleDocumentosLibrary;
 using System.IO;
 using ControleDocumentos.Repository;
 using ControleDocumentos.Filter;
+using ControleDocumentos.Util.Extension;
 
 namespace ControleDocumentos.Controllers
 {
@@ -53,6 +54,7 @@ namespace ControleDocumentos.Controllers
         public ActionResult List()
         {
             return PartialView("_List", documentoRepository.GetAllDocs());
+            
         }
 
         public ActionResult CarregaModalExclusao(int idDoc)
