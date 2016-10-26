@@ -37,10 +37,16 @@ namespace ControleDocumentos.Controllers
         {
             string returnUrl = model.ReturnUrl;
 
+            #region loginDiretoDev
+            LoginModel lm = new LoginModel();
+            lm.UserName = "admin";
+            Session.Add(EnumSession.Usuario.GetEnumDescription(), lm);
+
+
             return this.RedirectToAction("Index", "Home");
+            #endregion
 
-
-            //#region login teste
+            #region login teste
             //if(model.UserName == "admin" && model.Password == "admin")
             //{
             //    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
@@ -53,7 +59,7 @@ namespace ControleDocumentos.Controllers
 
             //    return this.RedirectToAction("Index", "Home");
             //}
-            //#endregion
+            #endregion
 
             #region login Real
             //try

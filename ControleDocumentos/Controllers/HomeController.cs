@@ -19,9 +19,22 @@ namespace ControleDocumentos.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
+            Usuario usuario = GetSessionUser();
+                  
             
             return View(usuario);
-        }        
+        }       
+        
+        private Usuario GetSessionUser()
+        {
+            try
+            {
+                return (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
+            }
+            catch
+            {
+                return Utilidades.GetSession((LoginModel)Session[EnumSession.Usuario.GetEnumDescription()]);
+            }
+        } 
     }
 }

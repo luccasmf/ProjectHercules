@@ -9,7 +9,8 @@ using System.Web;
 namespace ControleDocumentos.Util
 {
     public static class Utilidades
-    {
+    {      
+
        private static UsuarioRepository usuarioRepository = new UsuarioRepository();
 
         /// <summary>
@@ -43,5 +44,25 @@ namespace ControleDocumentos.Util
             return old;
         }
         
+        public static Usuario GetSession(LoginModel lm)
+        {
+            Usuario user;
+            if(lm.UserName=="admin")
+            {
+                user = new Usuario();
+                user.IdUsuario = "123456";
+                user.Nome = "Teste";
+                user.E_mail = "teste@teste";
+                user.Permissao = EnumPermissaoUsuario.coordenador;
+            }
+            else
+            {
+                user = usuarioRepository.GetUsuarioById(lm.UserName);
+            }
+
+
+
+            return user;
+        }
     }
 }
