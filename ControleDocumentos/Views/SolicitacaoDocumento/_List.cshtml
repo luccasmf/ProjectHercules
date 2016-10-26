@@ -14,9 +14,9 @@
             @foreach (var sol in Model)
             {
                 <tr>
-                    <td>@sol.AlunoCurso.Aluno.Usuario.Nome</td>
-                    <td>@sol.AlunoCurso.Curso.Nome</td>
-                    <td>@sol.Documento.TipoDocumento.TipoDocumento1</td>
+                    <td>@(sol.AlunoCurso != null && sol.AlunoCurso.Aluno != null && sol.AlunoCurso.Aluno.Usuario != null ? sol.AlunoCurso.Aluno.Usuario.Nome : "")</td>
+                    <td>@(sol.AlunoCurso != null && sol.AlunoCurso.Curso != null ? sol.AlunoCurso.Curso.Nome : "")</td>
+                    <td>@(sol.Documento != null && sol.Documento.TipoDocumento != null ? sol.Documento.TipoDocumento.TipoDocumento1 : "")</td>
                     <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(sol.Status))</td>
                     <td class="center">
                         <a class="btn btn-info btnCadastro" href="#" url="@Url.Action("CadastrarSolicitacao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })">
