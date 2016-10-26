@@ -18,7 +18,8 @@ namespace ControleDocumentos
                         "~/Scripts/jquery.flot.time.min.js",
                         "~/Scripts/datatables.min.js",
                         "~/Scripts/jquery.flot.resize.min.js",
-                        "~/Scripts/jquery.noty.min.js"));
+                        "~/Scripts/jquery.noty.min.js",
+                        "~/Scripts/locales/jquery.ui.datepicker-pt-BR.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/util").Include(
                     "~/Scripts/PageScripts/Util.js"));

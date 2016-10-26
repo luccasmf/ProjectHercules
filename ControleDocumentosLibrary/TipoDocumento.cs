@@ -19,7 +19,7 @@ namespace ControleDocumentosLibrary
         public int IdTipoDoc { get; set; }
 
         [Column("TipoDocumento")]
-        [Required]
+        //[Required]
         [StringLength(50)]
         public string TipoDocumento1 { get; set; }
 

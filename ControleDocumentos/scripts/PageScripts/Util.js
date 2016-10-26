@@ -1,4 +1,13 @@
-﻿// Início Notification
+﻿$(document).ready(function () {
+    $.datepicker.setDefaults(
+        $.extend(
+        { 'dateFormat': 'dd-mm-yyyy' },
+        $.datepicker.regional['pt-BR']
+        )
+    );
+})
+
+// Início Notification
 
 function showNotificationRefresh(notification, hideModal, hideForm) {
     if (hideModal == true)
@@ -227,6 +236,8 @@ function bindCadastro() {
                 $(".formSave").html(data);
                 $(".divFormSave").show();
                 $(".divList").hide();
+
+                $('.datepicker').datepicker();
             },
             error: function () {
                 var obj = {

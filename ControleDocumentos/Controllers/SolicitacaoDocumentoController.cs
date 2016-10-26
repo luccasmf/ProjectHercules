@@ -108,16 +108,25 @@ namespace ControleDocumentos.Controllers
             ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
         }
 
+        public JsonResult GetAlunosByIdCurso(int idCurso)
+        {
+            if (idCurso > 0)
+            {
+                var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
+                return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
+            }
+            return Json(null);
+        }
+
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // implementar esse metodo
-                    string ok = solicitacaoRepository.PersisteSolicitacao(sol);
+                    string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
-                    if(ok != "Erro")
+                    if(msg != "Erro")
                         return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
@@ -134,10 +143,6 @@ namespace ControleDocumentos.Controllers
 
         public object ExcluirDocumento(SolicitacaoDocumento sol)
         {
-            // implementar
-            // adicionar regra que só deleta se tiver com status pendente
-            // vou colocar a regra na view tbm mas é bom ter aqui tb
-
             if (sol.Status == EnumStatusSolicitacao.pendente) //regra q soh deleta se status for pendente
             {
                 if (solicitacaoRepository.DeletaArquivo(sol))
@@ -145,8 +150,7 @@ namespace ControleDocumentos.Controllers
                     return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 }
             }            
-            return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
-
+            return Json(new { Status = false, Type = "error", Message = "Só é possível realizar exclusão de solicitações pendentes." }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -177,15 +181,6 @@ namespace ControleDocumentos.Controllers
             return data;
         }
 
-        public JsonResult GetAlunosByIdCurso(int idCurso)
-        {
-            if (idCurso > 0)
-            {
-                var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
-                return Json(lstAlunos.Select(x => new { Value = x.IdAluno, Text = x.Usuario.Nome }));
-            }
-            return Json(null);
-        }
         #endregion
     }
 }

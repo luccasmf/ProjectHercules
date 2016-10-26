@@ -9,11 +9,11 @@
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Tipo de documento*")
-            @Html.DropDownListFor(x => x.Documento.TipoDocumento.IdTipoDoc, (SelectList)ViewBag.TiposDocumento, "Selecione", new { @id = "ddlTipoDoc", @class = "form-control", @required = "required" })
+            @Html.DropDownListFor(x => x.TipoDocumento, (SelectList)ViewBag.TiposDocumento, "Selecione", new { @id = "ddlTipoDoc", @class = "form-control", @required = "required" })
         </div>
         <div class="col-md-3">
             @Html.Label("Prazo*")
-            @Html.TextBoxFor(x => x.DataLimite, new { @id = "txtPrazo", @class = "form-control", @required = "required" })
+            @Html.TextBoxFor(x => x.DataLimite, new { @id = "txtPrazo", @class = "form-control datepicker", @required = "required", @Value=Model.DataLimite == DateTime.MinValue ? DateTime.Now.AddDays(7).ToShortDateString() : Model.DataLimite.ToShortDateString() })
         </div>
     </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             @Html.Label("Observações")
             @Html.TextAreaFor(x => x.Observacao, new { @class="form-control" })
         </div>

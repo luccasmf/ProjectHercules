@@ -7,7 +7,7 @@ $(document).ready(function () {
     bindFormSubmitExclusao();
     bindCancelar();
 
-    bindCadastro();
+    bindCadastroSol();
     bindGetAlunos();
     bindFormSubmit();
 });
@@ -42,5 +42,30 @@ function bindGetAlunos() {
             options.empty();
             options.append($("<option />").val("").text("Selecione um curso"))
         }
+    });
+}
+
+function bindCadastroSol() {
+    $(document).on("click", ".btnCadastro", function () {
+        $.ajax({
+            url: $(this).attr("url"),
+            type: 'GET',
+            success: function (data) {
+                $(".formSave").html(data);
+                $(".divFormSave").show();
+                $(".divList").hide();
+
+                $('.datepicker').datepicker({
+                    minDate : new Date()
+                });
+            },
+            error: function () {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
     });
 }

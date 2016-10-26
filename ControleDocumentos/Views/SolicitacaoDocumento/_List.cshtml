@@ -20,11 +20,14 @@
                     <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(sol.Status))</td>
                     <td class="center">
                         <a class="btn btn-info btnCadastro" href="#" url="@Url.Action("CadastrarSolicitacao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })">
-                            <i class="fa fa-edit"></i>
+                            <i class=@(sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado || sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.concluido ? "fa fa-zoom" : "fa fa-edit")></i>
                         </a>
-                        <a class="btn btn-danger btnExclusao" url="@Url.Action("CarregaModalExclusao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })" href="#">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
+                        @if (sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.pendente)
+                        {
+                            <a class="btn btn-danger btnExclusao" url="@Url.Action("CarregaModalExclusao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })" href="#">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        }
                     </td>
                 </tr>
             }
