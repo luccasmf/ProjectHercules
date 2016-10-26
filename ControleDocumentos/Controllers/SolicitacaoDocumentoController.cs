@@ -1,4 +1,5 @@
 ﻿using ControleDocumentos.Repository;
+using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
 using System;
 using System.Collections.Generic;
@@ -120,14 +121,28 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
+            //Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
+
             sol.DataAbertura = DateTime.Now;
+            sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
+            sol.AlunoCurso = null;
+            Documento d = new Documento();
+            d.IdTipoDoc = (int)sol.TipoDocumento;
+            d.IdAlunoCurso = sol.IdAlunoCurso;
+            d.Data = sol.DataAbertura;
+            d.NomeDocumento = "";
+
+            sol.Documento = d;
+            
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //string msg = solicitacaoRepository.PersisteSolicitacao(sol, usuario.IdUsuario);
                     string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
-                    if(msg != "Erro")
+                    if (msg != "Erro")
+
                         return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);

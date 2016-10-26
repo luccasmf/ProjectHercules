@@ -101,5 +101,11 @@ namespace ControleDocumentos.Repository
                 return "Erro";
             }
         }
+
+        public AlunoCurso GetAlunoCurso(int idAluno, int idCurso)
+        {
+            return db.AlunoCurso.Where(x => x.IdAluno == idAluno && x.IdCurso == idCurso).FirstOrDefault();
+        }
     }
+
 }

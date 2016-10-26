@@ -10,10 +10,8 @@ namespace ControleDocumentosLibrary
     public enum EnumAcao : int
     {
 
-        [Description("Criar")]
-        Criar = 1,
-        [Description("Editar")]
-        Editar,
+        [Description("Persistir")]
+        Persistir = 1,
         [Description("Ativar")]
         Ativar,
         [Description("Desativar")]
@@ -35,6 +33,8 @@ namespace ControleDocumentosLibrary
         [Description("Funcionario")]
         Funcionario,
         [Description("Usuario")]
-        Usuario
+        Usuario,
+        [Description("SolicitacaoDocumento")]
+        SolicitacaoDocumento
     }
 }
