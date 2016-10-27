@@ -80,8 +80,22 @@ namespace ControleDocumentos.Repository
 
         public List<SolicitacaoDocumento> GetByFilter(SolicitacaoDocumentoFilter filter)
         {
-            //filtrar as desgraça
-            return db.SolicitacaoDocumento.ToList();
+            List<SolicitacaoDocumento> solicitacosDocumento;
+
+            if(filter.IdStatus == null)
+            {
+                solicitacosDocumento = db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdCurso == filter.IdCurso).ToList();
+            }
+            else if (filter.IdCurso == null)
+            {
+                solicitacosDocumento = db.SolicitacaoDocumento.Where(x => x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList();
+            }
+            else
+            {
+                solicitacosDocumento = db.SolicitacaoDocumento.Where(x=> x.AlunoCurso.IdCurso == filter.IdCurso && x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList();
+            }
+            
+            return solicitacosDocumento;
         }
 
         public bool DeletaArquivo(SolicitacaoDocumento sol)
