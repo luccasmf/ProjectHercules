@@ -6,10 +6,11 @@ $(document).ready(function () {
     bindFormFilter();
     bindFormSubmitExclusao();
     bindCancelar();
+    bindFormSubmit();
 
     bindCadastroSol();
     bindGetAlunos();
-    bindFormSubmit();
+    bindAlterarStatus();
 });
 
 function bindGetAlunos() {
@@ -58,6 +59,28 @@ function bindCadastroSol() {
                 $('.datepicker').datepicker({
                     minDate : new Date()
                 });
+            },
+            error: function () {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+    });
+}
+
+function bindAlterarStatus() {
+    $(document).on("click", ".btnAlterarStatus", function () {
+        $.ajax({
+            url: $(this).attr("url"),
+            type: 'GET',
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRefresh(result, false, true);
+                else
+                    showNotification(result)
             },
             error: function () {
                 var obj = {
