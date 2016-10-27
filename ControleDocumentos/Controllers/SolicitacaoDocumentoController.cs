@@ -49,8 +49,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(Models.SolicitacaoDocumentoFilter filter)
         {
-            //dps nos ve esse esquema de filtro loko aqui
-            return PartialView("_List", solicitacaoRepository.GetAll());
+            return PartialView("_List", solicitacaoRepository.GetByFilter(filter));
         }
 
         public ActionResult CarregaModalExclusao(int idSol)

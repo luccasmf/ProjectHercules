@@ -6,6 +6,7 @@ using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
 using System.IO;
 using System.Web.Script.Serialization;
+using ControleDocumentos.Models;
 
 namespace ControleDocumentos.Repository
 {
@@ -75,6 +76,12 @@ namespace ControleDocumentos.Repository
             {
                 return "Erro";
             }
+        }
+
+        public List<SolicitacaoDocumento> GetByFilter(SolicitacaoDocumentoFilter filter)
+        {
+            //filtrar as desgraça
+            return db.SolicitacaoDocumento.ToList();
         }
 
         public bool DeletaArquivo(SolicitacaoDocumento sol)
