@@ -126,13 +126,17 @@ namespace ControleDocumentos.Controllers
             if (sol.IdSolicitacao == 0)
                 sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
             sol.AlunoCurso = null;
-            Documento d = new Documento();
-            d.IdTipoDoc = (int)sol.TipoDocumento;
-            d.IdAlunoCurso = sol.IdAlunoCurso;
-            d.Data = sol.DataAbertura;
-            d.NomeDocumento = "";
+            if(sol.IdSolicitacao == 0)
+            {
+                Documento d = new Documento();
+                d.IdTipoDoc = (int)sol.TipoDocumento;
+                d.IdAlunoCurso = sol.IdAlunoCurso;
+                d.Data = sol.DataAbertura;
+                d.NomeDocumento = "";
 
-            sol.Documento = d;
+                sol.Documento = d;
+            }
+            
 
             if (ModelState.IsValid)
             {
