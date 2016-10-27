@@ -7,7 +7,7 @@
     </div>
 @using (Html.BeginForm("ExcluirSolicitacao", "SolicitacaoDocumento", FormMethod.Post, new { @class="frmSubmitExclusao" }))
 {
-    @Html.HiddenFor(x => x.IdDocumento)
+    @Html.HiddenFor(x => x.IdSolicitacao)
     <div class="modal-body">
         <div class="form-group">
             @Html.Raw(string.Format("Tem certeza que deseja excluir esta solicitação?"))

@@ -122,7 +122,7 @@ namespace ControleDocumentos.Controllers
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
             //Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
-
+            sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
             sol.DataAbertura = DateTime.Now;
             sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
             sol.AlunoCurso = null;
@@ -157,13 +157,18 @@ namespace ControleDocumentos.Controllers
             }
         }
 
-        public object ExcluirDocumento(SolicitacaoDocumento sol)
+        public object ExcluirSolicitacao(SolicitacaoDocumento sol)
         {
-            if (sol.Status == EnumStatusSolicitacao.pendente) //regra q soh deleta se status for pendente
+            var s = solicitacaoRepository.GetSolicitacaoById(sol.IdSolicitacao);
+            if (s.Status == EnumStatusSolicitacao.pendente) //regra q soh deleta se status for pendente
             {
-                if (solicitacaoRepository.DeletaArquivo(sol))
+                if (solicitacaoRepository.DeletaArquivo(s))
                 {
-                    return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
                 }
             }            
             return Json(new { Status = false, Type = "error", Message = "Só é possível realizar exclusão de solicitações pendentes." }, JsonRequestBehavior.AllowGet);

@@ -79,17 +79,18 @@ namespace ControleDocumentos.Repository
 
         public bool DeletaArquivo(SolicitacaoDocumento sol)
         {
-            SolicitacaoDocumento sd = db.SolicitacaoDocumento.Find(sol.IdSolicitacao);
-            File.Delete(sd.Documento.CaminhoDocumento);
-            sd.Documento.CaminhoDocumento = null;
-
+            if (sol.Documento.CaminhoDocumento != null)
+            {
+                File.Delete(sol.Documento.CaminhoDocumento);
+                sol.Documento.CaminhoDocumento = null;
+            }
+            db.SolicitacaoDocumento.Remove(sol);
             return db.SaveChanges() > 0;
         }
 
         private string ComparaInfos(SolicitacaoDocumento sol)
         {
             SolicitacaoDocumento solicitacaoOld = db.SolicitacaoDocumento.Find(sol.IdSolicitacao);
-
             solicitacaoOld = Utilidades.ComparaValores(solicitacaoOld, sol, new string[] { "DataLimite", "DataAtendimento", "Status", "IdDocumento", "IdFuncionario", "Observacao" });
 
             if (db.SaveChanges() > 0)

@@ -1,7 +1,7 @@
 ﻿@model ControleDocumentosLibrary.SolicitacaoDocumento
 
 <h1>Cadastro de Solicitação</h1>
-<br/>
+<br />
 
 @using (Html.BeginForm("SalvarSolicitacao", "SolicitacaoDocumento", FormMethod.Post, new { @class = "frm-submit" }))
 {
@@ -9,33 +9,51 @@
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Tipo de documento*")
-            @Html.DropDownListFor(x => x.TipoDocumento, (SelectList)ViewBag.TiposDocumento, "Selecione", new { @id = "ddlTipoDoc", @class = "form-control", @required = "required" })
+            @if (Model.IdSolicitacao > 0)
+            {
+                @Html.DropDownListFor(x => x.TipoDocumento, (SelectList)ViewBag.TiposDocumento, "Selecione", new { @id = "ddlTipoDoc", @class = "form-control", @disabled = true })
+            }
+            else
+            {
+                @Html.DropDownListFor(x => x.TipoDocumento, (SelectList)ViewBag.TiposDocumento, "Selecione", new { @id = "ddlTipoDoc", @class = "form-control", @required = "required" })
+            }
         </div>
         <div class="col-md-3">
             @Html.Label("Prazo*")
-            @Html.TextBoxFor(x => x.DataLimite, new { @id = "txtPrazo", @class = "form-control datepicker", @required = "required", @Value=Model.DataLimite == DateTime.MinValue ? DateTime.Now.AddDays(7).ToShortDateString() : Model.DataLimite.ToShortDateString() })
+            @Html.TextBoxFor(x => x.DataLimite, new { @id = "txtPrazo", @class = "form-control datepicker", @required = "required", @Value = Model.DataLimite == DateTime.MinValue ? DateTime.Now.AddDays(7).ToShortDateString() : Model.DataLimite.ToShortDateString() })
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Curso*")
-            @Html.DropDownListFor(x => x.AlunoCurso.IdCurso, (SelectList)ViewBag.Cursos, "Selecione", new { @id = "ddlCurso", @class = "form-control", @required = "required", @url = Url.Action("GetAlunosByIdCurso", "SolicitacaoDocumento") })
-            @Html.ValidationMessageFor(x => x.AlunoCurso.IdCurso)
+            @if (Model.IdSolicitacao > 0)
+            {
+                @Html.DropDownListFor(x => x.AlunoCurso.IdCurso, (SelectList)ViewBag.Cursos, "Selecione", new { @id = "ddlCurso", @class = "form-control", @disabled = true })
+            }
+            else {
+                @Html.DropDownListFor(x => x.AlunoCurso.IdCurso, (SelectList)ViewBag.Cursos, "Selecione", new { @id = "ddlCurso", @class = "form-control", @required = "required", @url = Url.Action("GetAlunosByIdCurso", "SolicitacaoDocumento") })
+            }
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Aluno*")
-            @Html.DropDownListFor(x => x.AlunoCurso.IdAluno, (SelectList)ViewBag.Alunos, "Selecione", new { @id= "ddlAluno", @class = "form-control", @required = "required" })
+            @if (Model.IdSolicitacao > 0)
+            {
+                @Html.DropDownListFor(x => x.AlunoCurso.IdAluno, (SelectList)ViewBag.Alunos, "Selecione", new { @id = "ddlAluno", @class = "form-control", @disabled = true })
+            }
+            else {
+                @Html.DropDownListFor(x => x.AlunoCurso.IdAluno, (SelectList)ViewBag.Alunos, "Selecione", new { @id = "ddlAluno", @class = "form-control", @required = "required" })
+            }
         </div>
     </div>
 
     <div class="form-group row">
-        <div class="col-md-10">
+        <div class="col-md-9">
             @Html.Label("Observações")
-            @Html.TextAreaFor(x => x.Observacao, new { @class="form-control" })
+            @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows=10})
         </div>
     </div>
 
