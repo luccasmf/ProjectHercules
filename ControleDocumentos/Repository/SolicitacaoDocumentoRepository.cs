@@ -79,7 +79,7 @@ namespace ControleDocumentos.Repository
 
         public bool DeletaArquivo(SolicitacaoDocumento sol)
         {
-            if (sol.Documento.CaminhoDocumento != null)
+            if (sol.Documento != null && sol.Documento.CaminhoDocumento != null)
             {
                 File.Delete(sol.Documento.CaminhoDocumento);
                 sol.Documento.CaminhoDocumento = null;

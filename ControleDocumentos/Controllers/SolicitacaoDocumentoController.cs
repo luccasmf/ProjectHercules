@@ -124,7 +124,8 @@ namespace ControleDocumentos.Controllers
             //Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
             sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
             sol.DataAbertura = DateTime.Now;
-            sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
+            if (sol.IdSolicitacao == 0)
+                sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
             sol.AlunoCurso = null;
             Documento d = new Documento();
             d.IdTipoDoc = (int)sol.TipoDocumento;
@@ -133,7 +134,7 @@ namespace ControleDocumentos.Controllers
             d.NomeDocumento = "";
 
             sol.Documento = d;
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -170,7 +171,7 @@ namespace ControleDocumentos.Controllers
                 {
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
                 }
-            }            
+            }
             return Json(new { Status = false, Type = "error", Message = "Só é possível realizar exclusão de solicitações pendentes." }, JsonRequestBehavior.AllowGet);
         }
 
