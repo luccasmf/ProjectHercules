@@ -80,21 +80,26 @@ namespace ControleDocumentos.Repository
 
         public List<SolicitacaoDocumento> GetByFilter(SolicitacaoDocumentoFilter filter)
         {
-            List<SolicitacaoDocumento> solicitacosDocumento;
+            List<SolicitacaoDocumento> solicitacosDocumento = new List<SolicitacaoDocumento>();
 
-            if(filter.IdStatus == null)
+            if(filter.IdCurso != null && filter.IdStatus != null) //se nenhum for nulo faz esse
             {
-                solicitacosDocumento = db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdCurso == filter.IdCurso).ToList();
+                solicitacosDocumento = solicitacosDocumento.Concat(db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdCurso == filter.IdCurso && x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList()).ToList();
+
             }
-            else if (filter.IdCurso == null)
+           else if(filter.IdCurso != null) //se status for nulo faz esse
             {
-                solicitacosDocumento = db.SolicitacaoDocumento.Where(x => x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList();
+                solicitacosDocumento = solicitacosDocumento.Concat(db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdCurso == filter.IdCurso).ToList()).ToList();
             }
-            else
+            else if (filter.IdStatus != null) //se curso for nulo faz esse
             {
-                solicitacosDocumento = db.SolicitacaoDocumento.Where(x=> x.AlunoCurso.IdCurso == filter.IdCurso && x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList();
+                solicitacosDocumento = solicitacosDocumento.Concat(db.SolicitacaoDocumento.Where(x => x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList()).ToList();
             }
-            
+            else //se ambos forem nulos faz esse
+            {
+                solicitacosDocumento = solicitacosDocumento.Concat(db.SolicitacaoDocumento.ToList()).ToList();
+            }
+
             return solicitacosDocumento;
         }
 
