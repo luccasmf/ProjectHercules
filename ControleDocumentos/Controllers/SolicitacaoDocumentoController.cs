@@ -28,6 +28,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult CadastrarSolicitacao(int? idSol)
         {
+            // TODO: arrumar edição
             PopularDropDownsCadastro();
             SolicitacaoDocumento sol = new SolicitacaoDocumento();
 
@@ -143,7 +144,7 @@ namespace ControleDocumentos.Controllers
 
                     if (msg != "Erro")
 
-                        return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                        return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
                 }
@@ -172,6 +173,27 @@ namespace ControleDocumentos.Controllers
                 }
             }
             return Json(new { Status = false, Type = "error", Message = "Só é possível realizar exclusão de solicitações pendentes." }, JsonRequestBehavior.AllowGet);
+        }
+
+        public object AlterarStatus(EnumStatusSolicitacao novoStatus, int idSol)
+        {
+            try
+            {
+                var sol = solicitacaoRepository.GetSolicitacaoById(idSol);
+                sol.Status = novoStatus;
+
+                string msg = solicitacaoRepository.PersisteSolicitacao(sol);
+
+                if (msg != "Erro")
+
+                    return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         /// <summary>
