@@ -18,13 +18,13 @@
                 <td>@(sol.Documento != null && sol.Documento.TipoDocumento != null ? sol.Documento.TipoDocumento.TipoDocumento1 : "")</td>
                 <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(sol.Status))</td>
                 <td class="center">
-                    <a class="btn btn-info btnCadastro" href="#" url="@Url.Action("CadastrarSolicitacao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })">
-                        <i class="@(sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado || sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.concluido ? "fa fa-eye" : "fa fa-edit")"></i>
+                    <a class="btnCadastro" data-rel="tooltip" title="@(sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado || sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.concluido ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarSolicitacao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })">
+                        <i class="icon-action @(sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado || sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.concluido ? "fa fa-eye" : "fa fa-edit")"></i>
                     </a>
                     @if (sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.pendente)
                     {
-                        <a class="btn btn-danger btnExclusao" url="@Url.Action("CarregaModalExclusao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })" href="#">
-                            <i class="fa fa-trash-o"></i>
+                        <a class="btnExclusao" data-rel="tooltip" title="Excluir" url="@Url.Action("CarregaModalExclusao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })" href="#">
+                            <i class="icon-action fa fa-trash-o"></i>
                         </a>
                     }
                 </td>
