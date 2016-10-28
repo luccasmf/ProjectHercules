@@ -39,10 +39,14 @@ namespace ControleDocumentos.Util
                         {
                             continue;
                         }
-                        else if (selfValue == null || toValue==null)
+                        else if (selfValue == null && toValue != null)
                         {
                             pi.SetValue(old, toValue);
                             alterado = true;
+                        }
+                        else if (pi.Name.ToUpperInvariant().Contains("STATUS") && toValue.ToString()=="0")
+                        {
+                            continue;
                         }
                       else if(selfValue.ToString() != toValue.ToString())
                         {
