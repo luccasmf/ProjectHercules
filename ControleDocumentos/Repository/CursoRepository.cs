@@ -92,6 +92,10 @@ namespace ControleDocumentos.Repository
 
             cursoOld = Utilidades.ComparaValores(cursoOld, c, new string[] { "Nome", "Nível", "HoraComplementar", "IdCoordenador" });
 
+            if (cursoOld == null)
+            {
+                return "Mantido";
+            }
             if (db.SaveChanges() > 0)
             {
                 return "Alterado";

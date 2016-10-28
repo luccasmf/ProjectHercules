@@ -33,7 +33,7 @@ namespace ControleDocumentos.Repository
         public bool PersisteDocumento(Documento doc)
         {
             Documento docOld = new Documento();
-            if (!(doc.IdDocumento>0))
+            if (!(doc.IdDocumento > 0))
             {
                 doc.AlunoCurso = db.AlunoCurso.Where(x => x.IdAluno == doc.AlunoCurso.IdAluno && x.IdCurso == doc.AlunoCurso.IdCurso).FirstOrDefault();
                 db.Documento.Add(doc);
@@ -44,7 +44,9 @@ namespace ControleDocumentos.Repository
                 docOld = Utilidades.ComparaValores(docOld, doc, new string[] { "NomeDocumento", "Data", "CaminhoDocumento" });
             }
 
-            return db.SaveChanges() > 0;
+            if (docOld != null)
+                return db.SaveChanges() > 0;
+            return true;
         }
 
         public bool PersisteCertificados(List<Documento> docs)

@@ -112,6 +112,8 @@ namespace ControleDocumentos.Controllers
 
                     switch (mensagem)
                     {
+                        case "Mantido":
+                            return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Sucesso":
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Falha ao persistir":

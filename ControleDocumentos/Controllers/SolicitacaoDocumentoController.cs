@@ -147,7 +147,6 @@ namespace ControleDocumentos.Controllers
                     string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                     if (msg != "Erro")
-
                         return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);

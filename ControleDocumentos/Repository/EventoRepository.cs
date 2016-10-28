@@ -133,6 +133,10 @@ namespace ControleDocumentos.Repository
 
             eventoOld = Utilidades.ComparaValores(eventoOld, ev, new string[] { "NomeEvento", "Vagas", "VagasPreenchidas", "CargaHoraria", "PresencaNecessaria", "DataInicio", "DataFim", "Status", "Local", "Observacao" });
 
+            if(eventoOld == null)
+            {
+                return "Mantido";
+            }
             if (db.SaveChanges() > 0)
             {
                 return "Alterado";
