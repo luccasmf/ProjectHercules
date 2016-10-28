@@ -22,6 +22,8 @@ namespace ControleDocumentos.Controllers
         {
             switch (eventoRepository.PersisteEvento(e))
             {
+                case "Mantido":
+                    return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Cadastrado":
                     return Json(new { Status = true, Type = "success", Message = "Evento cadastrado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Alterado":

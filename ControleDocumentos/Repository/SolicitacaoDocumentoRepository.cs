@@ -117,8 +117,12 @@ namespace ControleDocumentos.Repository
         private string ComparaInfos(SolicitacaoDocumento sol)
         {
             SolicitacaoDocumento solicitacaoOld = db.SolicitacaoDocumento.Find(sol.IdSolicitacao);
-            solicitacaoOld = Utilidades.ComparaValores(solicitacaoOld, sol, new string[] { "DataLimite", "DataAtendimento", "Status", "IdDocumento", "IdFuncionario", "Observacao" });
+            solicitacaoOld = Utilidades.ComparaValores(solicitacaoOld, sol, new string[] { "DataLimite", "DataAtendimento", "Status", "IdFuncionario", "Observacao" });
 
+            if (solicitacaoOld == null)
+            {
+                return "Mantido";
+            }
             if (db.SaveChanges() > 0)
             {
                 return "Alterado";

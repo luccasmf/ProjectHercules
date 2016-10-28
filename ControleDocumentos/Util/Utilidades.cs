@@ -23,8 +23,9 @@ namespace ControleDocumentos.Util
         /// <returns>retorna o objeto com as informações atualizadas</returns>
         public static T ComparaValores<T>(T old, T to, params string[] alterar) where T : class
         {
+            bool alterado = false;
             if (old != null && to != null)
-            {
+            {                
                 Type type = typeof(T);
                 List<string> alterarList = new List<string>(alterar);
                 foreach (System.Reflection.PropertyInfo pi in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
@@ -34,14 +35,27 @@ namespace ControleDocumentos.Util
                         object selfValue = type.GetProperty(pi.Name).GetValue(old, null);
                         object toValue = type.GetProperty(pi.Name).GetValue(to, null);
 
-                       if(!(selfValue == toValue))
+                        if (selfValue==null && toValue==null)
+                        {
+                            continue;
+                        }
+                        else if (selfValue == null || toValue==null)
                         {
                             pi.SetValue(old, toValue);
+                            alterado = true;
+                        }
+                      else if(selfValue.ToString() != toValue.ToString())
+                        {
+                            pi.SetValue(old, toValue);
+                            alterado = true;
                         }
                     }
                 }
             }
-            return old;
+            if (alterado)
+                return old;
+            else
+                return null;
         }
         
         public static Usuario GetSession(LoginModel lm)

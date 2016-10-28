@@ -59,6 +59,10 @@ namespace ControleDocumentos.Repository
 
             userOld = Utilidades.ComparaValores(userOld, user, new string[] {"Nome","E_mail","Permissao"});
 
+            if (userOld == null)
+            {
+                return "Mantido";
+            }
             if (db.SaveChanges() > 0)
             {
                 return "Alterado";

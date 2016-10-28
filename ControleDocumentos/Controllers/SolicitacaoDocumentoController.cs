@@ -127,13 +127,17 @@ namespace ControleDocumentos.Controllers
             if (sol.IdSolicitacao == 0)
                 sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
             sol.AlunoCurso = null;
-            Documento d = new Documento();
-            d.IdTipoDoc = (int)sol.TipoDocumento;
-            d.IdAlunoCurso = sol.IdAlunoCurso;
-            d.Data = sol.DataAbertura;
-            d.NomeDocumento = "";
+            if(sol.IdSolicitacao == 0)
+            {
+                Documento d = new Documento();
+                d.IdTipoDoc = (int)sol.TipoDocumento;
+                d.IdAlunoCurso = sol.IdAlunoCurso;
+                d.Data = sol.DataAbertura;
+                d.NomeDocumento = "";
 
-            sol.Documento = d;
+                sol.Documento = d;
+            }
+            
 
             if (ModelState.IsValid)
             {
@@ -143,7 +147,6 @@ namespace ControleDocumentos.Controllers
                     string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                     if (msg != "Erro")
-
                         return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
