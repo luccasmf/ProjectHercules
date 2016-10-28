@@ -78,7 +78,7 @@
         @if (Model.IdSolicitacao > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado &&
             Model.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.concluido)
         {
-            <a type="button" class="btn btn-danger btnAlterarStatus" url="@Url.Action("AlterarStatus", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idSol = Model.IdSolicitacao })">Cancelar</a>
+            <a type="button" class="btn btn-danger btnAlterarStatus" url="@Url.Action("AlterarStatus", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idSol = Model.IdSolicitacao })">Cancelar solicitação</a>
         }
         @if (Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.processando)
         {

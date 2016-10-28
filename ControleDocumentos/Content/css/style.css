@@ -59,9 +59,9 @@ body {
     font-weight: 400;
 }
 
-a {
+/*a {
     color: #666666;
-}
+}*/
 
 b,
 strong {
@@ -5390,4 +5390,9 @@ ul.messagesList {
 .title-login {
     font-size:18px;
     margin-top:30px;
+}
+
+.icon-action {
+    padding-left:2px;
+    padding-right:2px;
 }

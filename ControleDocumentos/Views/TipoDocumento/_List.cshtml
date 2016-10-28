@@ -13,11 +13,11 @@
                 <tr>
                     <td>@tipoDoc.TipoDocumento1</td>
                     <td class="center">
-                        <a class="btn btn-info btnCadastro" url="@Url.Action("CarregaModalCadastro","TipoDocumento", new { idTipo = tipoDoc.IdTipoDoc })" href="#">
-                            <i class="fa fa-edit"></i>
+                        <a class="btnCadastro" data-rel="tooltip" title="Editar" url="@Url.Action("CarregaModalCadastro","TipoDocumento", new { idTipo = tipoDoc.IdTipoDoc })" href="#">
+                            <i class="fa fa-edit icon-action"></i>
                         </a>
-                        <a class="btn btn-danger btnExclusao" url="@Url.Action("CarregaModalExclusao","TipoDocumento", new { idTipo = tipoDoc.IdTipoDoc })" href="#">
-                            <i class="fa fa-trash-o"></i>
+                        <a class="btnExclusao" data-rel="tooltip" title="Excluir" url="@Url.Action("CarregaModalExclusao","TipoDocumento", new { idTipo = tipoDoc.IdTipoDoc })" href="#">
+                            <i class="fa fa-trash-o icon-action"></i>
                         </a>
                     </td>
                 </tr>
