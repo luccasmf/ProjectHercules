@@ -20,12 +20,11 @@ namespace ControleDocumentos.Controllers
         public ActionResult Index()
         {
             Usuario usuario = GetSessionUser();
-                  
             
             return View(usuario);
         }       
         
-        private Usuario GetSessionUser()
+        public Usuario GetSessionUser()
         {
             try
             {

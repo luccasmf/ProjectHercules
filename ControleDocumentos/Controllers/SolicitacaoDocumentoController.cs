@@ -28,7 +28,6 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult CadastrarSolicitacao(int? idSol)
         {
-            // TODO: arrumar edição
             PopularDropDownsCadastro();
             SolicitacaoDocumento sol = new SolicitacaoDocumento();
 
@@ -57,6 +56,12 @@ namespace ControleDocumentos.Controllers
         {
             SolicitacaoDocumento sol = solicitacaoRepository.GetSolicitacaoById(idSol);
             return PartialView("_ExclusaoSolicitacao", sol);
+        }
+
+        public ActionResult CarregaModalConfirmacao(EnumStatusSolicitacao novoStatus, int idSol)
+        {
+            SolicitacaoDocumento sol = new SolicitacaoDocumento { IdSolicitacao = idSol, Status = novoStatus };
+            return PartialView("_AlteracaoStatus", sol);
         }
 
         #region Métodos auxiliares
@@ -178,17 +183,16 @@ namespace ControleDocumentos.Controllers
             return Json(new { Status = false, Type = "error", Message = "Só é possível realizar exclusão de solicitações pendentes." }, JsonRequestBehavior.AllowGet);
         }
 
-        public object AlterarStatus(EnumStatusSolicitacao novoStatus, int idSol)
+        public object AlterarStatus(SolicitacaoDocumento solic)
         {
             try
             {
-                var sol = solicitacaoRepository.GetSolicitacaoById(idSol);
-                sol.Status = novoStatus;
+                var sol = solicitacaoRepository.GetSolicitacaoById(solic.IdSolicitacao);
+                sol.Status = solic.Status;
 
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")
-
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 else
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);

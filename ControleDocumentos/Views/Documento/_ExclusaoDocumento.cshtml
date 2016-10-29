@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h4 class="modal-title">Exclusão de documento</h4>
     </div>
-@using (Html.BeginForm("ExcluirDocumento", "Documento", FormMethod.Post, new { @class="frmSubmitExclusao" }))
+@using (Html.BeginForm("ExcluirDocumento", "Documento", FormMethod.Post, new { @class= "frm-submit-modal" }))
 {
     @Html.HiddenFor(x => x.IdDocumento)
     <div class="modal-body">

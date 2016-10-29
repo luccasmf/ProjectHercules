@@ -1,10 +1,10 @@
 ﻿/// <reference path="Util.js" />
 $(document).ready(function () {
     // Util
-    bindExclusao();
+    bindShowConfirmacao();
     bindDatatable();
     bindFormFilter();
-    bindFormSubmitExclusao();
+    bindFormSubmitModal();
     bindCancelar();
 
     bindCadastro();

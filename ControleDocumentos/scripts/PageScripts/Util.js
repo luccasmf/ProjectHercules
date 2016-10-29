@@ -66,9 +66,9 @@ function showNotification(notification) {
 // Início Submit
 
 function bindFormSubmitModal() {
-    $(document).on("submit", ".frm-submit", function (e) {
+    $(document).on("submit", ".frm-submit-modal", function (e) {
         e.preventDefault();
-        var frm = $('.frm-submit');
+        var frm = $('.frm-submit-modal');
         $.ajax({
             url: frm.attr("action"),
             type: frm.attr("method"),
@@ -117,32 +117,6 @@ function bindFormSubmit() {
     });
 }
 
-function bindFormSubmitExclusao() {
-    $(document).on("submit", '.frmSubmitExclusao', function (e) {
-        e.preventDefault();
-        var frm = $('.frmSubmitExclusao');
-        $.ajax({
-            url: frm.attr("action"),
-            type: frm.attr("method"),
-            data: frm.serialize(),
-            success: function (result) {
-                if (result.Status == true)
-                    showNotificationRefresh(result, true, false);
-                else
-                    showNotification(result);
-            },
-            error: function (result) {
-                var obj = {
-                    Type: "error",
-                    Message: "Ocorreu um erro ao realizar esta operação"
-                }
-                showNotification(obj);
-            }
-        });
-        return false;
-    });
-}
-
 // Fim Submit
 
 /*--------------------------------------------------------*/
@@ -159,6 +133,7 @@ function bindFormFilter() {
             data: frm.serialize(),
             success: function (result) {
                 $(".partialList").html(result);
+                bindDatatable();
             },
             error: function (result) {
                 var obj = {
@@ -206,8 +181,8 @@ function bindDatatable() {
 
 // Início Form Binds
 
-function bindExclusao() {
-    $(document).on("click", ".btnExclusao", function (e) {
+function bindShowConfirmacao() {
+    $(document).on("click", ".btnConfirm", function (e) {
         e.preventDefault();
         $.ajax({
             url: $(this).attr("url"),

@@ -431,6 +431,7 @@
     <Content Include="Scripts\misc\elfinder-connector\mime.types" />
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\PageScripts\SolicitacaoDocumentoAluno.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
     <Content Include="Scripts\PageScripts\TipoDocumento.js" />
@@ -450,6 +451,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SolicitacaoDocumentoAlunoController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
@@ -515,6 +517,11 @@
     <Content Include="Views\SolicitacaoDocumento\_ExclusaoSolicitacao.cshtml" />
     <Content Include="Views\SolicitacaoDocumento\_List.cshtml" />
     <Content Include="Views\SolicitacaoDocumento\Index.cshtml" />
+    <Content Include="Views\SolicitacaoDocumento\_AlteracaoStatus.cshtml" />
+    <Content Include="Views\SolicitacaoDocumentoAluno\_VisualizacaoSolicitacao.cshtml" />
+    <Content Include="Views\SolicitacaoDocumentoAluno\_ExclusaoSolicitacao.cshtml" />
+    <Content Include="Views\SolicitacaoDocumentoAluno\_List.cshtml" />
+    <Content Include="Views\SolicitacaoDocumentoAluno\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

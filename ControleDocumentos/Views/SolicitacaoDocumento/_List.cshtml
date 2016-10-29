@@ -23,7 +23,7 @@
                     </a>
                     @if (sol.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.pendente)
                     {
-                        <a class="btnExclusao" data-rel="tooltip" title="Excluir" url="@Url.Action("CarregaModalExclusao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })" href="#">
+                        <a class="btnConfirm" data-rel="tooltip" title="Excluir" url="@Url.Action("CarregaModalExclusao","SolicitacaoDocumento", new { idSol = sol.IdSolicitacao })" href="#">
                             <i class="icon-action fa fa-trash-o"></i>
                         </a>
                     }

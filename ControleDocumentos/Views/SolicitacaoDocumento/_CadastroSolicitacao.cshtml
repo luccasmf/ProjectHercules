@@ -78,12 +78,12 @@
         @if (Model.IdSolicitacao > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado &&
             Model.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.concluido)
         {
-            <a type="button" class="btn btn-danger btnAlterarStatus" url="@Url.Action("AlterarStatus", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idSol = Model.IdSolicitacao })">Cancelar solicitação</a>
+            <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idSol = Model.IdSolicitacao })">Cancelar solicitação</a>
         }
         @if (Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.processando)
         {
-            <a type="button" class="btn btn-danger btnAlterarStatus" url="@Url.Action("AlterarStatus", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.pendente, idSol = Model.IdSolicitacao })">Reprovar</a>
-            <a type="button" class="btn btn-success btnAlterarStatus" url="@Url.Action("AlterarStatus", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.concluido, idSol = Model.IdSolicitacao })">Aprovar</a>
+            <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.pendente, idSol = Model.IdSolicitacao })">Reprovar</a>
+            <a type="button" class="btn btn-success btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "SolicitacaoDocumento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.concluido, idSol = Model.IdSolicitacao })">Aprovar</a>
         }
         @if (Model.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado)
         {

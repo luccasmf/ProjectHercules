@@ -78,6 +78,25 @@ namespace ControleDocumentos.Repository
             }
         }
 
+        public List<SolicitacaoDocumento> GetAguardandoAtendimentoAluno(int idUsuario)
+        {
+            List<SolicitacaoDocumento> solicitacoesDocumento = new List<SolicitacaoDocumento>();
+
+            solicitacoesDocumento =  db.SolicitacaoDocumento.Where(x => x.AlunoCurso.Aluno.IdAluno == idUsuario &&
+            (x.Status == EnumStatusSolicitacao.pendente || 
+            x.Status == EnumStatusSolicitacao.visualizado)).ToList();
+
+            return solicitacoesDocumento;
+        }
+
+        public List<SolicitacaoDocumento> GetTodosAluno(int idAluno)
+        {
+            List<SolicitacaoDocumento> solicitacoesDocumento = new List<SolicitacaoDocumento>();
+            solicitacoesDocumento = db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdAluno == idAluno).ToList();
+
+            return solicitacoesDocumento;
+        }
+
         public List<SolicitacaoDocumento> GetByFilter(SolicitacaoDocumentoFilter filter)
         {
             List<SolicitacaoDocumento> solicitacosDocumento = new List<SolicitacaoDocumento>();

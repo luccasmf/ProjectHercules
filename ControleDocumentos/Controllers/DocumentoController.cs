@@ -97,7 +97,7 @@ namespace ControleDocumentos.Controllers
             ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
         }
 
-        public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile) //da pra negociarmos esse parametro
+        public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +112,7 @@ namespace ControleDocumentos.Controllers
 
                     switch (mensagem)
                     {
-                        case "Mantido":
+                        case "Arquivo existente":
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Sucesso":
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);

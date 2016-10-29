@@ -5,10 +5,9 @@ $(document).ready(function () {
 
     //Util
     bindFormFilter();
-    bindFormSubmitModal();
     bindDatatable();
-    bindExclusao();
-    bindFormSubmitExclusao();
+    bindShowConfirmacao();
+    bindFormSubmitModal();
 });
 
 function bindCadastro() {
