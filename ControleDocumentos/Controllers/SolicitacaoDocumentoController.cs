@@ -193,7 +193,26 @@ namespace ControleDocumentos.Controllers
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")
+                {
+                    try
+                    {
+                        var acao = sol.Status == EnumStatusSolicitacao.cancelado ? "cancelada" :
+                            sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
+                            sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
+                        var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoDocumento.cshtml");
+                        string viewCode = System.IO.File.ReadAllText(url);
+
+                        var html = RazorEngine.Razor.Parse(viewCode, sol);
+                        var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
+                        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                        Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
+                    }
+                    catch (Exception)
+                    {
+                    }
+
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                }
                 else
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
             }

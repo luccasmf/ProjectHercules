@@ -70,6 +70,20 @@ namespace ControleDocumentos.Repository
             }
             if (db.SaveChanges() > 0)
             {
+                try
+                {
+                    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoDocumento.cshtml");
+                    string viewCode = System.IO.File.ReadAllText(url);
+
+                    var html = RazorEngine.Razor.Parse(viewCode, sol);
+                    var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
+                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                    Email.EnviarEmail(from, to, "Nova solicitação de documento - " + sol.Documento.TipoDocumento.TipoDocumento1, html);
+                }
+                catch (Exception)
+                {
+                }
+
                 return "Cadastrado";
             }
             else
@@ -82,9 +96,9 @@ namespace ControleDocumentos.Repository
         {
             List<SolicitacaoDocumento> solicitacoesDocumento = new List<SolicitacaoDocumento>();
 
-            solicitacoesDocumento =  db.SolicitacaoDocumento.Where(x => x.AlunoCurso.Aluno.IdAluno == idUsuario &&
-            (x.Status == EnumStatusSolicitacao.pendente || 
-            x.Status == EnumStatusSolicitacao.visualizado)).ToList();
+            solicitacoesDocumento = db.SolicitacaoDocumento.Where(x => x.AlunoCurso.Aluno.IdAluno == idUsuario &&
+           (x.Status == EnumStatusSolicitacao.pendente ||
+           x.Status == EnumStatusSolicitacao.visualizado)).ToList();
 
             return solicitacoesDocumento;
         }
@@ -101,12 +115,12 @@ namespace ControleDocumentos.Repository
         {
             List<SolicitacaoDocumento> solicitacosDocumento = new List<SolicitacaoDocumento>();
 
-            if(filter.IdCurso != null && filter.IdStatus != null) //se nenhum for nulo faz esse
+            if (filter.IdCurso != null && filter.IdStatus != null) //se nenhum for nulo faz esse
             {
                 solicitacosDocumento = solicitacosDocumento.Concat(db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdCurso == filter.IdCurso && x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList()).ToList();
 
             }
-           else if(filter.IdCurso != null) //se status for nulo faz esse
+            else if (filter.IdCurso != null) //se status for nulo faz esse
             {
                 solicitacosDocumento = solicitacosDocumento.Concat(db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdCurso == filter.IdCurso).ToList()).ToList();
             }
@@ -144,6 +158,20 @@ namespace ControleDocumentos.Repository
             }
             if (db.SaveChanges() > 0)
             {
+                try
+                {
+                    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoSolicitacaoDocumento.cshtml");
+                    string viewCode = System.IO.File.ReadAllText(url);
+
+                    var html = RazorEngine.Razor.Parse(viewCode, sol);
+                    var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
+                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                    Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + sol.Documento.TipoDocumento.TipoDocumento1, html);
+                }
+                catch (Exception)
+                {
+                }
+
                 return "Alterado";
             }
             else
