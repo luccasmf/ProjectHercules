@@ -19,9 +19,9 @@ namespace ControleDocumentos.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            Usuario usuario = GetSessionUser();
-            
-            return View(usuario);
+           // Usuario usuario = GetSessionUser();
+            Utilidades.UsuarioLogado = GetSessionUser();
+            return View(Utilidades.UsuarioLogado);
         }       
         
         public Usuario GetSessionUser()

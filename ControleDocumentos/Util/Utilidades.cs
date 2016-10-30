@@ -9,7 +9,8 @@ using System.Web;
 namespace ControleDocumentos.Util
 {
     public static class Utilidades
-    {      
+    {
+        public static Usuario UsuarioLogado = new Usuario();
 
        private static UsuarioRepository usuarioRepository = new UsuarioRepository();
 

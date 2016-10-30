@@ -189,7 +189,11 @@ namespace ControleDocumentos.Controllers
             {
                 var sol = solicitacaoRepository.GetSolicitacaoById(solic.IdSolicitacao);
                 sol.Status = solic.Status;
-
+                if(sol.Status == EnumStatusSolicitacao.pendente && !string.IsNullOrEmpty(sol.Documento.CaminhoDocumento))
+                {
+                    DirDoc.DeletaArquivo(sol.Documento.CaminhoDocumento);
+                    sol.Documento.CaminhoDocumento = null;
+                }               
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")
