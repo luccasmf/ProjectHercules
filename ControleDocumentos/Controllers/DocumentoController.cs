@@ -8,6 +8,7 @@ using System.IO;
 using ControleDocumentos.Repository;
 using ControleDocumentos.Filter;
 using ControleDocumentos.Util.Extension;
+using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
@@ -115,6 +116,8 @@ namespace ControleDocumentos.Controllers
                         case "Arquivo existente":
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Sucesso":
+                            doc.arquivo = null;
+                            Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, doc, (doc.IdDocumento > 0 ? (int?)doc.IdDocumento:null));
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Falha ao persistir":
                             return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
@@ -136,8 +139,10 @@ namespace ControleDocumentos.Controllers
 
         public object ExcluirDocumento(Documento doc)
         {
+            doc = documentoRepository.GetDocumentoById(doc.IdDocumento);
             if (documentoRepository.DeletaArquivo(doc))
             {
+                Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, doc, (int?)doc.IdDocumento);
                 return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);

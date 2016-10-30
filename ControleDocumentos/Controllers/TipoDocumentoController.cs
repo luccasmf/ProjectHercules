@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ControleDocumentos.Repository;
 using ControleDocumentosLibrary;
+using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
@@ -50,7 +51,11 @@ namespace ControleDocumentos.Controllers
                     return Json(new { Status = false, Type = "error", Message = "Tipo de documento já existente" }, JsonRequestBehavior.AllowGet);
                 
                 if (tipoDocumentoRepository.CadastraTipoDoc(model))
+                {
+                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, model, (model.IdTipoDoc > 0? (int?)model.IdTipoDoc:null));
                     return Json(new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+
+                }
                 else
                     throw new Exception("erro ao cadastrar tipo");
             }
@@ -67,8 +72,10 @@ namespace ControleDocumentos.Controllers
 
         public object ExcluirTipoDocumento(TipoDocumento tipoDoc)
         {
+            tipoDoc = tipoDocumentoRepository.GetTipoDocById(tipoDoc.IdTipoDoc);
             if (tipoDocumentoRepository.DeletaTipoDoc(tipoDoc.IdTipoDoc))
             {
+                Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, tipoDoc, tipoDoc.IdTipoDoc);
                 return Json(new { Status = true, Type = "success", Message = "Tipo de documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);

@@ -88,7 +88,8 @@ namespace ControleDocumentos.Repository
 
         private string ComparaInfos(Curso c)
         {
-            Curso cursoOld = db.Curso.Find(c.IdCurso);
+            DocumentosModel db2 = new DocumentosModel();
+            Curso cursoOld = db2.Curso.Find(c.IdCurso);
 
             cursoOld = Utilidades.ComparaValores(cursoOld, c, new string[] { "Nome", "Nível", "HoraComplementar", "IdCoordenador" });
 
@@ -96,7 +97,7 @@ namespace ControleDocumentos.Repository
             {
                 return "Mantido";
             }
-            if (db.SaveChanges() > 0)
+            if (db2.SaveChanges() > 0)
             {
                 return "Alterado";
             }

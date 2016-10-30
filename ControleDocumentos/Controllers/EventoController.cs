@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ControleDocumentos.Repository;
 using ControleDocumentosLibrary;
+using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
@@ -25,8 +26,10 @@ namespace ControleDocumentos.Controllers
                 case "Mantido":
                     return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Cadastrado":
+                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, null);
                     return Json(new { Status = true, Type = "success", Message = "Evento cadastrado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Alterado":
+                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, e.IdEvento);
                     return Json(new { Status = true, Type = "success", Message = "Evento alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Erro":
                     return Json(new { Status = false, Type = "error", Message = "" }, JsonRequestBehavior.AllowGet);

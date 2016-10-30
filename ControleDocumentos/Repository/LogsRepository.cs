@@ -14,7 +14,15 @@ namespace ControleDocumentos.Repository
         {
             db.Logs.Add(log);
 
-            return db.SaveChanges() > 0;
+            try
+            {
+                return db.SaveChanges() > 0;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public List<Logs> GetLogByUserId(string id)

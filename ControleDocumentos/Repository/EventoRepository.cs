@@ -129,7 +129,8 @@ namespace ControleDocumentos.Repository
 
         private string ComparaInfos(Evento ev)
         {
-            Evento eventoOld = db.Evento.Find(ev.IdEvento);
+            DocumentosModel db2 = new DocumentosModel();
+            Evento eventoOld = db2.Evento.Find(ev.IdEvento);
 
             eventoOld = Utilidades.ComparaValores(eventoOld, ev, new string[] { "NomeEvento", "Vagas", "VagasPreenchidas", "CargaHoraria", "PresencaNecessaria", "DataInicio", "DataFim", "Status", "Local", "Observacao" });
 
@@ -137,7 +138,7 @@ namespace ControleDocumentos.Repository
             {
                 return "Mantido";
             }
-            if (db.SaveChanges() > 0)
+            if (db2.SaveChanges() > 0)
             {
                 return "Alterado";
             }

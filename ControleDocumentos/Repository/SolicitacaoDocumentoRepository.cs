@@ -25,38 +25,6 @@ namespace ControleDocumentos.Repository
             return db.SolicitacaoDocumento.ToList();
         }
 
-        public string PersisteSolicitacao(SolicitacaoDocumento sol, string idUsuario)
-        {
-            Logs log = new Logs();
-            if (sol.IdSolicitacao > 0)
-            {
-                return ComparaInfos(sol);
-            }
-            else
-            {
-                db.SolicitacaoDocumento.Add(sol);
-
-            }
-            if (db.SaveChanges() > 0)
-            {
-                log.IdUsuario = idUsuario;
-                log.Data = DateTime.Now;
-                log.Acao = EnumAcao.Persistir;
-                log.TipoObjeto = EnumTipoObjeto.SolicitacaoDocumento;
-                log.IdObjeto = sol.IdSolicitacao;
-                log.EstadoAnterior = new JavaScriptSerializer().Serialize(sol);
-
-                if (logsRepository.SalvarLog(log))
-                    return "Cadastrado";
-                else
-                    return "ErroLog";
-            }
-            else
-            {
-                return "Erro";
-            }
-        }
-
         public string PersisteSolicitacao(SolicitacaoDocumento sol)
         {
             if (sol.IdSolicitacao > 0)
@@ -147,31 +115,36 @@ namespace ControleDocumentos.Repository
             return db.SaveChanges() > 0;
         }
 
+        #region alterarStatus: método pra caso de erro do outro
+        //public string AlteraStatus(SolicitacaoDocumento sol, EnumStatusSolicitacao e)
+        //{
+        //    SolicitacaoDocumento soli = db.SolicitacaoDocumento.Find(sol.IdSolicitacao);
+        //    soli.Status = e;
+
+        //    if(db.SaveChanges()>0)
+        //    {
+        //        return "Sucesso";
+        //    }
+        //    else
+        //    {
+        //        return "Erro";
+        //    }
+        //}
+        #endregion
+
         private string ComparaInfos(SolicitacaoDocumento sol)
         {
-            SolicitacaoDocumento solicitacaoOld = db.SolicitacaoDocumento.Find(sol.IdSolicitacao);
+            DocumentosModel db2 = new DocumentosModel();
+            SolicitacaoDocumento solicitacaoOld = (from sd in db2.SolicitacaoDocumento where sd.IdSolicitacao == sol.IdSolicitacao select sd).FirstOrDefault();
+            //db.Entry(solicitacaoOld).Reload();
             solicitacaoOld = Utilidades.ComparaValores(solicitacaoOld, sol, new string[] { "DataLimite", "DataAtendimento", "Status", "IdFuncionario", "Observacao" });
 
             if (solicitacaoOld == null)
             {
                 return "Mantido";
             }
-            if (db.SaveChanges() > 0)
+            if (db2.SaveChanges() > 0)
             {
-                try
-                {
-                    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoSolicitacaoDocumento.cshtml");
-                    string viewCode = System.IO.File.ReadAllText(url);
-
-                    var html = RazorEngine.Razor.Parse(viewCode, sol);
-                    var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
-                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                    Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + sol.Documento.TipoDocumento.TipoDocumento1, html);
-                }
-                catch (Exception)
-                {
-                }
-
                 return "Alterado";
             }
             else

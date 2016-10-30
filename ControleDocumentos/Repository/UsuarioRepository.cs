@@ -55,7 +55,8 @@ namespace ControleDocumentos.Repository
 
         private string ComparaInfos(Usuario user)
         {
-            Usuario userOld = db.Usuario.Find(user.IdUsuario);
+            DocumentosModel db2 = new DocumentosModel();
+            Usuario userOld = db2.Usuario.Find(user.IdUsuario);
 
             userOld = Utilidades.ComparaValores(userOld, user, new string[] {"Nome","E_mail","Permissao"});
 
@@ -63,7 +64,7 @@ namespace ControleDocumentos.Repository
             {
                 return "Mantido";
             }
-            if (db.SaveChanges() > 0)
+            if (db2.SaveChanges() > 0)
             {
                 return "Alterado";
             }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
@@ -43,6 +44,7 @@ namespace ControleDocumentos.Controllers
                     Value =""}
                 }, "Value", "Text");
             }
+            
             //retorna model
             return PartialView("_CadastroSolicitacao", sol);
         }
@@ -126,7 +128,6 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
-            //Usuario usuario = (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
             sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
             sol.DataAbertura = DateTime.Now;
             if (sol.IdSolicitacao == 0)
@@ -147,12 +148,14 @@ namespace ControleDocumentos.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    //string msg = solicitacaoRepository.PersisteSolicitacao(sol, usuario.IdUsuario);
+                {                    
                     string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                     if (msg != "Erro")
+                    {
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, sol, (sol.IdSolicitacao > 0? (int?)sol.IdSolicitacao:null));
                         return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    }
                     else
                         return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
                 }
@@ -173,6 +176,7 @@ namespace ControleDocumentos.Controllers
             {
                 if (solicitacaoRepository.DeletaArquivo(s))
                 {
+                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, s, s.IdSolicitacao);
                     return Json(new { Status = true, Type = "success", Message = "Solicitação deletada com sucesso!" }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -194,6 +198,7 @@ namespace ControleDocumentos.Controllers
                     DirDoc.DeletaArquivo(sol.Documento.CaminhoDocumento);
                     sol.Documento.CaminhoDocumento = null;
                 }               
+               // string msg = solicitacaoRepository.AlteraStatus(sol, solic.Status);
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")
@@ -213,6 +218,19 @@ namespace ControleDocumentos.Controllers
                     }
                     catch (Exception)
                     {
+                    }
+
+                    if(sol.Status == EnumStatusSolicitacao.concluido)
+                    {
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Aprovar, sol, sol.IdSolicitacao);
+                    }
+                    else if (sol.Status == EnumStatusSolicitacao.pendente)
+                    {
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Reprovar, sol, sol.IdSolicitacao);
+                    }
+                    else if (sol.Status == EnumStatusSolicitacao.cancelado)
+                    {
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Cancelar, sol, sol.IdSolicitacao);
                     }
 
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);

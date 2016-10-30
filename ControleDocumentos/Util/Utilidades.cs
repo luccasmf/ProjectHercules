@@ -1,16 +1,20 @@
 ﻿using ControleDocumentos.Models;
 using ControleDocumentos.Repository;
+using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace ControleDocumentos.Util
 {
     public static class Utilidades
     {
         public static Usuario UsuarioLogado = new Usuario();
+
+        private static LogsRepository logsRepository = new LogsRepository();
 
        private static UsuarioRepository usuarioRepository = new UsuarioRepository();
 
@@ -82,6 +86,20 @@ namespace ControleDocumentos.Util
 
 
             return user;
+        }
+
+        public static bool SalvaLog<T>(Usuario usuario, EnumAcao e, T objeto, int? idObjeto)
+        {
+            Logs log = new Logs();
+
+            log.IdUsuario = usuario.IdUsuario;
+            log.Data = DateTime.Now;
+            log.Acao = e;
+            log.IdObjeto = idObjeto;
+            log.TipoObjeto = EnumExtensions.GetValueFromDescription<EnumTipoObjeto>(typeof(T).Name.ToString());
+           // log.EstadoAnterior = new JavaScriptSerializer().Serialize(objeto);
+
+            return(logsRepository.SalvarLog(log));
         }
     }
 }
