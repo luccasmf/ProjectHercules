@@ -18,6 +18,12 @@ namespace ControleDocumentosLibrary
         Desativar,
         [Description("Excluir")]
         Excluir,
+        [Description("Aprovar")]
+        Aprovar,
+        [Description("Reprovar")]
+        Reprovar,
+        [Description("Cancelar")]
+        Cancelar,
     }
 
     public enum EnumTipoObjeto : int

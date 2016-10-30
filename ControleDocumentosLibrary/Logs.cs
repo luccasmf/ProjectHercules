@@ -12,7 +12,6 @@ namespace ControleDocumentosLibrary
         [Key]
         public int IdLog { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string IdUsuario { get; set; }
 
@@ -23,7 +22,7 @@ namespace ControleDocumentosLibrary
 
         public EnumTipoObjeto TipoObjeto { get; set; }
 
-        public int IdObjeto { get; set; }
+        public int? IdObjeto { get; set; }
 
         [Column(TypeName = "text")]
         public string EstadoAnterior { get; set; }
