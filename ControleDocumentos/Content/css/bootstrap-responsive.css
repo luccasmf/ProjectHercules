@@ -78,6 +78,9 @@
   .hidden-tablet {
     display: none !important;
   }
+  .submenu-m {
+    display:inline !important;
+  }
 }
 
 @media (max-width: 767px) {
@@ -93,6 +96,7 @@
   .hidden-phone {
     display: none !important;
   }
+
 }
 
 .visible-print {
@@ -459,7 +463,12 @@
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  .row {
+  .submenu-m{
+      display:inline !important;
+
+  }
+    
+    .row {
     margin-left: -20px;
     *zoom: 1;
   }
