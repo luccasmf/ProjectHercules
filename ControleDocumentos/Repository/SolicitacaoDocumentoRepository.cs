@@ -38,20 +38,6 @@ namespace ControleDocumentos.Repository
             }
             if (db.SaveChanges() > 0)
             {
-                try
-                {
-                    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoDocumento.cshtml");
-                    string viewCode = System.IO.File.ReadAllText(url);
-
-                    var html = RazorEngine.Razor.Parse(viewCode, sol);
-                    var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
-                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                    Email.EnviarEmail(from, to, "Nova solicitação de documento - " + sol.Documento.TipoDocumento.TipoDocumento1, html);
-                }
-                catch (Exception)
-                {
-                }
-
                 return "Cadastrado";
             }
             else

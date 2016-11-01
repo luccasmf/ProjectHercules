@@ -19,7 +19,7 @@ namespace ControleDocumentos.Util
                 Subject = subject,
                 From = new MailAddress(from)
             };
-
+            
             foreach (var item in to)
             {
                 email.To.Add(new MailAddress(item));
@@ -27,6 +27,7 @@ namespace ControleDocumentos.Util
 
             var client = new SmtpClient(ConfigurationManager.AppSettings["SmtpServer"], 587);
             client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["MailUserName"], ConfigurationManager.AppSettings["MailUserPassword"]);
+            client.EnableSsl = true;
             client.Send(email);
         }
     }

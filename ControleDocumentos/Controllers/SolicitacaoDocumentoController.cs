@@ -44,7 +44,7 @@ namespace ControleDocumentos.Controllers
                     Value =""}
                 }, "Value", "Text");
             }
-            
+
             //retorna model
             return PartialView("_CadastroSolicitacao", sol);
         }
@@ -128,13 +128,15 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
+            var edit = true;
             sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
             sol.DataAbertura = DateTime.Now;
             if (sol.IdSolicitacao == 0)
                 sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
             sol.AlunoCurso = null;
-            if(sol.IdSolicitacao == 0)
+            if (sol.IdSolicitacao == 0)
             {
+                edit = false;
                 Documento d = new Documento();
                 d.IdTipoDoc = (int)sol.TipoDocumento;
                 d.IdAlunoCurso = sol.IdAlunoCurso;
@@ -143,17 +145,47 @@ namespace ControleDocumentos.Controllers
 
                 sol.Documento = d;
             }
-            
 
             if (ModelState.IsValid)
             {
                 try
-                {                    
+                {
                     string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                     if (msg != "Erro")
                     {
-                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, sol, (sol.IdSolicitacao > 0? (int?)sol.IdSolicitacao:null));
+                        try
+                        {
+                            DocumentosModel db2 = new DocumentosModel();
+                            var solicitacao = db2.SolicitacaoDocumento.Find(sol.IdSolicitacao);
+                            RazorEngine.Templating.DynamicViewBag viewBag = new RazorEngine.Templating.DynamicViewBag();
+                            viewBag.AddValue("urlSave", Url.Action("Login", "Account", null, Request.Url.Scheme));
+
+                            if (edit)
+                            {
+                                var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoSolicitacaoDocumento.cshtml");
+                                string viewCode = System.IO.File.ReadAllText(url);
+
+                                var html = RazorEngine.Razor.Parse(viewCode, solicitacao, viewBag, "link1");
+                                var to = new[] { solicitacao.AlunoCurso.Aluno.Usuario.E_mail };
+                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + solicitacao.Documento.TipoDocumento.TipoDocumento1, html);
+                            }
+                            else {
+                                var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoDocumento.cshtml");
+                                string viewCode = System.IO.File.ReadAllText(url);
+
+                                var html = RazorEngine.Razor.Parse(viewCode, solicitacao, viewBag, "link2");
+                                var to = new[] { solicitacao.AlunoCurso.Aluno.Usuario.E_mail };
+                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                Email.EnviarEmail(from, to, "Nova solicitação de documento - " + solicitacao.Documento.TipoDocumento.TipoDocumento1, html);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, sol, (sol.IdSolicitacao > 0 ? (int?)sol.IdSolicitacao : null));
                         return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     }
                     else
@@ -193,34 +225,37 @@ namespace ControleDocumentos.Controllers
             {
                 var sol = solicitacaoRepository.GetSolicitacaoById(solic.IdSolicitacao);
                 sol.Status = solic.Status;
-                if(sol.Status == EnumStatusSolicitacao.pendente && !string.IsNullOrEmpty(sol.Documento.CaminhoDocumento))
+                if (sol.Status == EnumStatusSolicitacao.pendente && !string.IsNullOrEmpty(sol.Documento.CaminhoDocumento))
                 {
                     DirDoc.DeletaArquivo(sol.Documento.CaminhoDocumento);
                     sol.Documento.CaminhoDocumento = null;
-                }               
-               // string msg = solicitacaoRepository.AlteraStatus(sol, solic.Status);
+                }
+                // string msg = solicitacaoRepository.AlteraStatus(sol, solic.Status);
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")
                 {
                     try
                     {
+                        RazorEngine.Templating.DynamicViewBag viewBag = new RazorEngine.Templating.DynamicViewBag();
+                        viewBag.AddValue("urlStatus", Url.Action("Login", "Account", null, Request.Url.Scheme));
+
                         var acao = sol.Status == EnumStatusSolicitacao.cancelado ? "cancelada" :
                             sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
                             sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
                         var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoDocumento.cshtml");
                         string viewCode = System.IO.File.ReadAllText(url);
 
-                        var html = RazorEngine.Razor.Parse(viewCode, sol);
+                        var html = RazorEngine.Razor.Parse(viewCode, sol, viewBag, "link3");
                         var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
                         var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
                         Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                     }
 
-                    if(sol.Status == EnumStatusSolicitacao.concluido)
+                    if (sol.Status == EnumStatusSolicitacao.concluido)
                     {
                         Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Aprovar, sol, sol.IdSolicitacao);
                     }

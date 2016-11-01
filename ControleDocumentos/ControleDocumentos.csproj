@@ -222,6 +222,7 @@
     <Content Include="Content\fonts\glyphiconshalflings-regular.svg" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.ttf" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.woff" />
+    <Content Include="Content\img\Faculdade-CNEC-Campo-Largo-Logo.jpg" />
     <Content Include="Content\img\sort_asc.png" />
     <Content Include="Content\img\sort_asc_disabled.png" />
     <Content Include="Content\img\sort_both.png" />
@@ -530,6 +531,7 @@
     <Content Include="Views\Email\AlteracaoSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\NovaSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\AlteracaoStatusSolicitacaoDocumento.cshtml" />
+    <Content Include="Views\Email\SolicitacaoDocumentoAtendida.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
