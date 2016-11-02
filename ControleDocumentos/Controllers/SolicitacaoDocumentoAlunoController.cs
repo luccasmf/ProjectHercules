@@ -20,12 +20,12 @@ namespace ControleDocumentos.Controllers
 
         // GET: SolicitacaoDocumentoAluno
         public ActionResult Index()
-        {
-            // n ta funfando
-            //Usuario usuario = new HomeController().GetSessionUser();
+        {                      
+            Utilidades.UsuarioLogado = new HomeController().GetSessionUser();
+            //Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+            //var id = aluno.IdAluno;
 
-            //id do usuario é o mesmo que o id do aluno???
-            //var id = int.Parse(usuario.IdUsuario);
+
             var id = 1;
             return View(solicitacaoRepository.GetAguardandoAtendimentoAluno(id));
         }
@@ -39,7 +39,7 @@ namespace ControleDocumentos.Controllers
                 sol = solicitacaoRepository.GetSolicitacaoById((int)idSol);
 
                 // marca a solicitação como visualizada
-                if (sol.Status != EnumStatusSolicitacao.visualizado)
+                if (sol.Status == EnumStatusSolicitacao.pendente)
                 {
                     sol.Status = EnumStatusSolicitacao.visualizado;
                     solicitacaoRepository.PersisteSolicitacao(sol);
@@ -51,10 +51,9 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(bool apenasPendentes)
         {
-            // n ta funfando
-            //Usuario usuario = new HomeController().GetSessionUser();
-            ////id do usuario é o mesmo que o id do aluno???
-            //var id = int.Parse(usuario.IdUsuario);
+            
+            //Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+            //var id = aluno.IdAluno;
 
             var id = 1;
             if (!apenasPendentes)
