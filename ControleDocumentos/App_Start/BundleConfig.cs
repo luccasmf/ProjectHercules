@@ -33,7 +33,8 @@ namespace ControleDocumentos
                       "~/Scripts/justgage.1.0.1.min.js",
                       "~/Scripts/custom.min.js",
                       "~/Scripts/core.min.js",
-                      "~/Scripts/raphael.min.js"));
+                      "~/Scripts/raphael.min.js",
+                      "~/Scripts/bootstrap-filestyle.js"));
 
             bundles.Add(new StyleBundle("~/Content/style").Include(
                       "~/Content/css/bootstrap.min.css",

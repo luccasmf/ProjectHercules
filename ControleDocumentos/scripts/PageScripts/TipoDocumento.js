@@ -15,7 +15,9 @@ function bindCadastro() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
-            beforeSend: showLoader(),
+            beforeSend: function () { 
+                showLoader();
+            },
             success: function (data) {
                 $("#divModalGlobalBody").html(data);
                 $("#divModalGlobal").modal("show");
@@ -27,7 +29,9 @@ function bindCadastro() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () { 
+                hideLoader();
+            }
         });
     });
 }

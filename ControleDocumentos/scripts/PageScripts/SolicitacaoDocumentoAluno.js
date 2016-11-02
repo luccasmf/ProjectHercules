@@ -20,10 +20,13 @@ function bindSubmitDocumento() {
             processData: false,
             type: frm.attr("method"),
             data: new FormData(this),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
-                if (result.Status == true)
+                if (result.Status == true) {
                     showNotificationRefresh(result, false, true);
+                }
                 else
                     showNotification(result);
             },
@@ -34,7 +37,9 @@ function bindSubmitDocumento() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            },
         });
         return false;
     });
@@ -48,7 +53,9 @@ function bindFiltro() {
             url: url,
             type: 'post',
             data: { "apenasPendentes": apenasPendentes },
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 $(".partialList").html(result);
                 bindDatatable();
@@ -60,7 +67,9 @@ function bindFiltro() {
                 };
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
     });
 

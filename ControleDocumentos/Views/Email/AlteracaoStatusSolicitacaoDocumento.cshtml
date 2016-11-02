@@ -11,7 +11,7 @@
             <td colspan="2">
                 @{ var acao = Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado ? "cancelada" :
                           Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.concluido ? "aprovada" :
-                          Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.pendente ? "pendente" : "";}
+                          Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.pendente ? "reprovada" : "";}
 
                 A solicitação de documento @Model.NomeTipoDocumento foi @acao
             </td>

@@ -22,9 +22,10 @@ namespace ControleDocumentos.Controllers
         // GET: SolicitacaoDocumento
         public ActionResult Index()
         {
+            // TODO QUANDO O USUARIO FOR COORDENAÇÃO, CARREGAR APENAS DO SEU CURSO
             PopularDropDowns();
 
-            return View(solicitacaoRepository.GetAll());
+            return View(solicitacaoRepository.GetByFilter(new Models.SolicitacaoDocumentoFilter { IdStatus = (int)EnumStatusSolicitacao.processando }));
         }
 
         public ActionResult CadastrarSolicitacao(int? idSol)
@@ -82,10 +83,10 @@ namespace ControleDocumentos.Controllers
             var listStatus = Enum.GetValues(typeof(EnumStatusSolicitacao)).
                 Cast<EnumStatusSolicitacao>().Select(v => new SelectListItem
                 {
-                    Text = Util.Extension.EnumExtensions.GetEnumDescription(v),
-                    Value = ((int)v).ToString()
+                    Text = EnumExtensions.GetEnumDescription(v),
+                    Value = ((int)v).ToString(),
                 }).ToList();
-            ViewBag.Status = new SelectList(listStatus, "Value", "Text");
+            ViewBag.Status = new SelectList(listStatus, "Value", "Text", ((int)EnumStatusSolicitacao.processando).ToString());
         }
 
         private void PopularDropDownsCadastro()

@@ -25,7 +25,6 @@ namespace ControleDocumentos.Controllers
             //Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
             //var id = aluno.IdAluno;
 
-
             var id = 1;
             return View(solicitacaoRepository.GetAguardandoAtendimentoAluno(id));
         }

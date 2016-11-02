@@ -45,7 +45,9 @@ function showNotificationRedirect(notification) {
     $.ajax({
         url: notification.ReturnUrl,
         type: 'GET',
-        beforeSend: showLoader(),
+        beforeSend: function () {
+            showLoader();
+        },
         success: function (data) {
             $("body").html(data);
             var obj = {
@@ -61,7 +63,9 @@ function showNotificationRedirect(notification) {
             }
             showNotification(obj);
         },
-        complete: hideLoader()
+        complete: function () {
+            hideLoader();
+        }
     });
 }
 
@@ -87,7 +91,9 @@ function bindFormSubmitModal() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, true, false);
@@ -101,7 +107,9 @@ function bindFormSubmitModal() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
         return false;
     });
@@ -115,7 +123,9 @@ function bindFormSubmit() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, false, true);
@@ -129,7 +139,9 @@ function bindFormSubmit() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
         return false;
     });
@@ -143,7 +155,9 @@ function bindFormSubmitLogin() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 if (result.Status == true) {
                     showLoader();
@@ -159,7 +173,9 @@ function bindFormSubmitLogin() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
         return false;
     });
@@ -180,7 +196,9 @@ function bindFormFilter() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 $(".partialList").html(result);
                 bindDatatable();
@@ -192,7 +210,9 @@ function bindFormFilter() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
         return false;
     });
@@ -238,7 +258,9 @@ function bindShowConfirmacao() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (data) {
                 $("#divModalGlobalBody").html(data);
                 $("#divModalGlobal").modal("show");
@@ -250,7 +272,9 @@ function bindShowConfirmacao() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
     });
 }
@@ -260,13 +284,21 @@ function bindCadastro() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (data) {
                 $(".formSave").html(data);
                 $(".divFormSave").show();
                 $(".divList").hide();
 
                 $('.datepicker').datepicker();
+                $(":file").filestyle({
+                    buttonText: "Procurar",
+                    buttonName: "btn-primary",
+                    iconName: "fa fa-folder-open",
+                    buttonBefore: true,
+                });
             },
             error: function () {
                 var obj = {
@@ -275,7 +307,9 @@ function bindCadastro() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
     });
 }

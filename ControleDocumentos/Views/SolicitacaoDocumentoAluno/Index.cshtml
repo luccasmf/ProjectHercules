@@ -10,8 +10,10 @@
     <br />
 
     <div class="text-right">
-        @Html.CheckBox("apenasPendentes", true, new { @url = Url.Action("List", "SolicitacaoDocumentoAluno") })
-        <label for="apenasPendentes">Apenas pendentes de atendimento</label>
+        <form action="@Url.Action("List", "SolicitacaoDocumentoAluno")" method="get" class="form-filter">
+            @Html.CheckBox("apenasPendentes", true, new { @url = Url.Action("List", "SolicitacaoDocumentoAluno") })
+            <label for="apenasPendentes">Apenas pendentes de atendimento</label>
+        </form>
     </div>
     <div class="row">
         <div class="box">

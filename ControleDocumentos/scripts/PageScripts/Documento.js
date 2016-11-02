@@ -21,7 +21,9 @@ function bindGetAlunos() {
                 url: url,
                 type: 'post',
                 data: { "idCurso": idCurso },
-                beforeSend: showLoader(),
+                beforeSend: function () {
+                    showLoader();
+                },
                 success: function (data) {
                     var options = $("#ddlAluno");
                     options.empty();
@@ -36,7 +38,9 @@ function bindGetAlunos() {
                     };
                     showNotification(obj);
                 },
-                complete: hideLoader()
+                complete: function () {
+                    hideLoader();
+                },
             });
         }
         else {
@@ -57,7 +61,9 @@ function bindSubmitDocumento() {
             processData: false,
             type: frm.attr("method"),
             data: new FormData(this),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, false, true);
@@ -71,7 +77,9 @@ function bindSubmitDocumento() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            }
         });
         return false;
     });

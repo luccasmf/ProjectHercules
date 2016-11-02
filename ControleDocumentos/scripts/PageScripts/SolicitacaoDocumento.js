@@ -22,7 +22,9 @@ function bindGetAlunos() {
                 url: url,
                 type: 'post',
                 data: { "idCurso": idCurso },
-                beforeSend: showLoader(),
+                beforeSend: function () {
+                    showLoader();
+                },
                 success: function (data) {
                     var options = $("#ddlAluno");
                     options.empty();
@@ -37,7 +39,9 @@ function bindGetAlunos() {
                     };
                     showNotification(obj);
                 },
-                complete: hideLoader()
+                complete: function () {
+                    hideLoader();
+                },
             });
         }
         else {
@@ -53,7 +57,9 @@ function bindCadastroSol() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (data) {
                 $(".formSave").html(data);
                 $(".divFormSave").show();
@@ -70,7 +76,9 @@ function bindCadastroSol() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            },
         });
     });
 }
@@ -80,7 +88,9 @@ function bindAlterarStatus() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
-            beforeSend: showLoader(),
+            beforeSend: function () { 
+                showLoader();
+            },
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, false, true);
@@ -94,7 +104,9 @@ function bindAlterarStatus() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            },
         });
     });
 }
@@ -107,7 +119,9 @@ function bindFormSubmitAlterarStatus() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
-            beforeSend: showLoader(),
+            beforeSend: function () {
+                showLoader();
+            },
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, true, true);
@@ -121,7 +135,9 @@ function bindFormSubmitAlterarStatus() {
                 }
                 showNotification(obj);
             },
-            complete: hideLoader()
+            complete: function () {
+                hideLoader();
+            },
         });
         return false;
     });
