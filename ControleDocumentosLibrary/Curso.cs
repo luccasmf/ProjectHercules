@@ -32,6 +32,8 @@ namespace ControleDocumentosLibrary
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlunoCurso> AlunoCurso { get; set; }
 
+        public virtual Funcionario Funcionario { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evento> Evento { get; set; }
     }
