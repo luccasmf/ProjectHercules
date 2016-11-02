@@ -19,21 +19,23 @@ namespace ControleDocumentos.Controllers
         // GET: Home
         public ActionResult Index()
         {
-           // Usuario usuario = GetSessionUser();
+            // Usuario usuario = GetSessionUser();
             Utilidades.UsuarioLogado = GetSessionUser();
             return View(Utilidades.UsuarioLogado);
-        }       
-        
+        }
+
         public Usuario GetSessionUser()
         {
-            try
-            {
-                return (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
-            }
-            catch
-            {
-                return Utilidades.GetSession((LoginModel)Session[EnumSession.Usuario.GetEnumDescription()]);
-            }
-        } 
+            if (Utilidades.UsuarioLogado == null)
+                try
+                {
+                    return (Usuario)Session[EnumSession.Usuario.GetEnumDescription()];
+                }
+                catch
+                {
+                    return Utilidades.GetSession((LoginModel)Session[EnumSession.Usuario.GetEnumDescription()]);
+                }
+            return Utilidades.UsuarioLogado;
+        }
     }
 }

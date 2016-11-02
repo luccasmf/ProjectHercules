@@ -39,6 +39,12 @@ namespace ControleDocumentos.Repository
             return alunos;
         }
         
+        public Aluno GetAlunoByIdUsuario(string idUsuario)
+        {
+            Aluno al = db.Aluno.Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
+
+            return al;
+        }
        
     }
 }
