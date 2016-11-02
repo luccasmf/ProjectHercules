@@ -107,6 +107,12 @@ namespace ControleDocumentos.Controllers
                     if (uploadFile == null)
                         return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
 
+                    if(!ValidaArquivo(uploadFile.FileName))
+                    {
+                        return Json(new { Status = false, Type = "error", Message = "Formato inválido" }, JsonRequestBehavior.AllowGet);
+
+                    }
+
                     doc.arquivo = converterFileToArray(uploadFile);
                     doc.NomeDocumento = uploadFile.FileName;
                     string mensagem = DirDoc.SalvaArquivo(doc);
