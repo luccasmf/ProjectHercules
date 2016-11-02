@@ -158,27 +158,26 @@ namespace ControleDocumentos.Controllers
                         {
                             DocumentosModel db2 = new DocumentosModel();
                             var solicitacao = db2.SolicitacaoDocumento.Find(sol.IdSolicitacao);
-                            RazorEngine.Templating.DynamicViewBag viewBag = new RazorEngine.Templating.DynamicViewBag();
-                            viewBag.AddValue("urlSave", Url.Action("Login", "Account", null, Request.Url.Scheme));
+                            var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(solicitacao, Url.Action("Login", "Account", null, Request.Url.Scheme));
 
                             if (edit)
                             {
                                 var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoSolicitacaoDocumento.cshtml");
                                 string viewCode = System.IO.File.ReadAllText(url);
 
-                                var html = RazorEngine.Razor.Parse(viewCode, solicitacao, viewBag, "link1");
-                                var to = new[] { solicitacao.AlunoCurso.Aluno.Usuario.E_mail };
+                                var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
+                                var to = new[] { solicitacaoEmail.EmailAluno };
                                 var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                                Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + solicitacao.Documento.TipoDocumento.TipoDocumento1, html);
+                                Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
                             }
                             else {
                                 var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoDocumento.cshtml");
                                 string viewCode = System.IO.File.ReadAllText(url);
 
-                                var html = RazorEngine.Razor.Parse(viewCode, solicitacao, viewBag, "link2");
-                                var to = new[] { solicitacao.AlunoCurso.Aluno.Usuario.E_mail };
+                                var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
+                                var to = new[] { solicitacaoEmail.EmailAluno };
                                 var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                                Email.EnviarEmail(from, to, "Nova solicitação de documento - " + solicitacao.Documento.TipoDocumento.TipoDocumento1, html);
+                                Email.EnviarEmail(from, to, "Nova solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
                             }
                         }
                         catch (Exception e)
@@ -237,17 +236,15 @@ namespace ControleDocumentos.Controllers
                 {
                     try
                     {
-                        RazorEngine.Templating.DynamicViewBag viewBag = new RazorEngine.Templating.DynamicViewBag();
-                        viewBag.AddValue("urlStatus", Url.Action("Login", "Account", null, Request.Url.Scheme));
-
                         var acao = sol.Status == EnumStatusSolicitacao.cancelado ? "cancelada" :
                             sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
                             sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
                         var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoDocumento.cshtml");
                         string viewCode = System.IO.File.ReadAllText(url);
-
-                        var html = RazorEngine.Razor.Parse(viewCode, sol, viewBag, "link3");
-                        var to = new[] { sol.AlunoCurso.Aluno.Usuario.E_mail };
+                        var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
+                        
+                        var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
+                        var to = new[] { solicitacaoEmail.EmailAluno };
                         var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
                         Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
                     }
@@ -306,7 +303,6 @@ namespace ControleDocumentos.Controllers
 
             return data;
         }
-
         #endregion
     }
 }

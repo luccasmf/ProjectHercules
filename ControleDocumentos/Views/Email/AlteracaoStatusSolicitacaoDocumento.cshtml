@@ -1,4 +1,4 @@
-﻿@model ControleDocumentosLibrary.SolicitacaoDocumento
+﻿@model ControleDocumentos.Models.SolicitacaoDocumentoEmail
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -13,7 +13,7 @@
                           Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.concluido ? "aprovada" :
                           Model.Status == ControleDocumentosLibrary.EnumStatusSolicitacao.pendente ? "pendente" : "";}
 
-                A solicitação de documento @Model.Documento.TipoDocumento.TipoDocumento1 foi @acao
+                A solicitação de documento @Model.NomeTipoDocumento foi @acao
             </td>
         </tr>
         <tr><td colspan="2" height="20px"></td></tr>
@@ -22,7 +22,7 @@
                 <span style="color: #888888">Documento: </span>
             </td>
             <td style="width: 25%">
-                <span style="color: #444444">@Model.Documento.TipoDocumento.TipoDocumento1</span>
+                <span style="color: #444444">@Model.NomeTipoDocumento</span>
             </td>
         </tr>
         <tr>
@@ -41,7 +41,7 @@
                 <span style="color: #444444">@Model.Observacao</span>
             </td>
         </tr>
-        <tr><td colspan="2" height="20px"><span style="color: #444444">Você pode acessar o sistema de controle de documentos no link <a href="@ViewBag.urlStatus">@ViewBag.urlStatus</a></span></td></tr>
+        <tr><td colspan="2" style="padding-top: 20px;"><span style="color: #444444">Você pode acessar o sistema de controle de documentos no link <a href="@Model.UrlSistema">@Model.UrlSistema</a></span></td></tr>
     </table>
 </body>
 </html>

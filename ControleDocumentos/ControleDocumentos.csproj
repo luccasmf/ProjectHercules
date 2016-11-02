@@ -448,6 +448,7 @@
     <Content Include="Scripts\retina.min.js" />
     <Content Include="Scripts\wizard.min.js" />
     <Content Include="Scripts\xcharts.min.js" />
+    <Content Include="Views\Email\SolicitacaoDocumentoAtendida.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\TipoDocumento\Index.cshtml" />
     <Content Include="Web.config" />
@@ -469,6 +470,7 @@
     </Compile>
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\SolicitacaoDocumentoEmail.cs" />
     <Compile Include="Models\SolicitacaoDocumentoFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AlunoRepository.cs" />
@@ -531,7 +533,6 @@
     <Content Include="Views\Email\AlteracaoSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\NovaSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\AlteracaoStatusSolicitacaoDocumento.cshtml" />
-    <Content Include="Views\Email\SolicitacaoDocumentoAtendida.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

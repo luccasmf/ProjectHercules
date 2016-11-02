@@ -4,7 +4,7 @@ $(document).ready(function () {
     bindShowConfirmacao();
     bindDatatable();
     bindFormFilter();
-    bindFormSubmitModal();
+    bindFormSubmitAlterarStatus();
     bindCancelar();
     bindFormSubmit();
 
@@ -90,5 +90,31 @@ function bindAlterarStatus() {
                 showNotification(obj);
             }
         });
+    });
+}
+
+function bindFormSubmitAlterarStatus() {
+    $(document).on("submit", ".frm-submit-modal", function (e) {
+        e.preventDefault();
+        var frm = $('.frm-submit-modal');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRefresh(result, true, true);
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            }
+        });
+        return false;
     });
 }

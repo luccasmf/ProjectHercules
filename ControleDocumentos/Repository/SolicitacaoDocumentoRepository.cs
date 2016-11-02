@@ -138,5 +138,24 @@ namespace ControleDocumentos.Repository
                 return "Erro";
             }
         }
+
+        public Models.SolicitacaoDocumentoEmail ConverToEmailModel(SolicitacaoDocumento sol, string url)
+        {
+            return new Models.SolicitacaoDocumentoEmail
+            {
+                UrlSistema = url,
+                DataAtendimento = sol.DataAtendimento,
+                DataLimite = sol.DataLimite,
+                NomeAluno = sol.AlunoCurso != null && sol.AlunoCurso.Aluno != null && sol.AlunoCurso.Aluno.Usuario != null ?
+                    sol.AlunoCurso.Aluno.Usuario.Nome : "",
+                EmailAluno = sol.AlunoCurso != null && sol.AlunoCurso.Aluno != null && sol.AlunoCurso.Aluno.Usuario != null ?
+                    sol.AlunoCurso.Aluno.Usuario.E_mail : "",
+                EmailFuncionario = sol.Funcionario != null && sol.Funcionario.Usuario != null ? sol.Funcionario.Usuario.E_mail : "",
+                NomeCurso = sol.AlunoCurso != null && sol.AlunoCurso.Curso != null ? sol.AlunoCurso.Curso.Nome : "",
+                NomeTipoDocumento = sol.Documento != null && sol.Documento.TipoDocumento != null ? sol.Documento.TipoDocumento.TipoDocumento1 : "",
+                Observacao = sol.Observacao,
+                Status = sol.Status
+            };
+        }
     }
 }
