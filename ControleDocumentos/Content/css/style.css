@@ -5442,7 +5442,6 @@ ul.messagesList {
         vertical-align: middle;
         width: 10px;
         height: 10px;
-        margin: 50px auto;
         background: #2d3073;
         border-radius: 50px;
         -webkit-animation: loader 0.7s infinite alternate;
