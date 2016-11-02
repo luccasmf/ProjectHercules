@@ -15,6 +15,7 @@ function bindCadastro() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
+            beforeSend: showLoader(),
             success: function (data) {
                 $("#divModalGlobalBody").html(data);
                 $("#divModalGlobal").modal("show");
@@ -25,7 +26,8 @@ function bindCadastro() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
     });
 }

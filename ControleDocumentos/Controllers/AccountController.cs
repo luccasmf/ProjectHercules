@@ -42,8 +42,8 @@ namespace ControleDocumentos.Controllers
             lm.UserName = "admin";
             Session.Add(EnumSession.Usuario.GetEnumDescription(), lm);
 
+            return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home")}, JsonRequestBehavior.AllowGet);
 
-            return this.RedirectToAction("Index", "Home");
             #endregion
 
             #region login teste
@@ -54,10 +54,10 @@ namespace ControleDocumentos.Controllers
             //    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
             //        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
             //    {
-            //        return this.Redirect(returnUrl);
+            //        // tem q testar esse returnurl pra ver se ta vindo certo
+            //        return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl}, JsonRequestBehavior.AllowGet);
             //    }
-
-            //    return this.RedirectToAction("Index", "Home");
+            //    return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home")}, JsonRequestBehavior.AllowGet);
             //}
             #endregion
 
@@ -77,19 +77,16 @@ namespace ControleDocumentos.Controllers
             //        if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
             //            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
             //        {
-            //            return this.Redirect(returnUrl);
+            //            return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl}, JsonRequestBehavior.AllowGet);
             //        }
-
-            //        return this.RedirectToAction("Index", "Home");
+            //        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home")}, JsonRequestBehavior.AllowGet);
             //    }
             //}
             //catch (Exception ex)
             //{
-            //    ViewBag.Erro = ex.Message;
+            //    return Json(new { Status = false, Type = "error", Message = ex.Message }, JsonRequestBehavior.AllowGet);
             //}
             #endregion
-
-            return this.View(model);
         }
 
         public ActionResult LogOff()

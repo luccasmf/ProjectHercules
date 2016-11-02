@@ -20,6 +20,7 @@ function bindSubmitDocumento() {
             processData: false,
             type: frm.attr("method"),
             data: new FormData(this),
+            beforeSend: showLoader(),
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, false, true);
@@ -32,7 +33,8 @@ function bindSubmitDocumento() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
         return false;
     });
@@ -46,6 +48,7 @@ function bindFiltro() {
             url: url,
             type: 'post',
             data: { "apenasPendentes": apenasPendentes },
+            beforeSend: showLoader(),
             success: function (result) {
                 $(".partialList").html(result);
                 bindDatatable();
@@ -56,7 +59,8 @@ function bindFiltro() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 };
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
     });
 

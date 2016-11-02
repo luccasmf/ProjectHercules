@@ -22,6 +22,7 @@ function bindGetAlunos() {
                 url: url,
                 type: 'post',
                 data: { "idCurso": idCurso },
+                beforeSend: showLoader(),
                 success: function (data) {
                     var options = $("#ddlAluno");
                     options.empty();
@@ -35,7 +36,8 @@ function bindGetAlunos() {
                         Message: "Ocorreu um erro ao realizar esta operação"
                     };
                     showNotification(obj);
-                }
+                },
+                complete: hideLoader()
             });
         }
         else {
@@ -51,6 +53,7 @@ function bindCadastroSol() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
+            beforeSend: showLoader(),
             success: function (data) {
                 $(".formSave").html(data);
                 $(".divFormSave").show();
@@ -66,7 +69,8 @@ function bindCadastroSol() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
     });
 }
@@ -76,6 +80,7 @@ function bindAlterarStatus() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
+            beforeSend: showLoader(),
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, false, true);
@@ -88,7 +93,8 @@ function bindAlterarStatus() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
     });
 }
@@ -101,6 +107,7 @@ function bindFormSubmitAlterarStatus() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
+            beforeSend: showLoader(),
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, true, true);
@@ -113,7 +120,8 @@ function bindFormSubmitAlterarStatus() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
         return false;
     });

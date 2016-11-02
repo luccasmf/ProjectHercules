@@ -22,7 +22,14 @@
 
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.js"></script>*@
 </head>
-<body
+<body>
+    <div class="ajax_loader hiddenLoader">
+        <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     <!-- start: Header -->
     <div class="navbar">
         <div class="navbar-inner">
@@ -109,7 +116,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="index.html#"><i class="halflings user white"></i> Meu Perfil (?? talvez n tenha)</a></li>
-                                <li><a href="@Url.Action("LogOff","Account")"><i class="halflings off white"></i> Sair</a></li>
+                                <li><a onclick="showLoader()" href="@Url.Action("LogOff","Account")"><i class="halflings off white"></i> Sair</a></li>
                             </ul>
                         </li>
                         <!-- end: User Dropdown -->
@@ -132,15 +139,15 @@
                             <a class="dropmenu" href="index.cshtml"><i class="fa fa-folder-open"></i><span class="hidden-sm">Documentação</span></a>
                             <ul>
                                 @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
-                                    Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
+Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
                                 {
-                                <li><a class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Documentos de alunos</span></a></li>
-                                <li><a class="submenu" href="@Url.Action("Index", "SolicitacaoDocumento")"><span class="submenu-m">Solicitações de documentos</span></a></li>
-                                <li><a class="submenu" href="@Url.Action("Index", "TipoDocumento")"><span class="submenu-m">Tipos de documentos</span></a></li>
+                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Documentos de alunos</span></a></li>
+                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumento")"><span class="submenu-m">Solicitações de documentos</span></a></li>
+                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "TipoDocumento")"><span class="submenu-m">Tipos de documentos</span></a></li>
                                 }
                                 else if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                                 {
-                                    <li><a class="submenu" href="@Url.Action("Index", "SolicitacaoDocumentoAluno")"><span class="submenu-m">Solicitações de documentos</span></a></li>
+                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumentoAluno")"><span class="submenu-m">Solicitações de documentos</span></a></li>
                                 }
                             </ul>
                         </li>

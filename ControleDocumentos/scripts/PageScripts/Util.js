@@ -7,6 +7,18 @@
     );
 })
 
+// Início Loader
+
+function showLoader() {
+    $(".hiddenLoader").show()
+}
+
+function hideLoader() {
+    $(".hiddenLoader").hide()
+}
+
+// Fim Loader
+
 // Início Notification
 
 function showNotificationRefresh(notification, hideModal, hideForm) {
@@ -33,6 +45,7 @@ function showNotificationRedirect(notification) {
     $.ajax({
         url: notification.ReturnUrl,
         type: 'GET',
+        beforeSend: showLoader(),
         success: function (data) {
             $("body").html(data);
             var obj = {
@@ -47,7 +60,8 @@ function showNotificationRedirect(notification) {
                 Message: "Ocorreu um erro ao realizar esta operação"
             }
             showNotification(obj);
-        }
+        },
+        complete: hideLoader()
     });
 }
 
@@ -73,6 +87,7 @@ function bindFormSubmitModal() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
+            beforeSend: showLoader(),
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, true, false);
@@ -85,7 +100,8 @@ function bindFormSubmitModal() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
         return false;
     });
@@ -99,6 +115,7 @@ function bindFormSubmit() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
+            beforeSend: showLoader(),
             success: function (result) {
                 if (result.Status == true)
                     showNotificationRefresh(result, false, true);
@@ -111,11 +128,43 @@ function bindFormSubmit() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
         return false;
     });
 }
+
+function bindFormSubmitLogin() {
+    $(document).on("submit", ".frm-submit-login", function (e) {
+        e.preventDefault();
+        var frm = $('.frm-submit-login');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            beforeSend: showLoader(),
+            success: function (result) {
+                if (result.Status == true) {
+                    showLoader();
+                    window.location = result.ReturnUrl;
+                }
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            },
+            complete: hideLoader()
+        });
+        return false;
+    });
+}
+
 
 // Fim Submit
 
@@ -131,6 +180,7 @@ function bindFormFilter() {
             url: frm.attr("action"),
             type: frm.attr("method"),
             data: frm.serialize(),
+            beforeSend: showLoader(),
             success: function (result) {
                 $(".partialList").html(result);
                 bindDatatable();
@@ -141,7 +191,8 @@ function bindFormFilter() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
         return false;
     });
@@ -187,6 +238,7 @@ function bindShowConfirmacao() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
+            beforeSend: showLoader(),
             success: function (data) {
                 $("#divModalGlobalBody").html(data);
                 $("#divModalGlobal").modal("show");
@@ -197,7 +249,8 @@ function bindShowConfirmacao() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
     });
 }
@@ -207,6 +260,7 @@ function bindCadastro() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
+            beforeSend: showLoader(),
             success: function (data) {
                 $(".formSave").html(data);
                 $(".divFormSave").show();
@@ -220,7 +274,8 @@ function bindCadastro() {
                     Message: "Ocorreu um erro ao realizar esta operação"
                 }
                 showNotification(obj);
-            }
+            },
+            complete: hideLoader()
         });
     });
 }

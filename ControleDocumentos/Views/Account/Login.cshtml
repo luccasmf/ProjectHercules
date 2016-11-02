@@ -50,7 +50,7 @@
             <div class="row">
                 <div class="login-box">
                     <div class="margin-login title-login"><span>Conecte-se</span></div>
-                    <form action="@Url.Action("Login", "Account")" method="@FormMethod.Post" id="frmLogin">
+                    <form action="@Url.Action("Login", "Account")" method="@FormMethod.Post" class="frm-submit-login">
                         <div class="input-wrap">
                             <div class="input-prepend input-group" title="Username">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -78,9 +78,6 @@
 
     </div><!--/container-->
     <!-- start: JavaScript-->
-    <!--[if !IE]>-->
-    <script src="~/Scripts/"></script>
-    <!--<![endif]-->
     <!--[if IE]>
 
         <script src="Scripts/jquery-1.11.0.min.js"></script>
@@ -110,3 +107,7 @@
 
 </body>
 </html>
+
+<script>
+    bindFormSubmitLogin();
+</script>
