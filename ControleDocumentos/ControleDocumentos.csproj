@@ -449,7 +449,6 @@
     <Content Include="Scripts\wizard.min.js" />
     <Content Include="Scripts\xcharts.min.js" />
     <Content Include="Views\Email\SolicitacaoDocumentoAtendida.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\TipoDocumento\Index.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -533,6 +532,7 @@
     <Content Include="Views\Email\AlteracaoSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\NovaSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\AlteracaoStatusSolicitacaoDocumento.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -544,6 +544,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Curso\" />
     <Folder Include="Views\Evento\" />
+    <Folder Include="Views\Shared\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControleDocumentosLibrary\ControleDocumentosLibrary.csproj">
