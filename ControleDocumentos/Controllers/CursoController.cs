@@ -9,7 +9,7 @@ using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
-    public class CursoController : Controller
+    public class CursoController : BaseController
     {
         CursoRepository cursoRepository = new CursoRepository();
         // GET: Curso

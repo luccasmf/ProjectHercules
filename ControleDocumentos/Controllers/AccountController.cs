@@ -13,7 +13,7 @@ namespace ControleDocumentos.Controllers
     /// <summary>
     /// Controller para manipulação de informações gerais de contas (login, senha)
     /// </summary>
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         // GET: Account
         public ActionResult Login(string returnUrl)
@@ -22,7 +22,7 @@ namespace ControleDocumentos.Controllers
 
             var model = new LoginModel();
 
-            model.ReturnUrl = returnUrl;
+            model.ReturnUrl = returnUrl;            
 
             return this.View(model);
         }
@@ -41,6 +41,8 @@ namespace ControleDocumentos.Controllers
             LoginModel lm = new LoginModel();
             lm.UserName = "admin";
             Session.Add(EnumSession.Usuario.GetEnumDescription(), lm);
+
+            GetSessionUser();
 
             return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home")}, JsonRequestBehavior.AllowGet);
 
@@ -77,8 +79,10 @@ namespace ControleDocumentos.Controllers
             //        if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
             //            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
             //        {
+            // GetSessionUser();
             //            return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl}, JsonRequestBehavior.AllowGet);
             //        }
+            // GetSessionUser();
             //        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home")}, JsonRequestBehavior.AllowGet);
             //    }
             //}

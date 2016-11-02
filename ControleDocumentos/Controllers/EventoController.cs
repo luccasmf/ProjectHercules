@@ -9,7 +9,7 @@ using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
-    public class EventoController : Controller
+    public class EventoController : BaseController
     {
         EventoRepository eventoRepository = new EventoRepository();
         // GET: Evento

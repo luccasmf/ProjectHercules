@@ -11,7 +11,7 @@ using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
-    public class SolicitacaoDocumentoController : Controller
+    public class SolicitacaoDocumentoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
         CursoRepository cursoRepository = new CursoRepository();

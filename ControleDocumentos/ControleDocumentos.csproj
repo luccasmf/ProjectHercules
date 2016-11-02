@@ -457,6 +457,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\SolicitacaoDocumentoAlunoController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
@@ -543,6 +544,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Curso\" />
     <Folder Include="Views\Evento\" />
     <Folder Include="Views\Shared\Home\" />

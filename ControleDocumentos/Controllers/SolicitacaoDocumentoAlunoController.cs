@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
-    public class SolicitacaoDocumentoAlunoController : Controller
+    public class SolicitacaoDocumentoAlunoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
         CursoRepository cursoRepository = new CursoRepository();

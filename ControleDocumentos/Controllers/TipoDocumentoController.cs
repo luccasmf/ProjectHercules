@@ -9,7 +9,7 @@ using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
-    public class TipoDocumentoController : Controller
+    public class TipoDocumentoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
 
