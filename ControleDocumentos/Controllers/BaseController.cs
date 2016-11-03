@@ -1,4 +1,5 @@
-﻿using ControleDocumentos.Models;
+﻿using ControleDocumentos.Filter;
+using ControleDocumentos.Models;
 using ControleDocumentos.Util;
 using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
+    //[AuthorizeAD(Groups = "G_PROTOCOLO_ADMIN, G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW")]
     public abstract class BaseController : Controller
     {
         public BaseController()
