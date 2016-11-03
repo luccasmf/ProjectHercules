@@ -32,16 +32,25 @@ namespace ControleDocumentos.Repository
             return db.Usuario.Find(idUsuario);
         }
 
-        public string PersisteUsuario(Usuario user)
+        public string PersisteUsuario(Usuario[] users)
         {
-            if (!string.IsNullOrEmpty(user.IdUsuario))
+            if (users.Length == 1)
             {
-                return ComparaInfos(user);
+                Usuario user = users[0];
+                if (!string.IsNullOrEmpty(user.IdUsuario))
+                {
+                    return ComparaInfos(user);
+                }
+                else
+                {
+                    db.Usuario.Add(user);
+
+                }
+                
             }
             else
             {
-                db.Usuario.Add(user);
-
+                db.Usuario.AddRange(users);
             }
             if (db.SaveChanges() > 0)
             {
@@ -51,6 +60,7 @@ namespace ControleDocumentos.Repository
             {
                 return "Erro";
             }
+
         }
 
         private string ComparaInfos(Usuario user)
@@ -72,6 +82,30 @@ namespace ControleDocumentos.Repository
             {
                 return "Erro";
             }
+        }
+
+        public string PersisteFuncionario(Funcionario[] users)
+        {
+            if (users.Length == 1)
+            {
+                Funcionario user = users[0];
+                
+                    db.Funcionario.Add(user);
+                
+            }
+            else
+            {
+                db.Funcionario.AddRange(users);
+            }
+            if (db.SaveChanges() > 0)
+            {
+                return "Cadastrado";
+            }
+            else
+            {
+                return "Erro";
+            }
+
         }
 
     }

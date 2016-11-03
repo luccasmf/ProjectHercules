@@ -4,6 +4,9 @@ using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.DirectoryServices;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -100,6 +103,44 @@ namespace ControleDocumentos.Util
            // log.EstadoAnterior = new JavaScriptSerializer().Serialize(objeto);
 
             return(logsRepository.SalvarLog(log));
+        }
+
+        public static object BuscarCoords()
+        {
+            var context = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings["Dominio"], "9077401526", "12qw!@QW"); //usuario com direitos q nao entendi...
+            GroupPrincipal gro = GroupPrincipal.FindByIdentity(context, "G_FACULDADE_COORDENADOR_R");
+
+            List<Usuario> usuarios = new List<Usuario>();
+            List<Funcionario> funcionarios = new List<Funcionario>();
+            foreach(UserPrincipal userPrincipal in gro.Members)
+            {
+                if (usuarioRepository.GetUsuarioById(userPrincipal.SamAccountName) == null)
+                {
+                    Usuario user = new Usuario();
+                    Funcionario f = new Funcionario();
+
+                    user.IdUsuario = userPrincipal.SamAccountName;
+                    user.Nome = userPrincipal.Name;
+                    user.Permissao = EnumPermissaoUsuario.coordenador;
+                    
+                    f.IdUsuario = user.IdUsuario;
+                    f.Permissao = EnumPermissaoUsuario.coordenador;
+
+                    funcionarios.Add(f);
+                    usuarios.Add(user);
+                }
+
+            }
+            
+            switch(usuarioRepository.PersisteUsuario(usuarios.ToArray()))
+            {
+                case "Cadastrado":
+                    usuarioRepository.PersisteFuncionario(funcionarios.ToArray());
+                    return true;
+                default:
+                    return false;
+            }
+            
         }
     }
 }
