@@ -32,6 +32,7 @@ namespace ControleDocumentos.Controllers
         }
 
         private string[] formatos = new string[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".jpg", ".jpeg", ".png", ".bmp" };
+
         public bool ValidaArquivo(string nomeArquivo)
         {
             string extensao = Path.GetExtension(nomeArquivo);
