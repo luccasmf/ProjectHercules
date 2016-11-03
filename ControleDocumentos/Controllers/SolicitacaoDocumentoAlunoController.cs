@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
-    //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+    [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
     public class SolicitacaoDocumentoAlunoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
@@ -23,11 +23,11 @@ namespace ControleDocumentos.Controllers
         // GET: SolicitacaoDocumentoAluno
         public ActionResult Index()
         {                      
-            Utilidades.UsuarioLogado = new HomeController().GetSessionUser();
-            //Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
-            //var id = aluno.IdAluno;
+            //Utilidades.UsuarioLogado = new HomeController().GetSessionUser();
+            Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+            var id = aluno.IdAluno;
 
-            var id = 1;
+            //var id = 1;
             return View(solicitacaoRepository.GetAguardandoAtendimentoAluno(id));
         }
 

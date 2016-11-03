@@ -41,6 +41,8 @@ namespace ControleDocumentosLibrary
         [Description("Usuario")]
         Usuario,
         [Description("SolicitacaoDocumento")]
-        SolicitacaoDocumento
+        SolicitacaoDocumento,
+        [Description("TipoDocumento")]
+        TipoDocumento
     }
 }
