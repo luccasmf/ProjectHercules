@@ -288,17 +288,26 @@ function bindCadastro() {
                 showLoader();
             },
             success: function (data) {
-                $(".formSave").html(data);
-                $(".divFormSave").show();
-                $(".divList").hide();
+                if (data == "") {
+                    var obj = {
+                        Type: "error",
+                        Message: "Não autorizado!"
+                    }
+                    showNotification(obj);
+                }
+                else {
+                    $(".formSave").html(data);
+                    $(".divFormSave").show();
+                    $(".divList").hide();
 
-                $('.datepicker').datepicker();
-                $(":file").filestyle({
-                    buttonText: "Procurar",
-                    buttonName: "btn-primary",
-                    iconName: "fa fa-folder-open",
-                    buttonBefore: true,
-                });
+                    $('.datepicker').datepicker();
+                    $(":file").filestyle({
+                        buttonText: "Procurar",
+                        buttonName: "btn-primary",
+                        iconName: "fa fa-folder-open",
+                        buttonBefore: true,
+                    });
+                }
             },
             error: function () {
                 var obj = {

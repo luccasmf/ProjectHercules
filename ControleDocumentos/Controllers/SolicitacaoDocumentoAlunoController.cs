@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace ControleDocumentos.Controllers
 {
     // lucciros : acho que aqui é só aluno, não?
-    [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+    //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
     public class SolicitacaoDocumentoAlunoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
@@ -47,7 +47,7 @@ namespace ControleDocumentos.Controllers
                     }
                 }
                 else
-                    return RedirectToAction("Unauthorized", "Error");
+                    return null;
             }
 
             return PartialView("_VisualizacaoSolicitacao", sol);
@@ -122,7 +122,7 @@ namespace ControleDocumentos.Controllers
                     }
                 }
                 else
-                    return RedirectToAction("Unauthorized", "Error");
+                    return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
