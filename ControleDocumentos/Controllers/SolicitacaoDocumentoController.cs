@@ -24,9 +24,15 @@ namespace ControleDocumentos.Controllers
         // GET: SolicitacaoDocumento
         public ActionResult Index()
         {
-            // TODO QUANDO O USUARIO FOR COORDENAÇÃO, CARREGAR APENAS DO SEU CURSO
             PopularDropDowns();
-
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                List<SolicitacaoDocumento> retorno = new List<SolicitacaoDocumento>();
+                // lucciros: Implementar metodo que busque apenas as solicitações vinculados a alunos que coordena
+                // e com status 'processando'
+                //retorno = 
+                return View(retorno);
+            }
             return View(solicitacaoRepository.GetByFilter(new Models.SolicitacaoDocumentoFilter { IdStatus = (int)EnumStatusSolicitacao.processando }));
         }
 
@@ -54,6 +60,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(Models.SolicitacaoDocumentoFilter filter)
         {
+            // helenira : replicar alteração da index aqui
             return PartialView("_List", solicitacaoRepository.GetByFilter(filter));
         }
 
@@ -73,7 +80,7 @@ namespace ControleDocumentos.Controllers
 
         private void PopularDropDowns()
         {
-            //get todos os cursos
+            // helenira: replicar validação da controller Documento
             var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
             {
                 Value = item.IdCurso.ToString(),
@@ -93,6 +100,7 @@ namespace ControleDocumentos.Controllers
 
         private void PopularDropDownsCadastro()
         {
+            // helenira : replicar validação
             var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
             {
                 Value = item.IdCurso.ToString(),
@@ -110,7 +118,7 @@ namespace ControleDocumentos.Controllers
 
         private void PopularDropDownAlunos(int idCurso)
         {
-            //get todos alunos pelo id do curso
+            // helenira : replicar validação da controller documento
             var listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
             {
                 Value = item.IdAluno.ToString(),
@@ -121,6 +129,7 @@ namespace ControleDocumentos.Controllers
 
         public JsonResult GetAlunosByIdCurso(int idCurso)
         {
+            // helenira : replicar validação
             if (idCurso > 0)
             {
                 var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
@@ -131,6 +140,7 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarSolicitacao(SolicitacaoDocumento sol)
         {
+            // helenira : replicar validação
             var edit = true;
             sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
             sol.DataAbertura = DateTime.Now;
@@ -205,6 +215,7 @@ namespace ControleDocumentos.Controllers
 
         public object ExcluirSolicitacao(SolicitacaoDocumento sol)
         {
+            // helenira : replicar validação
             var s = solicitacaoRepository.GetSolicitacaoById(sol.IdSolicitacao);
             if (s.Status == EnumStatusSolicitacao.pendente) //regra q soh deleta se status for pendente
             {
@@ -225,6 +236,7 @@ namespace ControleDocumentos.Controllers
         {
             try
             {
+                // helenira : replicar validação
                 var sol = solicitacaoRepository.GetSolicitacaoById(solic.IdSolicitacao);
                 sol.Status = solic.Status;
                 if (sol.Status == EnumStatusSolicitacao.pendente && !string.IsNullOrEmpty(sol.Documento.CaminhoDocumento))
@@ -232,7 +244,6 @@ namespace ControleDocumentos.Controllers
                     DirDoc.DeletaArquivo(sol.Documento.CaminhoDocumento);
                     sol.Documento.CaminhoDocumento = null;
                 }
-                // string msg = solicitacaoRepository.AlteraStatus(sol, solic.Status);
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")
@@ -286,6 +297,7 @@ namespace ControleDocumentos.Controllers
         /// <returns>retorna o arquivo pra download</returns>
         public FileResult Download(string nomeDoc)
         {
+            // helenira : replicar validação da controller documento
             Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
 
             string nomeArquivo = doc.NomeDocumento;
@@ -306,6 +318,7 @@ namespace ControleDocumentos.Controllers
 
             return data;
         }
+
         #endregion
     }
 }

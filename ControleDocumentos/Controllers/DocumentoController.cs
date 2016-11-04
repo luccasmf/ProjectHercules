@@ -27,13 +27,19 @@ namespace ControleDocumentos.Controllers
             // apenas se decidirmos n usar o datatables como filtro
             // PopularDropDowns();
 
+            if(Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                List<Documento> retorno = new List<Documento>();
+                // lucciros: Implementar metodo que busque apenas os docs vinculados a alunos que coordena
+                //retorno = documentoRepository.GetDocumentosByIdCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                return View(retorno);
+            }
             return View(documentoRepository.GetAllDocs());
         }
 
         public ActionResult CadastrarDocumento(int? idDoc)
         {
             PopularDropDowns();
-            //instancia model
             Documento doc = new Documento();
 
             if (idDoc.HasValue)
@@ -48,12 +54,12 @@ namespace ControleDocumentos.Controllers
                     Value =""}
                 }, "Value", "Text");
             }
-            //retorna model
             return PartialView("_CadastroDocumento", doc);
         }
 
         public ActionResult List()
         {
+            // helenira : replicar validação da index
             return PartialView("_List", documentoRepository.GetAllDocs());
             
         }
@@ -61,8 +67,6 @@ namespace ControleDocumentos.Controllers
         public ActionResult CarregaModalExclusao(int idDoc)
         {
             Documento doc = documentoRepository.GetDocumentoById(idDoc);
-
-            //retorna o tipo na partial
             return PartialView("_ExclusaoDocumento", doc);
         }
 
@@ -70,13 +74,23 @@ namespace ControleDocumentos.Controllers
 
         private void PopularDropDowns()
         {
-            //get todos os cursos
-            var listCursos = cursoRepository.GetCursos().Select(item => new SelectListItem
+            List<Curso> lstCursos = new List<Curso>();
+           if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                List<Documento> retorno = new List<Documento>();
+                // lucciros : Implementar metodo que busque apenas os cursos do coordenador
+                //lstCursos = pirulitinho;
+            }
+            else{
+                lstCursos = cursoRepository.GetCursos();
+            }
+
+            var listCursosSelectList = lstCursos.Select(item => new SelectListItem
             {
                 Value = item.IdCurso.ToString(),
                 Text = item.Nome.ToString(),
             });
-            ViewBag.Cursos = new SelectList(listCursos, "Value", "Text");
+            ViewBag.Cursos = new SelectList(listCursosSelectList, "Value", "Text");
 
 
             var listTiposDoc = tipoDocumentoRepository.listaTipos().Select(item => new SelectListItem
@@ -89,7 +103,8 @@ namespace ControleDocumentos.Controllers
         }
 
         private void PopularDropDownAlunos(int idCurso) {
-            //get todos alunos pelo id do curso
+            // helenira: validar se o id do curso está entre os cursos do coordenador
+            // get todos alunos pelo id do curso
             var listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
             {
                 Value = item.IdAluno.ToString(),
@@ -100,6 +115,7 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile)
         {
+            // helenira : validar se o aluno é de algum curso do coordenador
             if (ModelState.IsValid)
             {
                 try
@@ -145,6 +161,7 @@ namespace ControleDocumentos.Controllers
 
         public object ExcluirDocumento(Documento doc)
         {
+            // helenira: validar se aluno está ok qndo for coodenador
             doc = documentoRepository.GetDocumentoById(doc.IdDocumento);
             if (documentoRepository.DeletaArquivo(doc))
             {
@@ -161,10 +178,11 @@ namespace ControleDocumentos.Controllers
         /// <param name="doc"></param>
         /// <returns>retorna o arquivo pra download</returns>
         /// 
-        public FileResult Download(string nomeDoc) //da pra vermos o melhor parametro
+        public FileResult Download(string nomeDoc)
         {
-            Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
+            // helenira, validar permissão de download caso seja coordenador
 
+            Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
             string nomeArquivo = doc.NomeDocumento;
             string extensao = Path.GetExtension(nomeArquivo);
 
@@ -173,7 +191,6 @@ namespace ControleDocumentos.Controllers
             byte[] bytes = DirDoc.BaixaArquivo(doc);
 
             return File(bytes, contentType, nomeArquivo);
-
         }
 
         public static byte[] converterFileToArray(HttpPostedFileBase x)
@@ -187,6 +204,7 @@ namespace ControleDocumentos.Controllers
 
         public JsonResult GetAlunosByIdCurso(int idCurso)
         {
+            // helenira: validar curso caso seja coordenador
             if (idCurso > 0)
             {
                 var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);

@@ -26,5 +26,11 @@ namespace ControleDocumentos.Controllers
             Response.StatusCode = 200;
             return View("InternalServer");
         }
+
+        public ActionResult Unauthorized()
+        {
+            Response.StatusCode = 200;
+            return View("Unauthorized");
+        }
     }
 }
