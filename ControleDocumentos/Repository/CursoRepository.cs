@@ -17,6 +17,16 @@ namespace ControleDocumentos.Repository
             return db.Curso.ToList();
         }
 
+        public List<Curso> GetCursoByCoordenador(string idCoordenador)
+        {
+            List<Curso> crs = (from cr in db.Curso
+                         join fu in db.Funcionario on cr.IdCoordenador equals fu.IdFuncionario
+                         where fu.IdUsuario == idCoordenador
+                         select cr).ToList();
+
+            return crs;
+        }
+
         public Curso GetCursoById(int idCurso)
         {
             return db.Curso.Find(idCurso);

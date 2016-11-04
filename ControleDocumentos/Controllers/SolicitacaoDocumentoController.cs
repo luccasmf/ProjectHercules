@@ -27,7 +27,10 @@ namespace ControleDocumentos.Controllers
             PopularDropDowns();
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<SolicitacaoDocumento> retorno = new List<SolicitacaoDocumento>();
+                
+                List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.Status == EnumStatusSolicitacao.processando).ToList();
+
+
                 // lucciros: Implementar metodo que busque apenas as solicitações vinculados a alunos que coordena
                 // e com status 'processando'
                 //retorno = 

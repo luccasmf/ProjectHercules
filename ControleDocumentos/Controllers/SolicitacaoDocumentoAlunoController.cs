@@ -11,8 +11,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
-    // lucciros : acho que aqui é só aluno, não?
-    [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+    //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
     public class SolicitacaoDocumentoAlunoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();

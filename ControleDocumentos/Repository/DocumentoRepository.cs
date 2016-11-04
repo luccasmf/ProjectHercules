@@ -67,5 +67,30 @@ namespace ControleDocumentos.Repository
             }
             return false;
         }
+
+        public List<Documento> GetDocsByCursoId(int idCurso)
+        {
+            List<Documento> docs = (from doc in db.Documento
+                                    join ac in db.AlunoCurso on doc.IdAlunoCurso equals ac.IdAlunoCurso
+                                    join cur in db.Curso on ac.IdCurso equals cur.IdCurso
+                                    where cur.IdCurso == idCurso
+                                    select doc).ToList();
+
+            //db.Documento.Where(x => x.AlunoCurso.Curso.IdCurso == idCurso).ToList();
+
+            return docs;
+        }
+
+        public List<Documento> GetDocsByCoordenador(string idCoord)
+        {
+            List<Documento> docs = (from doc in db.Documento
+                                    join ac in db.AlunoCurso on doc.IdAlunoCurso equals ac.IdAlunoCurso
+                                    join cu in db.Curso on ac.IdCurso equals cu.IdCurso
+                                    join fu in db.Funcionario on cu.IdCoordenador equals fu.IdFuncionario
+                                    where fu.IdUsuario == idCoord
+                                    select doc).ToList();
+
+            return docs;
+        }
     }
 }

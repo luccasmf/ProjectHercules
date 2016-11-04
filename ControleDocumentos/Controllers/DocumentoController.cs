@@ -29,7 +29,8 @@ namespace ControleDocumentos.Controllers
 
             if(Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<Documento> retorno = new List<Documento>();
+               
+                List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
                 // lucciros: Implementar metodo que busque apenas os docs vinculados a alunos que coordena
                 //retorno = documentoRepository.GetDocumentosByIdCoordenador(Utilidades.UsuarioLogado.IdUsuario);
                 return View(retorno);
@@ -76,12 +77,13 @@ namespace ControleDocumentos.Controllers
         {
             List<Curso> lstCursos = new List<Curso>();
            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
-            {
-                List<Documento> retorno = new List<Documento>();
+            {                
+                lstCursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+
                 // lucciros : Implementar metodo que busque apenas os cursos do coordenador
                 //lstCursos = pirulitinho;
             }
-            else{
+            else {
                 lstCursos = cursoRepository.GetCursos();
             }
 
