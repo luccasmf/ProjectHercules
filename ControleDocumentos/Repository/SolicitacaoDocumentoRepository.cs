@@ -183,5 +183,16 @@ namespace ControleDocumentos.Repository
 
             return solics;
         }
-    }
+
+        public List<SolicitacaoDocumento> GetByFilterCoordenador(SolicitacaoDocumentoFilter filter, string idCoord)
+        {
+            List<SolicitacaoDocumento> solics = (from so in db.SolicitacaoDocumento
+                                                 join ac in db.AlunoCurso on so.IdAlunoCurso equals ac.IdAlunoCurso
+                                                 join cu in db.Curso on ac.IdCurso equals cu.IdCurso
+                                                 join fu in db.Funcionario on cu.IdCoordenador equals fu.IdFuncionario
+                                                 where fu.IdUsuario == idCoord
+                                                 select so).Where(x => x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList();
+
+            return solics;
+        }
 }

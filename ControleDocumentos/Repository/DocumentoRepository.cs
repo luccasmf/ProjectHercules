@@ -92,5 +92,16 @@ namespace ControleDocumentos.Repository
 
             return docs;
         }
+
+        public List<Documento> GetDocsByAluno(string idAluno)
+        {
+            List<Documento> docs = (from doc in db.Documento
+                                    join ac in db.AlunoCurso on doc.IdAlunoCurso equals ac.IdAlunoCurso
+                                   join al in db.Aluno on ac.IdAluno equals al.IdAluno
+                                    where al.IdUsuario == idAluno
+                                    select doc).ToList();
+
+            return docs;
+        }
     }
 }

@@ -66,8 +66,9 @@ namespace ControleDocumentos.Controllers
         {
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-                // lucciros: get pelo filter considerando apenas solicitações de alunos do curso do coordenador
-                //return PartialView("_List", solicitacaoRepository.GetByFilterCoordenador(filter, Utilidades.UsuarioLogado.IdUsuario));
+                // lucciros: get pelo filter considerando apenas solicitações de alunos do curso do coordenador                
+
+               return PartialView("_List", solicitacaoRepository.GetByFilterCoordenador(filter, Utilidades.UsuarioLogado.IdUsuario));
             }
             return PartialView("_List", solicitacaoRepository.GetByFilter(filter));
         }
