@@ -134,9 +134,15 @@ namespace ControleDocumentos.Controllers
         /// </summary>
         /// <param name="doc"></param>
         /// <returns>retorna o arquivo pra download</returns>
-        public FileResult Download(string nomeDoc)
+        public ActionResult Download(string nomeDoc)
         {
             Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
+
+            if (Utilidades.UsuarioLogado.IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
+            {
+                return RedirectToAction("Unauthorized", "Error");
+            }
+
             string nomeArquivo = doc.NomeDocumento;
             string extensao = Path.GetExtension(nomeArquivo);
 
