@@ -539,6 +539,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalServer.cshtml" />
     <Content Include="Views\Error\Unauthorized.cshtml" />
+    <Content Include="Views\Error\_Unauthorized.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -551,7 +552,6 @@
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Curso\" />
     <Folder Include="Views\Evento\" />
-    <Folder Include="Views\Shared\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControleDocumentosLibrary\ControleDocumentosLibrary.csproj">

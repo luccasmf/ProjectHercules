@@ -12,6 +12,7 @@ using ControleDocumentos.Util;
 
 namespace ControleDocumentos.Controllers
 {
+    // autorizar coordenador, aluno e secretaria
     //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
     public class DocumentoController : BaseController
     {
@@ -20,26 +21,33 @@ namespace ControleDocumentos.Controllers
         AlunoRepository alunoRepository = new AlunoRepository();
         DocumentoRepository documentoRepository = new DocumentoRepository();
 
-
         // GET: Documento
         public ActionResult Index()
         {
             // apenas se decidirmos n usar o datatables como filtro
             // PopularDropDowns();
 
-            if(Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-               
                 List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
-                // lucciros: Implementar metodo que busque apenas os docs vinculados a alunos que coordena
-                //retorno = documentoRepository.GetDocumentosByIdCoordenador(Utilidades.UsuarioLogado.IdUsuario);
                 return View(retorno);
+            }
+
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+            {
+                // lucciros: retornar docs do aluno
+                //List<Documento> retorno = documentoRepository.GetDocsByAluno(Utilidades.UsuarioLogado.IdUsuario);
+                //return View(retorno);
             }
             return View(documentoRepository.GetAllDocs());
         }
 
+        // autoriza coordenação e secretaria
         public ActionResult CadastrarDocumento(int? idDoc)
         {
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+                return RedirectToAction("UnauthorizedPartial", "Error");
+
             PopularDropDowns();
             Documento doc = new Documento();
 
@@ -60,11 +68,17 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List()
         {
-            // helenira : replicar validação da index
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                return PartialView("_List", retorno);
+            }
+            // helenira: replicar validação da view
             return PartialView("_List", documentoRepository.GetAllDocs());
-            
+
         }
 
+        // autoriza coordenação e secretaria
         public ActionResult CarregaModalExclusao(int idDoc)
         {
             Documento doc = documentoRepository.GetDocumentoById(idDoc);
@@ -76,12 +90,9 @@ namespace ControleDocumentos.Controllers
         private void PopularDropDowns()
         {
             List<Curso> lstCursos = new List<Curso>();
-           if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
-            {                
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
                 lstCursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
-
-                // lucciros : Implementar metodo que busque apenas os cursos do coordenador
-                //lstCursos = pirulitinho;
             }
             else {
                 lstCursos = cursoRepository.GetCursos();
@@ -104,28 +115,50 @@ namespace ControleDocumentos.Controllers
 
         }
 
-        private void PopularDropDownAlunos(int idCurso) {
-            // helenira: validar se o id do curso está entre os cursos do coordenador
-            // get todos alunos pelo id do curso
-            var listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
+        private void PopularDropDownAlunos(int idCurso)
+        {
+            var ok = false;
+            List<SelectListItem> listAlunos = new List<SelectListItem>();
+
+            // se é coordenador, valida se usuario é coordenador do curso passado no parametro
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-                Value = item.IdAluno.ToString(),
-                Text = item.Usuario.Nome.ToString(),
-            });
+                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                if (cursos.Any(x => x.IdCurso == idCurso))
+                    ok = true;
+            }
+
+            if (ok || Utilidades.UsuarioLogado.Permissao != EnumPermissaoUsuario.coordenador)
+            {
+                listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
+                {
+                    Value = item.IdAluno.ToString(),
+                    Text = item.Usuario.Nome.ToString(),
+                }).ToList();
+            }
+
             ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
         }
 
+        // autoriza coordenador e secretaria
         public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile)
         {
-            // helenira : validar se o aluno é de algum curso do coordenador
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // valida se o aluno está matriculado no curso que coordena
+                    if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+                    {
+                        var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                        if (!cursos.Any(x => x.AlunoCurso.Any(y => y.IdAluno == doc.AlunoCurso.IdAluno)))
+                            return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
+                    }
+
                     if (uploadFile == null)
                         return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
 
-                    if(!ValidaArquivo(uploadFile.FileName))
+                    if (!ValidaArquivo(uploadFile.FileName))
                     {
                         return Json(new { Status = false, Type = "error", Message = "Formato inválido" }, JsonRequestBehavior.AllowGet);
 
@@ -141,7 +174,7 @@ namespace ControleDocumentos.Controllers
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Sucesso":
                             doc.arquivo = null;
-                            Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, doc, (doc.IdDocumento > 0 ? (int?)doc.IdDocumento:null));
+                            Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, doc, (doc.IdDocumento > 0 ? (int?)doc.IdDocumento : null));
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Falha ao persistir":
                             return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
@@ -161,9 +194,17 @@ namespace ControleDocumentos.Controllers
             }
         }
 
+        // autoriza coordenador e secretaria
         public object ExcluirDocumento(Documento doc)
         {
-            // helenira: validar se aluno está ok qndo for coodenador
+            // valida se o aluno está matriculado no curso que coordena
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                if (!cursos.Any(x => x.AlunoCurso.Any(y => y.IdAluno == doc.AlunoCurso.IdAluno)))
+                    return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
+            }
+
             doc = documentoRepository.GetDocumentoById(doc.IdDocumento);
             if (documentoRepository.DeletaArquivo(doc))
             {
@@ -180,11 +221,17 @@ namespace ControleDocumentos.Controllers
         /// <param name="doc"></param>
         /// <returns>retorna o arquivo pra download</returns>
         /// 
-        public FileResult Download(string nomeDoc)
+        public ActionResult Download(string nomeDoc)
         {
-            // helenira, validar permissão de download caso seja coordenador
-
             Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
+
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                if (!retorno.Any(x => x.IdDocumento == doc.IdDocumento))
+                    return RedirectToAction("Unauthorized", "Error");
+            }
+
             string nomeArquivo = doc.NomeDocumento;
             string extensao = Path.GetExtension(nomeArquivo);
 
@@ -206,7 +253,14 @@ namespace ControleDocumentos.Controllers
 
         public JsonResult GetAlunosByIdCurso(int idCurso)
         {
-            // helenira: validar curso caso seja coordenador
+            // se é coordenador, valida se é coodenador do curso passado por parametro
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                if (!cursos.Any(x => x.IdCurso == idCurso))
+                    return Json(null);
+            }
+
             if (idCurso > 0)
             {
                 var lstAlunos = alunoRepository.GetAlunoByIdCurso(idCurso);
@@ -214,6 +268,7 @@ namespace ControleDocumentos.Controllers
             }
             return Json(null);
         }
+
         #endregion
     }
 }
