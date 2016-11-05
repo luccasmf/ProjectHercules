@@ -24,6 +24,9 @@ namespace ControleDocumentos.Controllers
         public ActionResult Index()
         {
             Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+            if (aluno == null) {
+                return RedirectToAction("Unauthorized", "Error");
+            }
             var id = aluno.IdAluno;
             return View(solicitacaoRepository.GetAguardandoAtendimentoAluno(id));
         }
