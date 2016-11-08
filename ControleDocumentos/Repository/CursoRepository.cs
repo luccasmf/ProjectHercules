@@ -27,6 +27,11 @@ namespace ControleDocumentos.Repository
             return crs;
         }
 
+        public List<Curso> GetCursoByArrayId(int[] ids)
+        {
+            return db.Curso.Where(x => ids.Contains(x.IdCurso)).ToList();
+        }
+
         public Curso GetCursoById(int idCurso)
         {
             return db.Curso.Find(idCurso);

@@ -82,14 +82,20 @@ namespace ControleDocumentos.Repository
 
         }
 
-        public string PersisteEvento(Evento ev)
+        public string PersisteEvento(Evento ev, int[] idsCurso)
         {
             if (ev.IdEvento > 0)
             {
-                return ComparaInfos(ev);
+                return ComparaInfos(ev, idsCurso);
             }
             else
             {
+                List<Curso> cursos = db.Curso.Where(c => idsCurso.Contains(c.IdCurso)).ToList();
+
+                foreach(var c in cursos)
+                {
+                    ev.Curso.Add(c);
+                }
                 db.Evento.Add(ev);
 
             }
@@ -156,25 +162,49 @@ namespace ControleDocumentos.Repository
             return alunos;
         }
 
-        private string ComparaInfos(Evento ev)
+        private string ComparaInfos(Evento ev, int[] idsCurso)
         {
             DocumentosModel db2 = new DocumentosModel();
             Evento eventoOld = db2.Evento.Find(ev.IdEvento);
 
             eventoOld = Utilidades.ComparaValores(eventoOld, ev, new string[] { "NomeEvento", "Vagas", "VagasPreenchidas", "CargaHoraria", "PresencaNecessaria", "DataInicio", "DataFim", "Status", "Local", "Observacao" });
 
-            if(eventoOld == null)
+            if (eventoOld == null)
             {
-                return "Mantido";
+                if (idsCurso == null)
+                {
+                    return "Mantido";
+                }
+                else
+                {
+                    List<Curso> cursos = db2.Curso.Where(c => idsCurso.Contains(c.IdCurso)).ToList();
+
+                    eventoOld = db2.Evento.Find(ev.IdEvento);
+                    eventoOld.Curso.Clear();
+                    foreach (var c in cursos)
+                    {
+
+                        eventoOld.Curso.Add(c);
+                    }
+                }
             }
-            if (db2.SaveChanges() > 0)
+
+            try
             {
-                return "Alterado";
+                if (db2.SaveChanges() > 0)
+                {
+                    return "Alterado";
+                }
+                else
+                {
+                    return "Mantido";
+                }
             }
-            else
+            catch
             {
                 return "Erro";
             }
+            
         }
     }
 }

@@ -16,6 +16,7 @@ namespace ControleDocumentos.Controllers
     {
         EventoRepository eventoRepository = new EventoRepository();
         CursoRepository cursoRepository = new CursoRepository();
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
 
         // GET: Evento
         public ActionResult Index()
@@ -60,9 +61,12 @@ namespace ControleDocumentos.Controllers
 
         public object SalvaEvento(Evento e, int[] Cursos) //serve pra cadastrar e editar
         {
-            //lucciros aqui vai ter q percorrer e popular o evento com os cursos e tals
-
-            switch (eventoRepository.PersisteEvento(e))
+            if (e.IdEvento == 0)
+            {
+                Funcionario f = usuarioRepository.GetFuncionarioByUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                e.IdFuncionarioCriador = f.IdFuncionario;
+            }
+            switch (eventoRepository.PersisteEvento(e, Cursos))
             {
                 case "Mantido":
                     return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
