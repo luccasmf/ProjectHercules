@@ -22,6 +22,11 @@ namespace ControleDocumentos.Repository
             return db.Usuario.Find(al.IdUsuario);
         }
 
+        public Funcionario GetFuncionarioByUsuario(string idUsuario)
+        {
+            return db.Funcionario.Where(u => u.IdUsuario == idUsuario).FirstOrDefault();
+        }
+
         public Usuario GetUsuarioByFuncionario(Funcionario func)
         {
             return db.Usuario.Find(func.IdUsuario);
