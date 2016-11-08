@@ -139,7 +139,7 @@
                             <a class="dropmenu" href="index.cshtml"><i class="fa fa-folder-open"></i><span class="hidden-sm">Documentação</span></a>
                             <ul>
                                 @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
-Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
+                Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
                                 {
                                     <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Documentos de alunos</span></a></li>
                                     <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumento")"><span class="submenu-m">Solicitações de documentos</span></a></li>
@@ -147,18 +147,24 @@ Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsu
                                 }
                                 else if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                                 {
+                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Meus documentos</span></a></li>
                                     <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumentoAluno")"><span class="submenu-m">Solicitações de documentos</span></a></li>
                                 }
                             </ul>
                         </li>
-                        <li class="drop-middle"><a href="index.cshtml"><i class="fa fa-calendar"></i><span class="hidden-sm submenu-m">Eventos</span></a></li>
+                        @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
+                            Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
+                        {
+                            <li class="drop-middle"><a href="@Url.Action("Index", "Evento")"><i class="fa fa-calendar"></i><span class="hidden-sm submenu-m">Eventos</span></a></li>
+                        }
+                        else if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                        {
+                            <li class="drop-middle"><a href="@Url.Action("MeusEventos", "Evento")"><i class="fa fa-calendar"></i><span class="hidden-sm submenu-m">Meus eventos</span></a></li>
+                        }
                         <li class="drop-bottom"><a href="index.cshtml"><i class="fa fa-clock-o"></i><span class="hidden-sm submenu-m">Horas complementares</span></a></li>
                     </ul>
                 </div>
             </div>
-            @*<a id="main-menu-toggle" class="hidden-xs open"><i class="fa fa-bars"></i></a>
-                TODO: aqui da pra adicionar um icone talvez sei lar
-            *@
             <!-- end: Main Menu -->
             <!-- start: Content -->
             <div id="content" class="col-sm-11">

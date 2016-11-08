@@ -1,0 +1,143 @@
+﻿@model ControleDocumentosLibrary.Evento
+
+<h1>Cadastro de Evento</h1>
+<br />
+
+@using (Html.BeginForm("SalvaEvento", "Evento", FormMethod.Post, new { @class = "frm-submit" }))
+{
+    @Html.HiddenFor(x => x.IdEvento)
+    <div class="form-group row">
+        <div class="col-md-10">
+            @Html.Label("Nome do evento*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                        Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @disabled = true })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @required = true, @max_length = 30 })
+            }
+        </div>
+        <div class="col-md-10">
+            @Html.Label("Local do evento*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.Local, new { @class = "form-control", @disabled = true })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.Local, new { @class = "form-control", @required = true, @max_length = 50 })
+            }
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-10">
+            @Html.Label("Cursos*")
+            <div class="controls">
+                @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                {
+                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, "Selecione pelo menos um", new { @id = "ddlCurso", @class = "form-control", @disabled = true, @multiple = true, data_rel = "chosen" })
+                }
+                else
+                {
+                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, "Selecione pelo menos um", new { @id = "ddlCurso", @class = "form-control", @multiple = true, data_rel = "chosen" })
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-4">
+            @Html.Label("Data/hora de início*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control", @disabled = true })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control", @required = true })
+            }
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Data/hora de fim*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control", @disabled = true })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control", @required = true })
+            }
+        </div>
+        <div class="col-md-2">
+            @Html.Label("Qtde hrs*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @required = true, max_length = 3 })
+            }
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2">
+            @Html.Label("Qtde vagas*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @required = true, max_length = 3 })
+            }
+        </div>
+        <div class="col-md-2">
+            @Html.Label("Vagas Preenchidas")
+            @if (Model.IdEvento > 0)
+            {
+                @Html.TextBoxFor(x => x.VagasPreenchidas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+            }
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-10">
+            @Html.Label("Observações")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                            Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows = 10, @disabled = true })
+            }
+            else
+            {
+                @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows = 10 })
+            }
+        </div>
+    </div>
+
+    <div class="text-right form-group">
+        <a type="button" class="btn btn-default btnCancelar" url="@Url.Action("Index", "Evento")">Voltar</a>
+        @if (Model.IdEvento > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
+                                    Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+        {
+            <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "Evento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idEvento = Model.IdEvento })">Cancelar evento</a>
+        }
+        @if (Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
+                                    Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+        {
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        }
+    </div>
+}
+

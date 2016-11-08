@@ -307,6 +307,7 @@ function bindCadastro() {
                         iconName: "fa fa-folder-open",
                         buttonBefore: true,
                     });
+                    $('[data-rel="chosen"],[rel="chosen"]').chosen();
                 }
             },
             error: function () {

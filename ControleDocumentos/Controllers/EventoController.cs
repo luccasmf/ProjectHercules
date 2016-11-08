@@ -7,6 +7,7 @@ using ControleDocumentos.Repository;
 using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
 using ControleDocumentos.Filter;
+using ControleDocumentos.Util.Extension;
 
 namespace ControleDocumentos.Controllers
 {
@@ -14,11 +15,47 @@ namespace ControleDocumentos.Controllers
     public class EventoController : BaseController
     {
         EventoRepository eventoRepository = new EventoRepository();
+        CursoRepository cursoRepository = new CursoRepository();
+
         // GET: Evento
         public ActionResult Index()
         {
-           List<Evento> eventos = eventoRepository.GetEventos();
+            PopularDropDownsFiltro();
+            List<Evento> eventos = eventoRepository.GetEventos();
+
             return View(eventos);
+        }
+
+        //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
+        public ActionResult MeusEventos()
+        {
+            List<Evento> eventos = eventoRepository.GetEventosByAluno(Utilidades.UsuarioLogado.IdUsuario);
+
+            return View(eventos);
+        }
+
+        public ActionResult CadastrarEvento(int? idEvento)
+        {
+            PopularDropDownsCadastro();
+            Evento evento = new Evento();
+
+            if (idEvento.HasValue)
+            {
+                evento = eventoRepository.GetEventoById((int)idEvento);
+            }
+            //retorna model
+            return PartialView("_CadastroEvento", evento);
+        }
+
+        public ActionResult List(Models.EventoFilter filter)
+        {
+            return PartialView("_List", eventoRepository.GetByFilter(filter));
+        }
+
+        public ActionResult CarregaModalConfirmacao(EnumStatusEvento novoStatus, int idEvento)
+        {
+            Evento evento = new Evento { IdEvento = idEvento, Status = novoStatus };
+            return PartialView("_AlteracaoStatus", evento);
         }
 
         public object SalvaEvento(Evento e) //serve pra cadastrar e editar
@@ -69,5 +106,30 @@ namespace ControleDocumentos.Controllers
             }
             return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
         }
+
+        #region Métodos auxiliares
+        private void PopularDropDownsFiltro()
+        {
+            var listStatus = Enum.GetValues(typeof(EnumStatusEvento)).
+                Cast<EnumStatusEvento>().Select(v => new SelectListItem
+                {
+                    Text = EnumExtensions.GetEnumDescription(v),
+                    Value = ((int)v).ToString(),
+                }).ToList();
+
+            ViewBag.Status = new SelectList(listStatus, "Value", "Text");
+        }
+
+        private void PopularDropDownsCadastro()
+        {
+            var listCursosSelectList = cursoRepository.GetCursos().Select(item => new SelectListItem
+            {
+                Value = item.IdCurso.ToString(),
+                Text = item.Nome.ToString(),
+            });
+            ViewBag.Cursos = new SelectList(listCursosSelectList, "Value", "Text");
+        }
+
+        #endregion
     }
 }

@@ -21,17 +21,21 @@
                     <td>@doc.Data.ToShortDateString()</td>
                     <td>@doc.NomeDocumento</td>
                     <td class="center">
-                        @if (!string.IsNullOrEmpty(doc.NomeDocumento)) {
-                        <a data-rel="tooltip" title="Baixar" href="@Url.Action("Download","Documento",new { nomeDoc = doc.NomeDocumento })">
-                            <i class="fa fa-download icon-action"></i>
-                        </a>
+                        @if (!string.IsNullOrEmpty(doc.NomeDocumento))
+                        {
+                            <a data-rel="tooltip" title="Baixar" href="@Url.Action("Download","Documento",new { nomeDoc = doc.NomeDocumento })">
+                                <i class="fa fa-download icon-action"></i>
+                            </a>
                         }
-                        <a class="btnCadastro" data-rel="tooltip" title="Editar" href="#" url="@Url.Action("CadastrarDocumento","Documento", new { idDoc = doc.IdDocumento })">
-                            <i class="fa fa-edit icon-action"></i>
-                        </a>
-                        <a class="btnConfirm" data-rel="tooltip" title="Excluir" url="@Url.Action("CarregaModalExclusao","Documento", new { idDoc = doc.IdDocumento })" href="#">
-                            <i class="fa fa-trash-o icon-action"></i>
-                        </a>
+                        @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                        {
+                            <a class="btnCadastro" data-rel="tooltip" title="Editar" href="#" url="@Url.Action("CadastrarDocumento", "Documento", new { idDoc = doc.IdDocumento })">
+                                <i class="fa fa-edit icon-action"></i>
+                            </a>
+                            <a class="btnConfirm" data-rel="tooltip" title="Excluir" url="@Url.Action("CarregaModalExclusao", "Documento", new { idDoc = doc.IdDocumento })" href="#">
+                                <i class="fa fa-trash-o icon-action"></i>
+                            </a>
+                        }
                     </td>
                 </tr>
             }

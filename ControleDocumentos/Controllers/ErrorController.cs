@@ -32,5 +32,11 @@ namespace ControleDocumentos.Controllers
             Response.StatusCode = 200;
             return View("Unauthorized");
         }
+
+        public ActionResult UnauthorizedPartial()
+        {
+            Response.StatusCode = 200;
+            return PartialView("_Unauthorized");
+        }
     }
 }
