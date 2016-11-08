@@ -58,8 +58,10 @@ namespace ControleDocumentos.Controllers
             return PartialView("_AlteracaoStatus", evento);
         }
 
-        public object SalvaEvento(Evento e) //serve pra cadastrar e editar
+        public object SalvaEvento(Evento e, int[] Cursos) //serve pra cadastrar e editar
         {
+            //lucciros aqui vai ter q percorrer e popular o evento com os cursos e tals
+
             switch (eventoRepository.PersisteEvento(e))
             {
                 case "Mantido":

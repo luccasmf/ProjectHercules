@@ -7,7 +7,7 @@
 {
     @Html.HiddenFor(x => x.IdEvento)
     <div class="form-group row">
-        <div class="col-md-10">
+        <div class="col-md-10 form-group">
             @Html.Label("Nome do evento*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                                         Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
@@ -19,10 +19,13 @@
                 @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @required = true, @max_length = 30 })
             }
         </div>
+    </div>
+
+    <div class="row form-group">
         <div class="col-md-10">
             @Html.Label("Local do evento*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                                        Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
                 @Html.TextBoxFor(x => x.Local, new { @class = "form-control", @disabled = true })
             }
@@ -38,13 +41,13 @@
             @Html.Label("Cursos*")
             <div class="controls">
                 @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
                 {
-                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, "Selecione pelo menos um", new { @id = "ddlCurso", @class = "form-control", @disabled = true, @multiple = true, data_rel = "chosen" })
+                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, new { @class = "form-control", @disabled = true, @multiple = true, data_rel = "chosen" })
                 }
                 else
                 {
-                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, "Selecione pelo menos um", new { @id = "ddlCurso", @class = "form-control", @multiple = true, data_rel = "chosen" })
+                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, new { @class = "form-control", @multiple = true, data_rel = "chosen" })
                 }
             </div>
         </div>
@@ -56,11 +59,11 @@
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
-                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control", @disabled = true })
+                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datepicker", @disabled = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToShortDateString() })
             }
             else
             {
-                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control", @required = true })
+                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datepicker", @required = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToShortDateString() })
             }
         </div>
         <div class="col-md-4">
@@ -68,11 +71,11 @@
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                                     Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
-                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control", @disabled = true })
+                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datepicker", @disabled = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToShortDateString() })
             }
             else
             {
-                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control", @required = true })
+                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datepicker", @required = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToShortDateString() })
             }
         </div>
         <div class="col-md-2">
@@ -103,9 +106,9 @@
             }
         </div>
         <div class="col-md-2">
-            @Html.Label("Vagas Preenchidas")
             @if (Model.IdEvento > 0)
             {
+                @Html.Label("Vagas Preenchidas")
                 @Html.TextBoxFor(x => x.VagasPreenchidas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
             }
         </div>

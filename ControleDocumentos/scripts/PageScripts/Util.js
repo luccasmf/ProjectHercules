@@ -307,7 +307,9 @@ function bindCadastro() {
                         iconName: "fa fa-folder-open",
                         buttonBefore: true,
                     });
-                    $('[data-rel="chosen"],[rel="chosen"]').chosen();
+                    $('[data-rel="chosen"],[rel="chosen"]').chosen({
+                        placeholder_text_multiple:"Selecione pelo menos uma opção"
+                    });
                 }
             },
             error: function () {
