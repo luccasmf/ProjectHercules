@@ -42,7 +42,7 @@ namespace ControleDocumentosLibrary
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AlunoEvento>()
-                .HasMany(e => e.Presenca1)
+                .HasMany(e => e.Presenca)
                 .WithRequired(e => e.AlunoEvento)
                 .HasForeignKey(e => new { e.IdAluno, e.IdEvento })
                 .WillCascadeOnDelete(false);
@@ -101,6 +101,12 @@ namespace ControleDocumentosLibrary
                 .WithOptional(e => e.Funcionario)
                 .HasForeignKey(e => e.IdFuncionarioCriador);
 
+            modelBuilder.Entity<Funcionario>()
+                .HasMany(e => e.Presenca)
+                .WithRequired(e => e.Funcionario)
+                .HasForeignKey(e => e.IdProfessor)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Logs>()
                 .Property(e => e.IdUsuario)
                 .IsUnicode(false);
@@ -146,3 +152,4 @@ namespace ControleDocumentosLibrary
         }
     }
 }
+

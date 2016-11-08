@@ -47,7 +47,7 @@ namespace ControleDocumentos.Repository
                                   join ae in db.AlunoEvento on a.IdAluno equals ae.IdAluno
                                   join e in db.Evento on ae.IdEvento equals e.IdEvento
                                   join p in db.Presenca on e.IdEvento equals p.IdEvento
-                                  where ((e.IdEvento == ev.IdEvento) && (ae.Presenca >= e.PresencaNecessaria))
+                                  where ((e.IdEvento == ev.IdEvento) && (ae.QuantidadePresenca >= e.PresencaNecessaria))
                                   select a).ToList();
             return alunos;
 
@@ -79,7 +79,7 @@ namespace ControleDocumentos.Repository
             AlunoEvento ae = new AlunoEvento();
             ae.IdAluno = idAluno;
             ae.IdEvento = idEvento;
-            ae.Presenca = 0;
+            ae.QuantidadePresenca = 0;
 
             db.AlunoEvento.Add(ae);
 
@@ -100,12 +100,12 @@ namespace ControleDocumentos.Repository
             {
                 if (idAluno.Contains(ae.IdAluno))
                 {
-                    ae.Presenca++;
+                    ae.QuantidadePresenca++;
                     Presenca p = new Presenca();
                     p.IdAluno = ae.IdAluno;
                     p.IdEvento = idEvento;
                     p.Data = DateTime.Now;
-                    ae.Presenca1.Add(p);
+                    ae.Presenca.Add(p);
                 }
             }
 

@@ -23,6 +23,13 @@ namespace ControleDocumentosLibrary
         [Column(Order = 2)]
         public DateTime Data { get; set; }
 
+        [Key]
+        [Column(Order = 3)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int IdProfessor { get; set; }
+
         public virtual AlunoEvento AlunoEvento { get; set; }
+
+        public virtual Funcionario Funcionario { get; set; }
     }
 }
