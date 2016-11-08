@@ -301,6 +301,7 @@ function bindCadastro() {
                     $(".divList").hide();
 
                     $('.datepicker').datepicker();
+                    $('.datetimepicker').datetimepicker();
                     $(":file").filestyle({
                         buttonText: "Procurar",
                         buttonName: "btn-primary",

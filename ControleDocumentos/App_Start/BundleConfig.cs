@@ -20,7 +20,8 @@ namespace ControleDocumentos
                         "~/Scripts/jquery.flot.resize.min.js",
                         "~/Scripts/jquery.noty.min.js",
                         "~/Scripts/locales/jquery.ui.datepicker-pt-BR.js",
-                        "~/Scripts/jquery.chosen.min.js"));
+                        "~/Scripts/jquery.chosen.min.js",
+                        "~/Scripts/timepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/util").Include(
                     "~/Scripts/PageScripts/Util.js"));
@@ -42,7 +43,8 @@ namespace ControleDocumentos
                       "~/Content/css/style.css",
                       "~/Content/css/retina.css",
                       "~/Content/css/datatables.min.css",
-                      "~/Content/css/chosen.min.css"
+                      "~/Content/css/chosen.css",
+                      "~/Content/css/timepicker.css"
                       ));
 
             BundleTable.EnableOptimizations = false;

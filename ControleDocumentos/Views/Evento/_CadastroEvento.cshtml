@@ -59,11 +59,11 @@
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
-                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datepicker", @disabled = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToShortDateString() })
+                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datetimepicker", @disabled = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToString() })
             }
             else
             {
-                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datepicker", @required = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToShortDateString() })
+                @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datetimepicker", @required = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToString() })
             }
         </div>
         <div class="col-md-4">
@@ -71,11 +71,11 @@
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                                     Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
-                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datepicker", @disabled = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToShortDateString() })
+                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datetimepicker", @disabled = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToString() })
             }
             else
             {
-                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datepicker", @required = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToShortDateString() })
+                @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datetimepicker", @required = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToString() })
             }
         </div>
         <div class="col-md-2">

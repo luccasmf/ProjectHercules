@@ -73,9 +73,9 @@ namespace ControleDocumentos.Controllers
                     Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, e.IdEvento);
                     return Json(new { Status = true, Type = "success", Message = "Evento alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Erro":
-                    return Json(new { Status = false, Type = "error", Message = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
                 default:
-                    return Json(new { Status = false, Type = "error", Message = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
             }
         }
 
