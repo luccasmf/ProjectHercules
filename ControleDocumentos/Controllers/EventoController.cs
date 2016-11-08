@@ -26,13 +26,12 @@ namespace ControleDocumentos.Controllers
             return View(eventos);
         }
 
-        // autoriza aluno
+        //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult MeusEventos()
         {
-            //lucciros faz issaqui pfvr
-            //List<Evento> eventos = eventoRepository.GetEventosByAluno();
+            List<Evento> eventos = eventoRepository.GetEventosByAluno(Utilidades.UsuarioLogado.IdUsuario);
 
-            return View(new List<Evento>());
+            return View(eventos);
         }
 
         public ActionResult CadastrarEvento(int? idEvento)
@@ -50,9 +49,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(Models.EventoFilter filter)
         {
-            // lucciros faz isso aqui pfvr
-            //return PartialView("_List", eventoRepository.GetByFilter(filter));
-            return null;
+            return PartialView("_List", eventoRepository.GetByFilter(filter));
         }
 
         public ActionResult CarregaModalConfirmacao(EnumStatusEvento novoStatus, int idEvento)

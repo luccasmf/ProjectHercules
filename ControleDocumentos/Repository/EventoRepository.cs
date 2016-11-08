@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
+using ControleDocumentos.Models;
 
 namespace ControleDocumentos.Repository
 {
@@ -37,6 +38,34 @@ namespace ControleDocumentos.Repository
                                     join ae in db.AlunoEvento on e.IdEvento equals ae.IdEvento
                                     where ae.IdAluno == idAluno
                                     select e).ToList();
+
+            return eventos;
+        }
+
+        internal List<Evento> GetEventosByAluno(string idUsuario)
+        {
+            List<Evento> eventos = (from e in db.Evento
+                                    join ae in db.AlunoEvento on e.IdEvento equals ae.IdEvento
+                                    join a in db.Aluno on ae.IdAluno equals a.IdAluno
+                                    where a.IdUsuario == idUsuario
+                                    select e).ToList();
+
+            return eventos;
+        }
+
+        internal List<Evento> GetByFilter(EventoFilter filter)
+        {
+            List<Evento> eventos = new List<Evento>();
+
+            if (!string.IsNullOrEmpty(filter.NomeEvento))
+            {
+                eventos = db.Evento.Where(x => x.NomeEvento == filter.NomeEvento).ToList();
+            }
+            else if (filter.IdStatus!=null)
+            {
+                eventos = db.Evento.Where(x => x.Status == (EnumStatusEvento)filter.IdStatus).ToList();
+            }
+
 
             return eventos;
         }
