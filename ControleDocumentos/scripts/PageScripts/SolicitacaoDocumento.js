@@ -4,13 +4,13 @@ $(document).ready(function () {
     bindShowConfirmacao();
     bindDatatable();
     bindFormFilter();
-    bindFormSubmitAlterarStatus();
     bindCancelar();
     bindFormSubmit();
 
     bindCadastroSol();
     bindGetAlunos();
     bindAlterarStatus();
+    bindFormSubmitAlterarStatus();
 });
 
 function bindGetAlunos() {

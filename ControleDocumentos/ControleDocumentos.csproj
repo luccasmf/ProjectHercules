@@ -437,6 +437,7 @@
     <Content Include="Scripts\misc\elfinder-connector\mime.types" />
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\PageScripts\Evento.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumentoAluno.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
@@ -473,6 +474,7 @@
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\SolicitacaoDocumentoEmail.cs" />
+    <Compile Include="Models\EventoFilter.cs" />
     <Compile Include="Models\SolicitacaoDocumentoFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AlunoRepository.cs" />
@@ -540,6 +542,11 @@
     <Content Include="Views\Error\InternalServer.cshtml" />
     <Content Include="Views\Error\Unauthorized.cshtml" />
     <Content Include="Views\Error\_Unauthorized.cshtml" />
+    <Content Include="Views\Evento\Index.cshtml" />
+    <Content Include="Views\Evento\_AlteracaoStatus.cshtml" />
+    <Content Include="Views\Evento\_CadastroEvento.cshtml" />
+    <Content Include="Views\Evento\_List.cshtml" />
+    <Content Include="Views\Evento\MeusEventos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -551,7 +558,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Curso\" />
-    <Folder Include="Views\Evento\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControleDocumentosLibrary\ControleDocumentosLibrary.csproj">

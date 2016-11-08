@@ -1,0 +1,28 @@
+﻿@model List<ControleDocumentosLibrary.Evento>
+<table class="table table-striped table-bordered commmon-datatable">
+    <thead>
+        <tr>
+            <th>Nome do evento</th>
+            <th>Cursos</th>
+            <th>Período</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ev in Model)
+            {
+            <tr>
+                <td>@ev.NomeEvento</td>
+                <td>@(ev.Curso != null ? string.Join(" / ", ev.Curso.Select(x => x.Nome)) : "")</td>
+                <td>@(ev.DataInicio + " à " + ev.DataFim)</td>
+                <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(ev.Status))</td>
+                <td class="center">
+                    <a class="btnCadastro" data-rel="tooltip" title="@(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarEvento","Evento", new { idEvento = ev.IdEvento })">
+                        <i class="icon-action @(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "fa fa-eye" : "fa fa-edit")"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
