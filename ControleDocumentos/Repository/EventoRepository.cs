@@ -57,13 +57,21 @@ namespace ControleDocumentos.Repository
         {
             List<Evento> eventos = new List<Evento>();
 
-            if (!string.IsNullOrEmpty(filter.NomeEvento))
+            if (!string.IsNullOrEmpty(filter.NomeEvento) && filter.IdStatus == null)
             {
                 eventos = db.Evento.Where(x => x.NomeEvento == filter.NomeEvento).ToList();
             }
-            else if (filter.IdStatus!=null)
+            else if (filter.IdStatus!=null && string.IsNullOrEmpty(filter.NomeEvento))
             {
                 eventos = db.Evento.Where(x => x.Status == (EnumStatusEvento)filter.IdStatus).ToList();
+            }
+            else if (filter.IdStatus!=null && !string.IsNullOrEmpty(filter.NomeEvento))
+            {
+                eventos = db.Evento.Where(x => x.Status == (EnumStatusEvento)filter.IdStatus && x.NomeEvento == filter.NomeEvento).ToList();
+            }
+            else
+            {
+                eventos = db.Evento.ToList();
             }
 
 
