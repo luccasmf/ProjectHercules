@@ -163,12 +163,12 @@
   cursor: default;
 }
 .chosen-container .chosen-results li.highlighted {
-  background-color: #3875d7;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
-  background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
+  background-color: #2d3073;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #2d3073), color-stop(90%, #2d3073));
+  background-image: -webkit-linear-gradient(#2d3073 20%, #2d3073 90%);
+  background-image: -moz-linear-gradient(#2d3073 20%, #2d3073 90%);
+  background-image: -o-linear-gradient(#2d3073 20%, #2d3073 90%);
+  background-image: linear-gradient(#2d3073 20%, #2d3073 90%);
   color: #fff;
 }
 .chosen-container .chosen-results li.no-results {
@@ -242,15 +242,10 @@
   padding: 3px 20px 3px 5px;
   border: 1px solid #aaa;
   border-radius: 3px;
-  background-color: #e4e4e4;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
-  background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-  background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-color: #2d3073;
   background-clip: padding-box;
   box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-  color: #333;
+  color: #ffffff;
   line-height: 13px;
   cursor: default;
 }
@@ -259,10 +254,7 @@
   top: 4px;
   right: 3px;
   display: block;
-  width: 19px;
-  height: 12px;
-  background: url('../img/chosen-sprite.png') -42px 1px no-repeat;
-  font-size: 1px;
+  color: #fff;
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close:hover {
   background-position: -42px -10px;
@@ -422,7 +414,7 @@
   .chosen-container-multi .chosen-choices .search-choice .search-choice-close,
   .chosen-container .chosen-results-scroll-down span,
   .chosen-container .chosen-results-scroll-up span {
-    background-image: url('chosen-sprite@2x.png') !important;
+    background-image: url('../img/chosen-sprite@2x.png') !important;
     background-size: 52px 37px !important;
     background-repeat: no-repeat !important;
   }
