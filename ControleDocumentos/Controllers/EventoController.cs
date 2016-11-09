@@ -61,6 +61,7 @@ namespace ControleDocumentos.Controllers
 
         public object SalvaEvento(Evento e, int[] Cursos) //serve pra cadastrar e editar
         {
+            e.PresencaNecessaria = (e.DataFim - e.DataInicio).Days;
             if (e.IdEvento == 0)
             {
                 Funcionario f = usuarioRepository.GetFuncionarioByUsuario(Utilidades.UsuarioLogado.IdUsuario);

@@ -32,7 +32,7 @@ namespace ControleDocumentos.Repository
             return eventos;
         }
 
-        public List<Evento> GetEventoByAluno(int idAluno)
+        public List<Evento> GetEventoByAlunoInscrito(int idAluno)
         {
             List<Evento> eventos = (from e in db.Evento
                                     join ae in db.AlunoEvento on e.IdEvento equals ae.IdEvento
@@ -42,7 +42,16 @@ namespace ControleDocumentos.Repository
             return eventos;
         }
 
-        internal List<Evento> GetEventosByAluno(string idUsuario)
+        public List<Evento> GetEventoDisponivelByCurso (int idCurso)
+        {
+            List<Evento> eventos = GetEventoByCurso(idCurso);
+
+            eventos = eventos.Where(x => x.DataInicio > DateTime.Now && x.VagasPreenchidas < x.Vagas).ToList();
+
+            return eventos;
+        }
+
+        public List<Evento> GetEventosByAluno(string idUsuario)
         {
             List<Evento> eventos = (from e in db.Evento
                                     join ae in db.AlunoEvento on e.IdEvento equals ae.IdEvento
@@ -53,7 +62,7 @@ namespace ControleDocumentos.Repository
             return eventos;
         }
 
-        internal List<Evento> GetByFilter(EventoFilter filter)
+        public List<Evento> GetByFilter(EventoFilter filter)
         {
             List<Evento> eventos = new List<Evento>();
 
@@ -121,12 +130,24 @@ namespace ControleDocumentos.Repository
         {
             AlunoEvento ae = new AlunoEvento();
             ae.IdAluno = idAluno;
-            ae.IdEvento = idEvento;
+            //ae.IdEvento = idEvento;
             ae.QuantidadePresenca = 0;
 
-            db.AlunoEvento.Add(ae);
+            Evento e = db.Evento.Find(idEvento);
+            e.AlunoEvento.Add(ae);
+            e.VagasPreenchidas++;
 
             return db.SaveChanges() > 0;
+        }
+
+        public bool DesinscreverAluno(int idAluno, int idEvento)
+        {
+            Evento e = db.Evento.Find(idEvento);
+            AlunoEvento ae = db.AlunoEvento.Where(x => x.IdAluno == idAluno && x.IdEvento == idEvento).FirstOrDefault();
+            e.AlunoEvento.Remove(ae);
+            e.VagasPreenchidas--;
+
+            return db.SaveChanges()>0;
         }
 
         /// <summary>
