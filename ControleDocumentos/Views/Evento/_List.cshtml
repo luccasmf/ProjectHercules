@@ -15,7 +15,7 @@
             <tr>
                 <td>@ev.NomeEvento</td>
                 <td>@(ev.Curso != null ? string.Join(" / ", ev.Curso.Select(x => x.Nome)) : "")</td>
-                <td>@(ev.DataInicio + " à " + ev.DataFim)</td>
+                <td>@(ev.DataInicio.ToString("dd/MM/yyyy HH:mm") + " a " + ev.DataFim.ToString("dd/MM/yyyy HH:mm"))</td>
                 <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(ev.Status))</td>
                 <td class="center">
                     <a class="btnCadastro" data-rel="tooltip" title="@(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarEvento","Evento", new { idEvento = ev.IdEvento })">
