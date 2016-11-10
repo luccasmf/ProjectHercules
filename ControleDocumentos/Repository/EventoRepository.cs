@@ -128,12 +128,16 @@ namespace ControleDocumentos.Repository
 
         public bool InscreveAluno(int idAluno, int idEvento)
         {
+            Evento e = db.Evento.Find(idEvento);
+
+            if(e.VagasPreenchidas>=e.Vagas)
+            {
+                return false;
+            }
             AlunoEvento ae = new AlunoEvento();
             ae.IdAluno = idAluno;
             //ae.IdEvento = idEvento;
-            ae.QuantidadePresenca = 0;
-
-            Evento e = db.Evento.Find(idEvento);
+            ae.QuantidadePresenca = 0;            
             e.AlunoEvento.Add(ae);
             e.VagasPreenchidas++;
 
