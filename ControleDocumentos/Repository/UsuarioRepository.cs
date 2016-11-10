@@ -73,8 +73,14 @@ namespace ControleDocumentos.Repository
             DocumentosModel db2 = new DocumentosModel();
             Usuario userOld = db2.Usuario.Find(user.IdUsuario);
 
+            if(user.Funcionario.Count > 0)
+            {
+                PersisteFuncionario(user.Funcionario.ToArray());
+            }
+
             userOld = Utilidades.ComparaValores(userOld, user, new string[] {"Nome","E_mail","Permissao"});
 
+            
             if (userOld == null)
             {
                 return "Mantido";

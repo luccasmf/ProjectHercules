@@ -19,7 +19,7 @@ namespace ControleDocumentos.Util
 
         private static LogsRepository logsRepository = new LogsRepository();
 
-       private static UsuarioRepository usuarioRepository = new UsuarioRepository();
+        private static UsuarioRepository usuarioRepository = new UsuarioRepository();
 
         /// <summary>
         /// Compara propriedades dos objetos passados e caso haja mudanças, substitui os valores e retorna o "atualizado"
@@ -33,7 +33,7 @@ namespace ControleDocumentos.Util
         {
             bool alterado = false;
             if (old != null && to != null)
-            {                
+            {
                 Type type = typeof(T);
                 List<string> alterarList = new List<string>(alterar);
                 foreach (System.Reflection.PropertyInfo pi in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
@@ -43,7 +43,7 @@ namespace ControleDocumentos.Util
                         object selfValue = type.GetProperty(pi.Name).GetValue(old, null);
                         object toValue = type.GetProperty(pi.Name).GetValue(to, null);
 
-                        if (selfValue==null && toValue==null)
+                        if (selfValue == null && toValue == null)
                         {
                             continue;
                         }
@@ -52,11 +52,11 @@ namespace ControleDocumentos.Util
                             pi.SetValue(old, toValue);
                             alterado = true;
                         }
-                        else if (pi.Name.ToUpperInvariant().Contains("STATUS") && toValue.ToString()=="0")
+                        else if (pi.Name.ToUpperInvariant().Contains("STATUS") && toValue.ToString() == "0")
                         {
                             continue;
                         }
-                      else if(selfValue.ToString() != toValue.ToString())
+                        else if (selfValue.ToString() != toValue.ToString())
                         {
                             pi.SetValue(old, toValue);
                             alterado = true;
@@ -69,11 +69,11 @@ namespace ControleDocumentos.Util
             else
                 return null;
         }
-        
+
         public static Usuario GetSession(LoginModel lm)
         {
             Usuario user;
-            if(lm.UserName=="admin")
+            if (lm.UserName == "admin")
             {
                 user = new Usuario();
                 user.IdUsuario = "123456";
@@ -100,9 +100,9 @@ namespace ControleDocumentos.Util
             log.Acao = e;
             log.IdObjeto = idObjeto;
             log.TipoObjeto = EnumExtensions.GetValueFromDescription<EnumTipoObjeto>(typeof(T).Name.ToString());
-           // log.EstadoAnterior = new JavaScriptSerializer().Serialize(objeto);
+            // log.EstadoAnterior = new JavaScriptSerializer().Serialize(objeto);
 
-            return(logsRepository.SalvarLog(log));
+            return (logsRepository.SalvarLog(log));
         }
 
         public static object BuscarCoords()
@@ -112,27 +112,59 @@ namespace ControleDocumentos.Util
 
             List<Usuario> usuarios = new List<Usuario>();
             List<Funcionario> funcionarios = new List<Funcionario>();
-            foreach(UserPrincipal userPrincipal in gro.Members)
+            foreach (UserPrincipal userPrincipal in gro.Members)
             {
-                if (usuarioRepository.GetUsuarioById(userPrincipal.SamAccountName) == null)
+                Usuario user = usuarioRepository.GetUsuarioById(userPrincipal.SamAccountName);                
+                if (user != null)
                 {
-                    Usuario user = new Usuario();
-                    Funcionario f = new Funcionario();
+                    if (user.Permissao == EnumPermissaoUsuario.professor || user.Permissao == EnumPermissaoUsuario.secretaria)
+                    {
+                        user.Permissao = EnumPermissaoUsuario.coordenador;
+                        user.Funcionario.FirstOrDefault().Permissao = EnumPermissaoUsuario.coordenador;
+                        
+                    }
+                    else if (user.Permissao == EnumPermissaoUsuario.aluno)
+                    {
+                        user.Permissao = EnumPermissaoUsuario.coordenador;
+                        Funcionario f = new Funcionario();
 
-                    user.IdUsuario = userPrincipal.SamAccountName;
-                    user.Nome = userPrincipal.Name;
-                    user.Permissao = EnumPermissaoUsuario.coordenador;
-                    
-                    f.IdUsuario = user.IdUsuario;
-                    f.Permissao = EnumPermissaoUsuario.coordenador;
+                        f.Permissao = EnumPermissaoUsuario.coordenador;
+                        f.IdUsuario = user.IdUsuario;
 
-                    funcionarios.Add(f);
+
+                        funcionarios.Add(f);
+
+                    }
+                    else if (user.Permissao == EnumPermissaoUsuario.coordenador)
+                    {
+                        continue;
+                    }
+
                     usuarios.Add(user);
+                }
+                else
+                {
+
+                    if (usuarioRepository.GetUsuarioById(userPrincipal.SamAccountName) == null)
+                    {
+                        Usuario ususario = new Usuario();
+                        Funcionario f = new Funcionario();
+
+                        ususario.IdUsuario = userPrincipal.SamAccountName;
+                        ususario.Nome = userPrincipal.Name;
+                        ususario.Permissao = EnumPermissaoUsuario.coordenador;
+
+                        f.IdUsuario = ususario.IdUsuario;
+                        f.Permissao = EnumPermissaoUsuario.coordenador;
+
+                        funcionarios.Add(f);
+                        usuarios.Add(ususario);
+                    }
                 }
 
             }
-            
-            switch(usuarioRepository.PersisteUsuario(usuarios.ToArray()))
+
+            switch (usuarioRepository.PersisteUsuario(usuarios.ToArray()))
             {
                 case "Cadastrado":
                     usuarioRepository.PersisteFuncionario(funcionarios.ToArray());
@@ -140,7 +172,7 @@ namespace ControleDocumentos.Util
                 default:
                     return false;
             }
-            
+
         }
     }
 }
