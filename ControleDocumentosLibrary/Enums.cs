@@ -35,12 +35,10 @@ namespace ControleDocumentosLibrary
 
     public enum EnumStatusEvento : int
     {
-        [Description("Aprovado")]
-        aprovado = 1,
+        [Description("Ativo")]
+        ativo,
         [Description("Cancelado")]
         cancelado,
-        [Description("Adiado")]
-        adiado,
         [Description("Concluído")]
         concluido,
 

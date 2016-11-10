@@ -5,7 +5,11 @@
 
 @using (Html.BeginForm("SalvaEvento", "Evento", FormMethod.Post, new { @class = "frm-submit" }))
 {
+    Model.Status = Model.DataFim != DateTime.MinValue && DateTime.Now > Model.DataFim ? ControleDocumentosLibrary.EnumStatusEvento.concluido : Model.Status;
+
     @Html.HiddenFor(x => x.IdEvento)
+    @Html.HiddenFor(x => x.Status)
+
     <div class="form-group row">
         <div class="col-md-10 form-group">
             @Html.Label("Nome do evento*")
@@ -47,7 +51,7 @@
                 }
                 else
                 {
-                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, new { @class = "form-control", @multiple = true, data_rel = "chosen" })
+                    @Html.ListBoxFor(x => x.SelectedCursos, (SelectList)ViewBag.Cursos, new { @class = "form-control", @multiple = true, data_rel = "chosen" })
                 }
             </div>
         </div>
@@ -110,6 +114,18 @@
             {
                 @Html.Label("Vagas Preenchidas")
                 @Html.TextBoxFor(x => x.VagasPreenchidas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+            }
+        </div>
+        <div class="col-md-2">
+            @Html.Label("Qtde de presenças necessárias*")
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @required = true, max_length = 3 })
             }
         </div>
     </div>

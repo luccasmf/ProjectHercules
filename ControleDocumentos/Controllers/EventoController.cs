@@ -37,12 +37,13 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult CadastrarEvento(int? idEvento)
         {
-            PopularDropDownsCadastro();
+            PopularDropDownsCadastro(idEvento);
             Evento evento = new Evento();
 
             if (idEvento.HasValue)
             {
                 evento = eventoRepository.GetEventoById((int)idEvento);
+                evento.SelectedCursos = evento.Curso.Select(x => x.IdCurso).ToList();
             }
             //retorna model
             return PartialView("_CadastroEvento", evento);
@@ -59,15 +60,18 @@ namespace ControleDocumentos.Controllers
             return PartialView("_AlteracaoStatus", evento);
         }
 
-        public object SalvaEvento(Evento e, int[] Cursos) //serve pra cadastrar e editar
+        public object SalvaEvento(Evento e, int[] SelectedCursos) //serve pra cadastrar e editar
         {
-            e.PresencaNecessaria = (e.DataFim - e.DataInicio).Days;
+            if (SelectedCursos == null)
+                return Json(new { Status = false, Type = "error", Message = "Selecione pelo menos um curso." }, JsonRequestBehavior.AllowGet);
+
             if (e.IdEvento == 0)
             {
                 Funcionario f = usuarioRepository.GetFuncionarioByUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                e.Status = EnumStatusEvento.ativo;
                 e.IdFuncionarioCriador = f.IdFuncionario;
             }
-            switch (eventoRepository.PersisteEvento(e, Cursos))
+            switch (eventoRepository.PersisteEvento(e, SelectedCursos))
             {
                 case "Mantido":
                     return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
@@ -127,7 +131,7 @@ namespace ControleDocumentos.Controllers
             ViewBag.Status = new SelectList(listStatus, "Value", "Text");
         }
 
-        private void PopularDropDownsCadastro()
+        private void PopularDropDownsCadastro(int? idEvento)
         {
             var listCursosSelectList = cursoRepository.GetCursos().Select(item => new SelectListItem
             {
