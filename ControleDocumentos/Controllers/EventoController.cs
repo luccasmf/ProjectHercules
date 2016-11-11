@@ -115,7 +115,7 @@ namespace ControleDocumentos.Controllers
         //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult MeusEventos()
         {
-            // lucciros preciso que traga a lista de eventos do meu curso
+            
             List<Evento> eventos = eventoRepository.GetEventoDisponivelByMeuCurso(Utilidades.UsuarioLogado.IdUsuario);
 
             return View(eventos);
@@ -125,8 +125,8 @@ namespace ControleDocumentos.Controllers
         {
             // lucciros adicionei um campo bool no filtro chamado "Apenas Inscritos", 
             // preciso que vc continue considerando o filtro por nome
-            //return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter));
-            return PartialView("_List", new List<Evento>());
+            return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter));
+            //return PartialView("_List", new List<Evento>());
         }
 
         public ActionResult CarregaModalConfirmacaoParticipacao(int idEvento, bool presente)
