@@ -28,13 +28,13 @@
                         if (ev.AlunoEvento.Any(x => x.Aluno.IdUsuario == ControleDocumentos.Util.Utilidades.UsuarioLogado.IdUsuario))
                         {
                             <a class="btnConfirm" data-rel="tooltip" title="Cancelar participação" href="#" url="@Url.Action("CarregaModalConfirmacaoParticipacao", "Evento", new { idEvento = ev.IdEvento, presente = false })">
-                                <i class="icon-action presencaConfirmada fa-thumbs-up"></i>
+                                <i class="icon-action presencaConfirmada fa fa-thumbs-up"></i>
                             </a>
                         }
                         else if (ev.VagasPreenchidas <= ev.Vagas)
                         {
                             <a class="btnConfirm" data-rel="tooltip" title="Confirmar participação" href="#" url="@Url.Action("CarregaModalConfirmacaoParticipacao", "Evento", new { idEvento = ev.IdEvento, presente = true })">
-                                <i class="icon-action presencaConfirmada fa-thumbs-o-up "></i>
+                                <i class="icon-action presencaConfirmada fa fa-thumbs-o-up "></i>
                             </a>
                         }
                     }
