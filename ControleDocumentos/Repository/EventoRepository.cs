@@ -177,14 +177,15 @@ namespace ControleDocumentos.Repository
         {
             List<Evento> eventos = GetByFilter(filter);
             List<int> aes = db.AlunoEvento.Where(x => x.Aluno.IdUsuario == idUsuario).Select(y => y.IdEvento).ToList();
+            List<int> cursos = db.AlunoCurso.Where(x => x.Aluno.IdUsuario == idUsuario).Select(y => y.IdCurso).ToList();
 
           if(filter.ApenasInscritos)
             {
                 eventos = eventos.Where(x => aes.Contains(x.IdEvento)).ToList();
             }
 
-
-            return eventos;
+          //experimental
+            return eventos.Where(x => cursos.Contains(x.Curso.FirstOrDefault().IdCurso)).ToList();
         }
 
         /// <summary>
