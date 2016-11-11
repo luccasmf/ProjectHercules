@@ -9,5 +9,6 @@ namespace ControleDocumentos.Models
     {
         public string NomeEvento { get; set; }
         public int? IdStatus { get; set; }
+        public bool ApenasInscritos { get; set; }
     }
 }

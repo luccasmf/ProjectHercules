@@ -121,6 +121,14 @@ namespace ControleDocumentos.Controllers
             return View(eventos);
         }
 
+        public ActionResult ListAluno(Models.EventoFilter filter)
+        {
+            // lucciros adicionei um campo bool no filtro chamado "Apenas Inscritos", 
+            // preciso que vc continue considerando o filtro por nome
+            //return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter));
+            return PartialView("_List", new List<Evento>());
+        }
+
         public ActionResult CarregaModalConfirmacaoParticipacao(int idEvento, bool presente)
         {
             Evento ev = eventoRepository.GetEventoById(idEvento);
