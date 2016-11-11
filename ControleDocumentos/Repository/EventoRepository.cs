@@ -46,7 +46,7 @@ namespace ControleDocumentos.Repository
         {
             List<Evento> eventos = GetEventoByCurso(idCurso);
 
-            eventos = eventos.Where(x => x.DataInicio > DateTime.Now && x.VagasPreenchidas < x.Vagas).ToList();
+            eventos = eventos.Where(x => x.DataInicio > DateTime.Now).ToList();
 
             return eventos;
         }
@@ -65,7 +65,7 @@ namespace ControleDocumentos.Repository
                 eventos.AddRange(GetEventoByCurso(c.IdCurso));
             }
 
-            eventos = eventos.Where(x => x.DataInicio > DateTime.Now && x.VagasPreenchidas < x.Vagas).ToList();
+            eventos = eventos.Where(x => x.DataInicio > DateTime.Now).ToList();
 
             return eventos;
         }
@@ -171,6 +171,20 @@ namespace ControleDocumentos.Repository
             e.VagasPreenchidas--;
 
             return db.SaveChanges()>0;
+        }
+
+        public List<Evento> GetByFilterAluno(string idUsuario, EventoFilter filter)
+        {
+            List<Evento> eventos = GetByFilter(filter);
+            List<int> aes = db.AlunoEvento.Where(x => x.Aluno.IdUsuario == idUsuario).Select(y => y.IdEvento).ToList();
+
+          if(filter.ApenasInscritos)
+            {
+                eventos = eventos.Where(x => aes.Contains(x.IdEvento)).ToList();
+            }
+
+
+            return eventos;
         }
 
         /// <summary>
