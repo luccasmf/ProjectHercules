@@ -35,7 +35,6 @@ namespace ControleDocumentos.Controllers
 
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
             {
-                // lucciros: retornar docs do aluno
                 List<Documento> retorno = documentoRepository.GetDocsByAluno(Utilidades.UsuarioLogado.IdUsuario);
                 return View(retorno);
             }

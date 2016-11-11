@@ -115,6 +115,7 @@ namespace ControleDocumentos.Controllers
         //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult MeusEventos()
         {
+            // lucciros preciso que traga a lista de eventos do meu curso
             List<Evento> eventos = eventoRepository.GetEventosByAluno(Utilidades.UsuarioLogado.IdUsuario);
 
             return View(eventos);
