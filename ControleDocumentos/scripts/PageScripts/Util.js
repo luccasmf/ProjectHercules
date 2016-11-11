@@ -258,6 +258,7 @@ function bindShowConfirmacao() {
         $.ajax({
             url: $(this).attr("url"),
             type: 'GET',
+            dataType: "html",
             beforeSend: function () {
                 showLoader();
             },

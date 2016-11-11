@@ -7,7 +7,6 @@ $(document).ready(function () {
     bindCancelar();
     bindFormSubmit();
     bindCadastro();
-    bindShowConfirmacao();
     
     bindAlterarStatus();
     bindFormSubmitAlterarStatus();
