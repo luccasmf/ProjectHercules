@@ -51,6 +51,25 @@ namespace ControleDocumentos.Repository
             return eventos;
         }
 
+        public List<Evento> GetEventoDisponivelByMeuCurso(string idAluno)
+        {
+            List<Evento> eventos = new List<Evento>();
+            List<Curso> cursos = (from cu in db.Curso
+                                  join ac in db.AlunoCurso on cu.IdCurso equals ac.IdCurso
+                                  join al in db.Aluno on ac.IdAluno equals al.IdAluno
+                                  where al.IdUsuario == idAluno
+                                  select cu).ToList();
+
+            foreach(Curso c in cursos)
+            {
+                eventos.AddRange(GetEventoByCurso(c.IdCurso));
+            }
+
+            eventos = eventos.Where(x => x.DataInicio > DateTime.Now && x.VagasPreenchidas < x.Vagas).ToList();
+
+            return eventos;
+        }
+
         public List<Evento> GetEventosByAluno(string idUsuario)
         {
             List<Evento> eventos = (from e in db.Evento
