@@ -545,10 +545,10 @@
     <Content Include="Views\Error\Unauthorized.cshtml" />
     <Content Include="Views\Error\_Unauthorized.cshtml" />
     <Content Include="Views\Evento\Index.cshtml" />
-    <Content Include="Views\Evento\_AlteracaoStatus.cshtml" />
     <Content Include="Views\Evento\_CadastroEvento.cshtml" />
     <Content Include="Views\Evento\_List.cshtml" />
     <Content Include="Views\Evento\MeusEventos.cshtml" />
+    <Content Include="Views\Evento\_ConfirmacaoPresenca.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

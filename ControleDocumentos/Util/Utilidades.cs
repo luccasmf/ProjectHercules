@@ -76,10 +76,10 @@ namespace ControleDocumentos.Util
             if (lm.UserName == "admin")
             {
                 user = new Usuario();
-                user.IdUsuario = "123456";
+                user.IdUsuario = "10077401272";
                 user.Nome = "Teste";
                 user.E_mail = "teste@teste";
-                user.Permissao = EnumPermissaoUsuario.coordenador;
+                user.Permissao = EnumPermissaoUsuario.aluno;
             }
             else
             {

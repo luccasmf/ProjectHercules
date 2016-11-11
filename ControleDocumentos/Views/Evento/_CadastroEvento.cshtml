@@ -14,7 +14,8 @@
         <div class="col-md-10 form-group">
             @Html.Label("Nome do evento*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                        Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @disabled = true })
             }
@@ -29,7 +30,8 @@
         <div class="col-md-10">
             @Html.Label("Local do evento*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                        Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.Local, new { @class = "form-control", @disabled = true })
             }
@@ -45,7 +47,8 @@
             @Html.Label("Cursos*")
             <div class="controls">
                 @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                    ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                 {
                     @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, new { @class = "form-control", @disabled = true, @multiple = true, data_rel = "chosen" })
                 }
@@ -61,7 +64,8 @@
         <div class="col-md-4">
             @Html.Label("Data/hora de início*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datetimepicker", @disabled = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToString() })
             }
@@ -73,7 +77,8 @@
         <div class="col-md-4">
             @Html.Label("Data/hora de fim*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datetimepicker", @disabled = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToString() })
             }
@@ -85,7 +90,8 @@
         <div class="col-md-2">
             @Html.Label("Qtde hrs*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
             }
@@ -100,7 +106,8 @@
         <div class="col-md-2">
             @Html.Label("Qtde vagas*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                                    Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
             }
@@ -119,7 +126,8 @@
         <div class="col-md-2">
             @Html.Label("Qtde de presenças necessárias*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
             }
@@ -133,8 +141,9 @@
     <div class="form-group row">
         <div class="col-md-10">
             @Html.Label("Observações")
-            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
-                            Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||  
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows = 10, @disabled = true })
             }
@@ -147,15 +156,18 @@
 
     <div class="text-right form-group">
         <a type="button" class="btn btn-default btnCancelar" url="@Url.Action("Index", "Evento")">Voltar</a>
-        @if (Model.IdEvento > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
-                                    Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+        @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
         {
-            <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "Evento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idEvento = Model.IdEvento })">Cancelar evento</a>
-        }
-        @if (Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
-                                    Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
-        {
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            @if (Model.IdEvento > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
+                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "Evento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idEvento = Model.IdEvento })">Cancelar evento</a>
+            }
+            @if (Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
+                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            {
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            }
         }
     </div>
 }

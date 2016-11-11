@@ -5489,3 +5489,7 @@ ul.messagesList {
         -moz-transform: translateY(-21px);
     }
 }
+
+.presencaConfirmada {
+    color:#5cb85c;
+}

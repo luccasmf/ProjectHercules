@@ -5,6 +5,7 @@
             <th>Nome do evento</th>
             <th>Cursos</th>
             <th>Período</th>
+            <th>Vagas disponíveis</th>
             <th>Status</th>
             <th>Ações</th>
         </tr>
@@ -16,11 +17,32 @@
                 <td>@ev.NomeEvento</td>
                 <td>@(ev.Curso != null ? string.Join(" / ", ev.Curso.Select(x => x.Nome)) : "")</td>
                 <td>@(ev.DataInicio.ToString("dd/MM/yyyy HH:mm") + " a " + ev.DataFim.ToString("dd/MM/yyyy HH:mm"))</td>
+                <td>@(ev.Vagas - ev.VagasPreenchidas)</td>
                 <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(ev.Status))</td>
                 <td class="center">
-                    <a class="btnCadastro" data-rel="tooltip" title="@(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarEvento","Evento", new { idEvento = ev.IdEvento })">
-                        <i class="icon-action @(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "fa fa-eye" : "fa fa-edit")"></i>
-                    </a>
+                    @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                    {
+                        <a class="btnCadastro" data-rel="tooltip" title="Visualizar" href="#" url="@Url.Action("CadastrarEvento", "Evento", new { idEvento = ev.IdEvento })">
+                            <i class="icon-action fa fa-eye"></i>
+                        </a>
+                        @if (ev.AlunoEvento.Any(x => x.Aluno.IdUsuario == ControleDocumentos.Util.Utilidades.UsuarioLogado.IdUsuario))
+                        {
+                            <a class="btnConfirm" data-rel="tooltip" title="Cancelar participação" href="#" url="@Url.Action("CarregaModalConfirmacaoParticipacao", "Evento", new { idEvento = ev.IdEvento, presente = false })">
+                                <i class="icon-action presencaConfirmada fa-thumbs-up"></i>
+                            </a>
+                        }
+                        else if (ev.VagasPreenchidas <= ev.Vagas)
+                        {
+                            <a class="btnConfirm" data-rel="tooltip" title="Confirmar participação" href="#" url="@Url.Action("CarregaModalConfirmacaoParticipacao", "Evento", new { idEvento = ev.IdEvento, presente = true })">
+                                <i class="icon-action presencaConfirmada fa-thumbs-o-up "></i>
+                            </a>
+                        }
+                    }
+                    else {
+                        <a class="btnCadastro" data-rel="tooltip" title="@(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarEvento", "Evento", new { idEvento = ev.IdEvento })">
+                            <i class="icon-action @(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "fa fa-eye" : "fa fa-edit")"></i>
+                        </a>
+                    }
                 </td>
             </tr>
         }

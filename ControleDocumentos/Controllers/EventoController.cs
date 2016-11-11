@@ -17,20 +17,13 @@ namespace ControleDocumentos.Controllers
         EventoRepository eventoRepository = new EventoRepository();
         CursoRepository cursoRepository = new CursoRepository();
         UsuarioRepository usuarioRepository = new UsuarioRepository();
+        AlunoRepository alunoRepository = new AlunoRepository();
 
         // GET: Evento
         public ActionResult Index()
         {
             PopularDropDownsFiltro();
             List<Evento> eventos = eventoRepository.GetEventos();
-
-            return View(eventos);
-        }
-
-        //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
-        public ActionResult MeusEventos()
-        {
-            List<Evento> eventos = eventoRepository.GetEventosByAluno(Utilidades.UsuarioLogado.IdUsuario);
 
             return View(eventos);
         }
@@ -117,6 +110,52 @@ namespace ControleDocumentos.Controllers
             }
             return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
         }
+
+        #region Lado do aluno
+        //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
+        public ActionResult MeusEventos()
+        {
+            List<Evento> eventos = eventoRepository.GetEventosByAluno(Utilidades.UsuarioLogado.IdUsuario);
+
+            return View(eventos);
+        }
+
+        public ActionResult CarregaModalConfirmacaoParticipacao(int idEvento, bool presente)
+        {
+            Evento ev = eventoRepository.GetEventoById(idEvento);
+            ViewBag.Presente = presente;
+            return PartialView("_ConfirmacaoPresenca", ev);
+        }
+
+        public object ConfirmaCancelaPartipacao(Evento evento, bool Presente)
+        {
+            try
+            {
+                var ev = eventoRepository.GetEventoById(evento.IdEvento);
+                var aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                bool ok = false;
+
+                if (aluno != null)
+                {
+                    if (Presente)
+                        ok = eventoRepository.InscreveAluno(aluno.IdAluno, evento.IdEvento);
+                    else
+                        ok = eventoRepository.DesinscreverAluno(aluno.IdAluno, evento.IdEvento);
+                }
+
+                if(ok)
+                    return Json(new { Status = true, Type = "success", Message = "Alteração realizada com sucesso!" }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        #endregion
 
         #region Métodos auxiliares
         private void PopularDropDownsFiltro()
