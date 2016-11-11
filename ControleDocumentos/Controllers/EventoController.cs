@@ -116,7 +116,7 @@ namespace ControleDocumentos.Controllers
         public ActionResult MeusEventos()
         {
             // lucciros preciso que traga a lista de eventos do meu curso
-            List<Evento> eventos = eventoRepository.GetEventosByAluno(Utilidades.UsuarioLogado.IdUsuario);
+            List<Evento> eventos = eventoRepository.GetEventoDisponivelByMeuCurso(Utilidades.UsuarioLogado.IdUsuario);
 
             return View(eventos);
         }
