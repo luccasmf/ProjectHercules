@@ -3,7 +3,7 @@ $(document).ready(function () {
     // Util
     bindDatatable();
     bindFormFilter();
-    bindCancelar();
+    bindCancelarSol();
     bindCadastro();
 
     bindSubmitDocumento();
@@ -73,4 +73,15 @@ function bindFiltro() {
         });
     });
 
+}
+
+function bindCancelarSol() {
+    $(document).on("click", ".btnCancelar", function () {
+        $(".divFormSave").hide();
+        $(".divList").show();
+
+        $('.form-filter').trigger('submit', function () {
+            bindFormFilter();
+        });
+    });
 }

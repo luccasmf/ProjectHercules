@@ -50,7 +50,7 @@
                     Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                     ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                 {
-                    @Html.DropDownList("Cursos", (SelectList)ViewBag.Cursos, new { @class = "form-control", @disabled = true, @multiple = true, data_rel = "chosen" })
+                    @Html.ListBoxFor(x => x.SelectedCursos, (SelectList)ViewBag.Cursos, new { @class = "form-control", @disabled = true, @multiple = true, data_rel = "chosen" })
                 }
                 else
                 {
@@ -123,8 +123,8 @@
                 @Html.TextBoxFor(x => x.VagasPreenchidas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
             }
         </div>
-        <div class="col-md-2">
-            @Html.Label("Qtde de presenças necessárias*")
+        <div class="col-md-4">
+            @Html.Label("Qtde presenças necessárias*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                 ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
@@ -158,12 +158,12 @@
         <a type="button" class="btn btn-default btnCancelar" url="@Url.Action("Index", "Evento")">Voltar</a>
         @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
         {
-            @if (Model.IdEvento > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
+            if (Model.IdEvento > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
                 Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
                 <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "Evento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idEvento = Model.IdEvento })">Cancelar evento</a>
             }
-            @if (Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
+            if (Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
                 Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
             {
                 <button type="submit" class="btn btn-primary">Salvar</button>
