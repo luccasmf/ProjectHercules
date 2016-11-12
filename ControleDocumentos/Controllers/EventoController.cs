@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using ControleDocumentos.Repository;
 using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
-using ControleDocumentos.Filter;
+using ControleDocumentos.Models;
 using ControleDocumentos.Util.Extension;
 
 namespace ControleDocumentos.Controllers
@@ -116,16 +116,16 @@ namespace ControleDocumentos.Controllers
         public ActionResult MeusEventos()
         {
             
-            List<Evento> eventos = eventoRepository.GetEventoDisponivelByMeuCurso(Utilidades.UsuarioLogado.IdUsuario);
+            List<Evento> eventos = eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter()).Where(x => DateTime.Now < x.DataFim).ToList();
 
             return View(eventos);
         }
 
-        public ActionResult ListAluno(Models.EventoFilter filter)
+        public ActionResult ListAluno(EventoFilter filter)
         {
             // lucciros adicionei um campo bool no filtro chamado "Apenas Inscritos", 
             // preciso que vc continue considerando o filtro por nome
-            return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter));
+            return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter).Where(x => DateTime.Now < x.DataFim).ToList());
             //return PartialView("_List", new List<Evento>());
         }
 
