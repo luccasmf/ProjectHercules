@@ -19,9 +19,11 @@ namespace ControleDocumentos.Controllers
         UsuarioRepository usuarioRepository = new UsuarioRepository();
         AlunoRepository alunoRepository = new AlunoRepository();
 
-        // GET: Evento
+        #region Lado do Coordenador/Secretaria
+
         public ActionResult Index()
         {
+            // lucciros trazer apenas eventos relacionados com o curso que coordena
             PopularDropDownsFiltro();
             List<Evento> eventos = eventoRepository.GetEventos();
 
@@ -42,8 +44,9 @@ namespace ControleDocumentos.Controllers
             return PartialView("_CadastroEvento", evento);
         }
 
-        public ActionResult List(Models.EventoFilter filter)
+        public ActionResult List(EventoFilter filter)
         {
+            // lucciros filtrar apenas eventos relacionados com o curso que coordena
             return PartialView("_List", eventoRepository.GetByFilter(filter));
         }
 
@@ -53,7 +56,7 @@ namespace ControleDocumentos.Controllers
             return PartialView("_AlteracaoStatus", evento);
         }
 
-        public object SalvaEvento(Evento e, int[] SelectedCursos) //serve pra cadastrar e editar
+        public object SalvaEvento(Evento e, int[] SelectedCursos)
         {
             if (SelectedCursos == null)
                 return Json(new { Status = false, Type = "error", Message = "Selecione pelo menos um curso." }, JsonRequestBehavior.AllowGet);
@@ -83,11 +86,12 @@ namespace ControleDocumentos.Controllers
 
         public object GeraCertificados(int idEvento)
         {
+            // falta testar esse metodo depois que a chamada estiver funcionando
             bool flag = DirDoc.GeraCertificado(idEvento);
 
             if (flag)
             {
-                return Json(new { Status = true, Type = "success", Message = "Certificados gerados!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                return Json(new { Status = true, Type = "success", Message = "Certificados gerados com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
 
@@ -95,13 +99,24 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult Chamada(int idEvento)
         {
+            // lucciros, preciso que vc me retorne a lista de de alunos inscritos do 
+            // coordenador
             List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento);
-            return View(alunos);
+            var evento = eventoRepository.GetEventoById(idEvento);
+
+            //lucciros, preciso que vc pegue quantas chamadas foram realizadas pro evento
+            //acho que é legal ter essa info pro coordenador não se perder se o evento
+            //for de varios dias
+            return PartialView("_Chamada",new ChamadaModel {
+                Alunos = alunos,
+                IdEvento = idEvento,
+                NomeEvento = evento.NomeEvento,
+                NumChamada = 1 // aqui vai o retorno do metodo + 1, se foram realizadas 0 chamadas, essa é a 1
+            });
         }
 
         public object FazerChamada(int[] idAlunos, int idEvento)
         {
-            //id dos alunos presentes :)
             bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento);
 
             if (flag)
@@ -111,11 +126,13 @@ namespace ControleDocumentos.Controllers
             return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
         #region Lado do aluno
         //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult MeusEventos()
         {
-            
+
             List<Evento> eventos = eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter()).Where(x => DateTime.Now < x.DataFim).ToList();
 
             return View(eventos);
@@ -123,10 +140,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult ListAluno(EventoFilter filter)
         {
-            // lucciros adicionei um campo bool no filtro chamado "Apenas Inscritos", 
-            // preciso que vc continue considerando o filtro por nome
             return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter).Where(x => DateTime.Now < x.DataFim).ToList());
-            //return PartialView("_List", new List<Evento>());
         }
 
         public ActionResult CarregaModalConfirmacaoParticipacao(int idEvento, bool presente)
@@ -152,7 +166,7 @@ namespace ControleDocumentos.Controllers
                         ok = eventoRepository.DesinscreverAluno(aluno.IdAluno, evento.IdEvento);
                 }
 
-                if(ok)
+                if (ok)
                     return Json(new { Status = true, Type = "success", Message = "Alteração realizada com sucesso!" }, JsonRequestBehavior.AllowGet);
                 else
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
@@ -167,6 +181,7 @@ namespace ControleDocumentos.Controllers
         #endregion
 
         #region Métodos auxiliares
+
         private void PopularDropDownsFiltro()
         {
             var listStatus = Enum.GetValues(typeof(EnumStatusEvento)).

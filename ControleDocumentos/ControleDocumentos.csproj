@@ -473,6 +473,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChamadaModel.cs" />
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\SolicitacaoDocumentoEmail.cs" />
@@ -549,6 +550,7 @@
     <Content Include="Views\Evento\_List.cshtml" />
     <Content Include="Views\Evento\MeusEventos.cshtml" />
     <Content Include="Views\Evento\_ConfirmacaoPresenca.cshtml" />
+    <Content Include="Views\Evento\_Chamada.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
