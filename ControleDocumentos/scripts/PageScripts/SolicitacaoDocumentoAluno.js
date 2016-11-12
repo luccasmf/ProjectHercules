@@ -82,6 +82,7 @@ function bindCancelarSol() {
 
         $('.form-filter').trigger('submit', function () {
             bindFormFilter();
+            inicializaTooltip();
         });
     });
 }

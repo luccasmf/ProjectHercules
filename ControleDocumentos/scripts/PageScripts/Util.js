@@ -7,6 +7,10 @@
     );
 })
 
+function inicializaTooltip() {
+    $('[rel="tooltip"],[data-rel="tooltip"]').tooltip({ "placement": "bottom", delay: { show: 400, hide: 200 } });
+}
+
 // Início Loader
 
 function showLoader() {
@@ -202,6 +206,7 @@ function bindFormFilter() {
             success: function (result) {
                 $(".partialList").html(result);
                 bindDatatable();
+                inicializaTooltip();
             },
             error: function (result) {
                 var obj = {
