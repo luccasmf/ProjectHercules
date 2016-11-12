@@ -24,12 +24,13 @@ namespace ControleDocumentos.Controllers
         {
             PopularDropDowns();
 
+            AlunoCurso al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
             // lucciros, pega essas infos aqui pfvr
-            ViewBag.HrsComputadas = 20;
-            ViewBag.HrsNecessarias = 400;
+            ViewBag.HrsComputadas = al.HoraCompleta;
+            ViewBag.HrsNecessarias = al.HoraNecessaria;
 
             // retornar as solicitações feitas pelo aluno com status "processando"
-            //List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetSolicitacaoByAluno(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.Status == EnumStatusSolicitacao.processando).ToList();
+            List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetMinhaSolicitacao(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.Status == EnumStatusSolicitacao.processando).ToList();
             return View(new List<SolicitacaoDocumento>());
         }
 
@@ -48,7 +49,7 @@ namespace ControleDocumentos.Controllers
         {
             // lucciros apenas as solicitações do aluno 
             // n esquece de filtrar por tipo de solicitação tb 
-            return PartialView("_List", solicitacaoRepository.GetByFilter(filter));
+            return PartialView("_List", solicitacaoRepository.GetByFilterAluno(filter, Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno));
         }
 
         public ActionResult CarregaModalExclusao(int idSol)
@@ -73,18 +74,20 @@ namespace ControleDocumentos.Controllers
                 var edit = true;
                 sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
                 sol.DataAbertura = DateTime.Now;
+                AlunoCurso al;
 
-                 
+
+
                 // lucciros tem que pegar o AlunoCurso do usuario logado sla como vc vai fazer isso heroorwhrwe
                 // tem que colocar tbm o filtro por tipo de solicitação em solicitação documento e 
                 // solicitação documento aluno pra n misturara as coisas
-                //if (sol.IdSolicitacao == 0)
-                //    sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
-
-                sol.AlunoCurso = null;
-                sol.TipoSolicitacao = EnumTipoSolicitacao.aluno;
                 if (sol.IdSolicitacao == 0)
                 {
+                    al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
+
+                    sol.IdAlunoCurso = al.IdAlunoCurso;                   
+                    sol.TipoSolicitacao = EnumTipoSolicitacao.aluno;
+
                     edit = false;
 
                     sol.Documento = new Documento();

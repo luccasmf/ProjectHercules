@@ -42,15 +42,30 @@ namespace ControleDocumentos.Repository
             return eventos;
         }
 
-        public List<Evento> GetEventoDisponivelByCurso (int idCurso)
-        {
-            List<Evento> eventos = GetEventoByCurso(idCurso);
+        //public List<Evento> GetEventoByCoordenador(string idUsuario)
+        //{
+        //    List<Evento> eventos = new List<Evento>();
+        //    try
+        //    {
+        //        int idCoord = db.Funcionario.Where(x => x.IdUsuario == idUsuario && x.Permissao == EnumPermissaoUsuario.coordenador).Select(y=>y.IdFuncionario).FirstOrDefault();
+        //        List<int> idCurso = db.Curso.Where(x => x.IdCoordenador == idCoord).Select(y => y.IdCurso).ToList();
 
-           // eventos = eventos.Where(x => x.DataFim > DateTime.Now).ToList();
+        //        foreach(int i in idCurso)
+        //        {
+        //            eventos.AddRange(GetEventoByCurso(i));
+        //        }                
 
-            return eventos;
-        }
-        
+        //    }
+        //    catch
+        //    {
+        //        eventos.Clear();
+        //        eventos = GetEventos();
+        //    }
+
+        //    return eventos;
+
+        //}
+
 
         public List<Evento> GetEventosByAluno(string idUsuario)
         {
@@ -170,16 +185,28 @@ namespace ControleDocumentos.Repository
             return eventos.Where(x => cursos.Contains(x.Curso.FirstOrDefault().IdCurso)).ToList();
         }
 
+        public List<Evento> GetByFilterCoord(string idUsuario, EventoFilter filter)
+        {
+            List<Evento> eventos = GetByFilter(filter);
+
+            int idCoord = db.Funcionario.Where(x => x.IdUsuario == idUsuario && x.Permissao == EnumPermissaoUsuario.coordenador).Select(y => y.IdFuncionario).FirstOrDefault();
+
+            List<int> cursos = db.Curso.Where(x => x.IdCoordenador == idCoord).Select(y => y.IdCurso).ToList();
+            
+            //experimental
+            return eventos.Where(x => cursos.Contains(x.Curso.FirstOrDefault().IdCurso)).ToList();
+        }
+
         /// <summary>
         /// Confirma presença para a lista de alunos
         /// </summary>
         /// <param name="idAluno">array com id dos alunos presentes</param>
         /// <param name="idEvento">id do evento</param>
         /// <returns>retorna um bool, dizendo se foi salvo ou não</returns>
-        public bool AdicionaPresenca(int[] idAluno, int idEvento)
+        public bool AdicionaPresenca(int[] idAluno, int idEvento, string idUsuario)
         {
             Evento ev = db.Evento.Find(idEvento);
-
+            Funcionario f = db.Funcionario.Where(x => x.IdUsuario == idUsuario && (x.Permissao == EnumPermissaoUsuario.coordenador || x.Permissao == EnumPermissaoUsuario.professor)).FirstOrDefault();
             foreach (AlunoEvento ae in ev.AlunoEvento)
             {
                 if (idAluno.Contains(ae.IdAluno))
@@ -189,6 +216,7 @@ namespace ControleDocumentos.Repository
                     p.IdAluno = ae.IdAluno;
                     p.IdEvento = idEvento;
                     p.Data = DateTime.Now;
+                    p.IdProfessor = f.IdFuncionario;
                     ae.Presenca.Add(p);
                 }
             }

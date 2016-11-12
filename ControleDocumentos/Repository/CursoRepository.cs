@@ -126,6 +126,12 @@ namespace ControleDocumentos.Repository
         {
             return db.AlunoCurso.Where(x => x.IdAluno == idAluno && x.IdCurso == idCurso).FirstOrDefault();
         }
+
+        public AlunoCurso GetAlunoCurso(string idUsuario)
+        {
+            Aluno al = db.Aluno.Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
+            return db.AlunoCurso.Where(x => x.IdAluno == al.IdAluno).FirstOrDefault();
+        }
     }
 
 }

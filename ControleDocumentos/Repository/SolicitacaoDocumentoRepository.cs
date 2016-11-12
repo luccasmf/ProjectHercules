@@ -46,6 +46,21 @@ namespace ControleDocumentos.Repository
             }
         }
 
+        public List<SolicitacaoDocumento> GetMinhaSolicitacao(string idUsuario)
+        {
+            Aluno aluno = db.Aluno.Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
+
+
+            return GetSolicitacaoByAluno(aluno).Where(x=>x.TipoSolicitacao == EnumTipoSolicitacao.aluno).ToList();
+        }
+
+        public List<SolicitacaoDocumento> GetSolicitacaoByAluno(Aluno aluno)
+        {
+            List<SolicitacaoDocumento> solicitacoes = db.SolicitacaoDocumento.Where(x => x.AlunoCurso.IdAluno == aluno.IdAluno).ToList();
+
+            return solicitacoes;
+        }
+
         public List<SolicitacaoDocumento> GetAguardandoAtendimentoAluno(int idUsuario)
         {
             List<SolicitacaoDocumento> solicitacoesDocumento = new List<SolicitacaoDocumento>();
@@ -55,6 +70,15 @@ namespace ControleDocumentos.Repository
            x.Status == EnumStatusSolicitacao.visualizado)).ToList();
 
             return solicitacoesDocumento;
+        }
+
+        public List<SolicitacaoDocumento> GetByFilterAluno(SolicitacaoDocumentoFilter filter, string idUsuario)
+        {
+            Aluno al = db.Aluno.Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
+
+            List<SolicitacaoDocumento> solicitacoes = GetByFilter(filter).Where(x => x.AlunoCurso.IdAluno == al.IdAluno).ToList();
+
+            return solicitacoes;
         }
 
         public List<SolicitacaoDocumento> GetTodosAluno(int idAluno)

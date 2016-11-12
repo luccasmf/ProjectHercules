@@ -25,7 +25,7 @@ namespace ControleDocumentos.Controllers
         {
             // lucciros trazer apenas eventos relacionados com o curso que coordena
             PopularDropDownsFiltro();
-            List<Evento> eventos = eventoRepository.GetEventos();
+            List<Evento> eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
 
             return View(eventos);
         }
@@ -47,7 +47,7 @@ namespace ControleDocumentos.Controllers
         public ActionResult List(EventoFilter filter)
         {
             // lucciros filtrar apenas eventos relacionados com o curso que coordena
-            return PartialView("_List", eventoRepository.GetByFilter(filter));
+            return PartialView("_List", eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, filter));
         }
 
         public ActionResult CarregaModalConfirmacao(EnumStatusEvento novoStatus, int idEvento)
@@ -101,7 +101,9 @@ namespace ControleDocumentos.Controllers
         {
             // lucciros, preciso que vc me retorne a lista de de alunos inscritos do 
             // coordenador
-            List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento);
+            List<int> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y=> y.IdCurso).ToList();
+
+            List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento).Where(x=> cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
             var evento = eventoRepository.GetEventoById(idEvento);
 
             //lucciros, preciso que vc pegue quantas chamadas foram realizadas pro evento

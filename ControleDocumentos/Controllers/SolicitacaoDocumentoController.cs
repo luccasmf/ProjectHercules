@@ -27,7 +27,7 @@ namespace ControleDocumentos.Controllers
             PopularDropDowns();
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.Status == EnumStatusSolicitacao.processando).ToList();
+                List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.Status == EnumStatusSolicitacao.processando && x.TipoSolicitacao == EnumTipoSolicitacao.secretaria).ToList();
                 return View(retorno);
             }
             return View(solicitacaoRepository.GetByFilter(new Models.SolicitacaoDocumentoFilter { IdStatus = (int)EnumStatusSolicitacao.processando }));
@@ -42,7 +42,7 @@ namespace ControleDocumentos.Controllers
             {
                 if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
                 {
-                    var retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                    var retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.secretaria).ToList();
                     if (!retorno.Any(x => x.IdSolicitacao == idSol))
                         return PartialView("_UnauthorizedPartial", "Error");
                 }
@@ -66,7 +66,7 @@ namespace ControleDocumentos.Controllers
         {
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-               return PartialView("_List", solicitacaoRepository.GetByFilterCoordenador(filter, Utilidades.UsuarioLogado.IdUsuario));
+               return PartialView("_List", solicitacaoRepository.GetByFilterCoordenador(filter, Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.secretaria).ToList());
             }
             return PartialView("_List", solicitacaoRepository.GetByFilter(filter));
         }

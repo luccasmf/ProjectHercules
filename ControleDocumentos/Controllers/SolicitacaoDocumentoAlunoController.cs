@@ -28,7 +28,7 @@ namespace ControleDocumentos.Controllers
                 return RedirectToAction("Unauthorized", "Error");
             }
             var id = aluno.IdAluno;
-            return View(solicitacaoRepository.GetAguardandoAtendimentoAluno(id));
+            return View(solicitacaoRepository.GetAguardandoAtendimentoAluno(id).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.secretaria).ToList());
         }
 
         public ActionResult CarregarSolicitacao(int? idSol)
@@ -62,10 +62,10 @@ namespace ControleDocumentos.Controllers
 
             if (!apenasPendentes)
             {
-                return PartialView("_List", solicitacaoRepository.GetTodosAluno(id));
+                return PartialView("_List", solicitacaoRepository.GetTodosAluno(id).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.secretaria).ToList());
             }
             else {
-                return PartialView("_List", solicitacaoRepository.GetAguardandoAtendimentoAluno(id));
+                return PartialView("_List", solicitacaoRepository.GetAguardandoAtendimentoAluno(id).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.secretaria).ToList());
             }
         }
 
