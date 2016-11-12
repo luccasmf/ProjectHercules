@@ -76,12 +76,15 @@ namespace ControleDocumentos.Util
             if (lm.UserName == "admin")
             {
                 user = new Usuario();
-                //user.IdUsuario = "10077401272";
                 user.Nome = "Teste";
                 user.E_mail = "teste@teste";
-                //user.Permissao = EnumPermissaoUsuario.aluno;
-                user.Permissao = EnumPermissaoUsuario.coordenador;
-                user.IdUsuario = "160220040209";
+
+                //user.Permissao = EnumPermissaoUsuario.coordenador;
+                //user.IdUsuario = "160220040209";
+
+                user.Permissao = EnumPermissaoUsuario.aluno;
+                user.IdUsuario = "10077401272";
+
             }
             else
             {
@@ -116,14 +119,14 @@ namespace ControleDocumentos.Util
             List<Funcionario> funcionarios = new List<Funcionario>();
             foreach (UserPrincipal userPrincipal in gro.Members)
             {
-                Usuario user = usuarioRepository.GetUsuarioById(userPrincipal.SamAccountName);                
+                Usuario user = usuarioRepository.GetUsuarioById(userPrincipal.SamAccountName);
                 if (user != null)
                 {
                     if (user.Permissao == EnumPermissaoUsuario.professor || user.Permissao == EnumPermissaoUsuario.secretaria)
                     {
                         user.Permissao = EnumPermissaoUsuario.coordenador;
                         user.Funcionario.FirstOrDefault().Permissao = EnumPermissaoUsuario.coordenador;
-                        
+
                     }
                     else if (user.Permissao == EnumPermissaoUsuario.aluno)
                     {

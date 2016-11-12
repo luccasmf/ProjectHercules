@@ -161,7 +161,10 @@
                         {
                             <li class="drop-middle"><a onclick="showLoader()" href="@Url.Action("MeusEventos", "Evento")"><i class="fa fa-calendar"></i><span class="hidden-sm submenu-m">Meus eventos</span></a></li>
                         }
-                        <li class="drop-bottom"><a href="index.cshtml"><i class="fa fa-clock-o"></i><span class="hidden-sm submenu-m">Horas complementares</span></a></li>
+                        @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                        {
+                            <li class="drop-bottom"><a onclick="showLoader()" href="@Url.Action("Index", "HoraComplementar")"><i class="fa fa-clock-o"></i><span class="hidden-sm submenu-m">Horas complementares</span></a></li>
+                        }
                     </ul>
                 </div>
             </div>

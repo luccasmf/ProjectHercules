@@ -439,6 +439,7 @@
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\PageScripts\Evento.js" />
+    <Content Include="Scripts\PageScripts\HoraComplementar.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumentoAluno.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
@@ -462,6 +463,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HoraComplementarController.cs" />
     <Compile Include="Controllers\SolicitacaoDocumentoAlunoController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
@@ -551,6 +553,11 @@
     <Content Include="Views\Evento\MeusEventos.cshtml" />
     <Content Include="Views\Evento\_ConfirmacaoPresenca.cshtml" />
     <Content Include="Views\Evento\_Chamada.cshtml" />
+    <Content Include="Views\HoraComplementar\_CancelamentoSolicitacao.cshtml" />
+    <Content Include="Views\HoraComplementar\_CadastroSolicitacao.cshtml" />
+    <Content Include="Views\HoraComplementar\_ExclusaoSolicitacao.cshtml" />
+    <Content Include="Views\HoraComplementar\_List.cshtml" />
+    <Content Include="Views\HoraComplementar\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

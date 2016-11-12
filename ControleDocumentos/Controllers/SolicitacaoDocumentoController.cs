@@ -190,6 +190,7 @@ namespace ControleDocumentos.Controllers
             if (sol.IdSolicitacao == 0)
                 sol.IdAlunoCurso = cursoRepository.GetAlunoCurso(sol.AlunoCurso.IdAluno, sol.AlunoCurso.IdCurso).IdAlunoCurso;
             sol.AlunoCurso = null;
+            sol.TipoSolicitacao = EnumTipoSolicitacao.secretaria;
             if (sol.IdSolicitacao == 0)
             {
                 edit = false;
