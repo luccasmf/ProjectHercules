@@ -60,10 +60,17 @@ namespace ControleDocumentos.Repository
         /// </summary>
         /// <param name="param"></param>
         /// <returns>retorna o tipo de documento desejado</returns>
-        public TipoDocumento GetTipoDoc(object param)
+        public TipoDocumento GetTipoDoc(string nomeTipo)
         {
-            if (!string.IsNullOrEmpty(param.ToString()))
-                return db.TipoDocumento.Find(param);
+            if (!string.IsNullOrEmpty(nomeTipo.ToString()))
+                return db.TipoDocumento.Where(x => x.TipoDocumento1.ToLower().Contains(nomeTipo.ToLower())).FirstOrDefault();
+            return null;
+        }
+
+        public List<TipoDocumento> GetTiposByName(string nomeTipo)
+        {
+            if (!string.IsNullOrEmpty(nomeTipo.ToString()))
+                return db.TipoDocumento.Where(x => x.TipoDocumento1.ToLower().Contains(nomeTipo.ToLower())).ToList();
             return null;
         }
 
