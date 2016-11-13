@@ -108,7 +108,6 @@ namespace ControleDocumentos.Repository
             List<Aluno> alunos = (from a in db.Aluno
                                   join ae in db.AlunoEvento on a.IdAluno equals ae.IdAluno
                                   join e in db.Evento on ae.IdEvento equals e.IdEvento
-                                 //join p in db.Presenca on e.IdEvento equals p.IdEvento
                                   where ((e.IdEvento == ev.IdEvento) && (ae.QuantidadePresenca >= e.PresencaNecessaria))
                                   select a).ToList();
             return alunos;
