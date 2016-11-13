@@ -12,6 +12,7 @@ $(document).ready(function () {
     bindChamada();
     bindCancelarChamada();
     bindGerarCertificados();
+    bindFormSubmitChamada();
 });
 
 function bindChamada() {
@@ -82,4 +83,48 @@ function bindGerarCertificados() {
         });
     });
 
+}
+
+function bindFormSubmitChamada() {
+    $(document).on("submit", ".frm-submit-chamada", function (e) {
+        e.preventDefault();
+        var frm = $('.frm-submit-chamada');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            beforeSend: function () {
+                showLoader();
+            },
+            success: function (result) {
+                if (result.Status == true) {
+                    $(".divFormChamada").hide();
+                    $(".divList").show();
+
+                    $('.form-filter').trigger('submit', function () {
+                        bindFormFilter();
+                    });
+
+                    var obj = {
+                        Type: result.Type,
+                        Message: result.Message
+                    }
+                    showNotification(obj);
+                }
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            },
+            complete: function () {
+                hideLoader();
+            }
+        });
+        return false;
+    });
 }

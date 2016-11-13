@@ -23,7 +23,6 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult Index()
         {
-            // lucciros trazer apenas eventos relacionados com o curso que coordena
             PopularDropDownsFiltro();
             List<Evento> eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
 
@@ -46,7 +45,6 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(EventoFilter filter)
         {
-            // lucciros filtrar apenas eventos relacionados com o curso que coordena
             return PartialView("_List", eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, filter));
         }
 
@@ -99,27 +97,21 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult Chamada(int idEvento)
         {
-            // lucciros, preciso que vc me retorne a lista de de alunos inscritos do 
-            // coordenador
             List<int> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y=> y.IdCurso).ToList();
 
             List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento).Where(x=> cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
             var evento = eventoRepository.GetEventoById(idEvento);
 
-            //lucciros, preciso que vc pegue quantas chamadas foram realizadas pro evento
-            //acho que é legal ter essa info pro coordenador não se perder se o evento
-            //for de varios dias
             return PartialView("_Chamada",new ChamadaModel {
                 Alunos = alunos,
                 IdEvento = idEvento,
-                NomeEvento = evento.NomeEvento,
-                NumChamada = 1 // aqui vai o retorno do metodo + 1, se foram realizadas 0 chamadas, essa é a 1
+                NomeEvento = evento.NomeEvento
             });
         }
 
         public object FazerChamada(int[] idAlunos, int idEvento)
         {
-            bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento);
+            bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento, Utilidades.UsuarioLogado.IdUsuario);
 
             if (flag)
             {

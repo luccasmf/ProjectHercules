@@ -169,7 +169,7 @@ namespace ControleDocumentos
         {
             Evento ev = eventoRepository.GetEventoById(idEvento);
             bool flag = true;
-            string templatePath = caminhoTemplates + "certificado.docx"; //caminhoDoTemplate
+            string templatePath = caminhoTemplates + "template-certificado.docx"; //caminhoDoTemplate
             List<Documento> certificadosDoc = new List<Documento>();
             var template = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
             List<Aluno> alunos = eventoRepository.GetAlunosPresentes(ev); //alunos com presença            
@@ -212,6 +212,18 @@ namespace ControleDocumentos
                         if (doc.Text.Contains("<HORAS>"))
                         {
                             doc.ReplaceText("<HORAS>", ev.CargaHoraria.ToString());
+                        }
+                        if (doc.Text.Contains("<DIA>"))
+                        {
+                            doc.ReplaceText("<DIA>", DateTime.Now.Day.ToString());
+                        }
+                        if (doc.Text.Contains("<MES>"))
+                        {
+                            doc.ReplaceText("<MES>", DateTime.Now.Month.ToString());
+                        }
+                        if (doc.Text.Contains("<ANO>"))
+                        {
+                            doc.ReplaceText("<ANO>", DateTime.Now.Year.ToString());
                         }
 
                         #region criptografa certificado

@@ -1,9 +1,9 @@
 ﻿@model ControleDocumentos.Models.ChamadaModel
 
-<h1>@(string.Format("Chamada número {0} para o evento {1}", Model.NumChamada, Model.NomeEvento))</h1>
+<h1>@(string.Format("Chamada para o evento {0}", Model.NomeEvento))</h1>
 <br />
 
-@using (Html.BeginForm("FazerChamada", "Evento", FormMethod.Post, new { @class = "frm-submit" }))
+@using (Html.BeginForm("FazerChamada", "Evento", FormMethod.Post, new { @class = "frm-submit-chamada" }))
 {
     @Html.Hidden("idEvento", Model.IdEvento)
 

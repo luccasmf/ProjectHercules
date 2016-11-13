@@ -25,7 +25,7 @@ namespace ControleDocumentos.Controllers
             PopularDropDowns();
 
             AlunoCurso al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
-            // lucciros, pega essas infos aqui pfvr
+
             ViewBag.HrsComputadas = al.HoraCompleta;
             ViewBag.HrsNecessarias = al.HoraNecessaria;
 
@@ -47,9 +47,8 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(Models.SolicitacaoDocumentoFilter filter)
         {
-            // lucciros apenas as solicitações do aluno 
-            // n esquece de filtrar por tipo de solicitação tb 
-            return PartialView("_List", solicitacaoRepository.GetByFilterAluno(filter, Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno));
+            var list = solicitacaoRepository.GetByFilterAluno(filter, Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno);
+            return PartialView("_List", list.ToList());
         }
 
         public ActionResult CarregaModalExclusao(int idSol)
@@ -76,11 +75,6 @@ namespace ControleDocumentos.Controllers
                 sol.DataAbertura = DateTime.Now;
                 AlunoCurso al;
 
-
-
-                // lucciros tem que pegar o AlunoCurso do usuario logado sla como vc vai fazer isso heroorwhrwe
-                // tem que colocar tbm o filtro por tipo de solicitação em solicitação documento e 
-                // solicitação documento aluno pra n misturara as coisas
                 if (sol.IdSolicitacao == 0)
                 {
                     al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
@@ -93,10 +87,15 @@ namespace ControleDocumentos.Controllers
                     sol.Documento = new Documento();
                     sol.Documento.arquivo = converterFileToArray(uploadFile);
                     sol.Documento.NomeDocumento = uploadFile.FileName;
+                    sol.Documento.AlunoCurso = al;
+
+                    // lucciros select do tipo doc certificado
+                    sol.Documento.IdTipoDoc = 1;
 
                     string msgDoc = DirDoc.SalvaArquivo(sol.Documento);
                 }
 
+                // lucciros n ta funcionando vo morre
                 string msg = solicitacaoRepository.PersisteSolicitacao(sol);
 
                 if (msg != "Erro")

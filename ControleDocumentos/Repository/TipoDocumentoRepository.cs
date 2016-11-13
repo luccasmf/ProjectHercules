@@ -62,7 +62,7 @@ namespace ControleDocumentos.Repository
         /// <returns>retorna o tipo de documento desejado</returns>
         public TipoDocumento GetTipoDoc(object param)
         {
-            if (string.IsNullOrEmpty(param.ToString()))
+            if (!string.IsNullOrEmpty(param.ToString()))
                 return db.TipoDocumento.Find(param);
             return null;
         }
