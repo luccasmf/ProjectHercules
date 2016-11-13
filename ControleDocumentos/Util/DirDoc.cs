@@ -191,14 +191,14 @@ namespace ControleDocumentos
             {         
                 string curso = al.AlunoCurso.Select(x => x.Curso.Nome).FirstOrDefault().ToString();
                 string novoArquivo = CriaDiretorio(new string[] { curso, al.IdAluno.ToString(), "Certificado" });
-                novoArquivo = novoArquivo + ev.NomeEvento + ".docx";
+                novoArquivo = novoArquivo + "temp" + ev.NomeEvento + ".docx";
                 Documento documento = new Documento();
                 TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc("Certificado");
 
                 documento.IdTipoDoc = tipoDoc.IdTipoDoc;
                 documento.NomeDocumento = ev.NomeEvento + ".docx";
                 documento.Data = DateTime.Now;
-                documento.CaminhoDocumento = novoArquivo;
+                
                 documento.IdAlunoCurso = al.AlunoCurso.Select(x => x.IdAlunoCurso).FirstOrDefault();
                 documento.IdEvento = ev.IdEvento;
 
@@ -208,9 +208,13 @@ namespace ControleDocumentos
                 }                
                 else
                 {
-                    #region substitui informaçoes seguindo a template       
-                    using (DocX doc = DocX.Create(novoArquivo))
                     {
+
+
+                        #region substitui informaçoes seguindo a template       
+
+                        DocX doc = DocX.Create(novoArquivo);
+                    
                         doc.ApplyTemplate(template, true);
 
 
@@ -239,11 +243,14 @@ namespace ControleDocumentos
                             doc.ReplaceText("<ANO>", DateTime.Now.Year.ToString());
                         }
 
-                        #region criptografa certificado
-                        try
+                        doc.Save();
+                        doc.Dispose();
+                    }
+                    #region criptografa certificado
+                    try
                         {
-
-                            FileStream fs = new FileStream(novoArquivo, FileMode.Create);
+                        string caminhonovo = novoArquivo.Replace("temp", "");
+                            FileStream fs = new FileStream(caminhonovo, FileMode.Create);
                             byte[] arquivo = File.ReadAllBytes(novoArquivo);
                             File.Delete(novoArquivo);
                             RijndaelManaged rmCryp = new RijndaelManaged();
@@ -255,10 +262,10 @@ namespace ControleDocumentos
                             }
                             cs.Close();
                             fs.Close();
-
-                            certificadosDoc.Add(documento);
+                        documento.CaminhoDocumento = caminhonovo;
+                        certificadosDoc.Add(documento);
                         }
-                        catch
+                        catch (Exception e)
                         {
                             flag = false;
                         }
@@ -266,7 +273,7 @@ namespace ControleDocumentos
                     }
                     #endregion
                 }
-            }
+            
 
             if (!documentoRepository.PersisteCertificados(certificadosDoc))
                 flag = false;
