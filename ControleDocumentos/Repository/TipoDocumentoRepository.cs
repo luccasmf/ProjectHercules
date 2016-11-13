@@ -74,14 +74,16 @@ namespace ControleDocumentos.Repository
             return null;
         }
 
-        public TipoDocumento GetTipoDocById(int id)
+        public TipoDocumento GetTipoDocById(int? id)
         {
-            return db.TipoDocumento.Find(id);
+            if (id.HasValue)
+                return db.TipoDocumento.Find(id);
+            return null;
         }
 
         public bool TipoDocExists(TipoDocumento tipo)
         {
             return db.TipoDocumento.Any(t => t.TipoDocumento1 == tipo.TipoDocumento1);
         }
-    }      
+    }
 }

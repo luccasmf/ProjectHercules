@@ -30,7 +30,7 @@ namespace ControleDocumentos.Controllers
             if (idTipo.HasValue)
             {
                 //pega model pelo id
-                tipoDoc = tipoDocumentoRepository.GetTipoDoc(idTipo);
+                tipoDoc = tipoDocumentoRepository.GetTipoDocById(idTipo);
             }
             //retorna model
             return PartialView("_CadastroTipoDocumento", tipoDoc);
