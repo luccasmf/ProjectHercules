@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48BF8F40-6642-4500-9C06-9E54824B835D}"
 	ProjectSection(SolutionItems) = preProject
 		TCC 2.docx = TCC 2.docx
+		template-certificado.docx = template-certificado.docx
 	EndProjectSection
 EndProject
 Global
