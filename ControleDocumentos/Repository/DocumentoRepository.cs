@@ -35,7 +35,14 @@ namespace ControleDocumentos.Repository
             Documento docOld = new Documento();
             if (!(doc.IdDocumento > 0))
             {
-                doc.AlunoCurso = db.AlunoCurso.Where(x => x.IdAluno == doc.AlunoCurso.IdAluno && x.IdCurso == doc.AlunoCurso.IdCurso).FirstOrDefault();
+                try
+                {
+                    doc.AlunoCurso = db.AlunoCurso.Where(x => x.IdAluno == doc.AlunoCurso.IdAluno && x.IdCurso == doc.AlunoCurso.IdCurso).FirstOrDefault();
+                }
+                catch
+                {
+
+                }
                 db.Documento.Add(doc);
             }
             else

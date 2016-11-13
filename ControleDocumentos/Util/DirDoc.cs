@@ -43,9 +43,22 @@ namespace ControleDocumentos
         /// <returns>Documento com endereço e nome corretos para inserção no banco de dados</returns>
         public static string SalvaArquivo(Documento doc)
         {
+            string curso;
+            string idAluno;
 
-            string curso = cursoRepository.GetCursoById(doc.AlunoCurso.IdCurso).Nome;
-            string idAluno = doc.AlunoCurso.IdAluno.ToString();
+            try
+            {
+                curso = cursoRepository.GetCursoById(doc.AlunoCurso.IdCurso).Nome;
+                idAluno = doc.AlunoCurso.IdAluno.ToString();
+            }
+            catch
+            {
+                AlunoCurso al = cursoRepository.GetAlunoCurso(doc.IdAlunoCurso);
+                curso = cursoRepository.GetCursoById(al.IdCurso).Nome;
+                idAluno = al.IdAluno.ToString();
+            }          
+
+            
             string tipoDoc = tipoDocumentoRepository.GetTipoDocById(doc.IdTipoDoc).TipoDocumento1;
 
 

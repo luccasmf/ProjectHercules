@@ -36,14 +36,22 @@ namespace ControleDocumentos.Repository
                 db.SolicitacaoDocumento.Add(sol);
 
             }
-            if (db.SaveChanges() > 0)
+            try
             {
-                return "Cadastrado";
+                if (db.SaveChanges() > 0)
+                {
+                    return "Cadastrado";
+                }
+                else
+                {
+                    return "Erro";
+                }
             }
-            else
+            catch (Exception e)
             {
                 return "Erro";
             }
+            
         }
 
         public List<SolicitacaoDocumento> GetMinhaSolicitacao(string idUsuario)

@@ -87,12 +87,13 @@ namespace ControleDocumentos.Controllers
                     sol.Documento = new Documento();
                     sol.Documento.arquivo = converterFileToArray(uploadFile);
                     sol.Documento.NomeDocumento = uploadFile.FileName;
-                    sol.Documento.AlunoCurso = al;
+                    sol.Documento.IdAlunoCurso = sol.IdAlunoCurso;
 
                     // lucciros select do tipo doc certificado
-                    sol.Documento.IdTipoDoc = 1;
+                    sol.Documento.IdTipoDoc = tipoDocumentoRepository.GetTipoDoc("certificado").IdTipoDoc;
 
                     string msgDoc = DirDoc.SalvaArquivo(sol.Documento);
+                    sol.DataLimite = sol.DataAbertura.AddDays(7);
                 }
 
                 // lucciros n ta funcionando vo morre

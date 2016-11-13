@@ -78,6 +78,11 @@ namespace ControleDocumentos.Repository
             return cursos;
         }
 
+        internal AlunoCurso GetAlunoCurso(int? idAlunoCurso)
+        {
+            return db.AlunoCurso.Find(idAlunoCurso);
+        }
+
         public bool MatriculaAluno(int idCurso, int idAluno)
         {
             AlunoCurso matricula = new AlunoCurso();
