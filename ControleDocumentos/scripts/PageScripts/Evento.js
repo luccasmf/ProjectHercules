@@ -68,7 +68,7 @@ function bindGerarCertificados() {
                 showLoader();
             },
             success: function (data) {
-                showNotification(result);
+                showNotification(data);
             },
             error: function () {
                 var obj = {
