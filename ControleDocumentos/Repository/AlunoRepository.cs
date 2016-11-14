@@ -10,6 +10,7 @@ namespace ControleDocumentos.Repository
     public class AlunoRepository
     {
         DocumentosModel db = new DocumentosModel();
+        CursoRepository cursoRepository = new CursoRepository();
 
         public List<Aluno> GetAlunoByIdCurso(int idCurso)
         {
@@ -45,6 +46,32 @@ namespace ControleDocumentos.Repository
 
             return al;
         }
-       
+
+        public void AdicionaHoras(int cargaHoraria, int idAluno, int idEvento)
+        {
+            int idCurso = 0;
+            
+            List<Curso> cr = (from evento in db.Evento
+                              join curso in db.Curso on (evento.Curso.Select(x => x.IdCurso).FirstOrDefault()) equals curso.IdCurso
+                              where evento.IdEvento == idEvento
+                              select curso).ToList();
+
+            List<Curso> cs = (from cursoc in db.Curso
+                              join alc in db.AlunoCurso on cursoc.IdCurso equals alc.IdCurso
+                              where alc.IdAluno == idAluno
+                              select cursoc).ToList();
+
+            Curso c = cr.Intersect(cs).FirstOrDefault();
+            idCurso = c.IdCurso;
+            AlunoCurso ac = db.AlunoCurso.Where(x => x.IdAluno == idAluno && x.IdCurso == idCurso).FirstOrDefault();
+            ac.HoraCompleta += cargaHoraria;
+            db.SaveChanges();
+        }
+
+        public void AdicionaHoras(int cargaHoraria, int idSolicitacaoDocumento)
+        {
+           
+
+        }
     }
 }

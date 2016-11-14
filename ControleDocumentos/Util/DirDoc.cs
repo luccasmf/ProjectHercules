@@ -28,9 +28,9 @@ namespace ControleDocumentos
 
         //facul
         //private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
-       
-         //casa
-         private static string caminhoBase = @"C:/Hercules/";
+
+        //casa
+        private static string caminhoBase = @"C:/Hercules/";
 
         private static string caminhoPadrao = caminhoBase + "Documentos/";
         private static string caminhoTemplates = caminhoBase + "Templates/";
@@ -56,9 +56,9 @@ namespace ControleDocumentos
                 AlunoCurso al = cursoRepository.GetAlunoCurso(doc.IdAlunoCurso);
                 curso = cursoRepository.GetCursoById(al.IdCurso).Nome;
                 idAluno = al.IdAluno.ToString();
-            }          
+            }
 
-            
+
             string tipoDoc = tipoDocumentoRepository.GetTipoDocById(doc.IdTipoDoc).TipoDocumento1;
 
 
@@ -102,7 +102,7 @@ namespace ControleDocumentos
                 return "Falha ao persistir";
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return "Falha ao criptografar";
             }
@@ -150,7 +150,7 @@ namespace ControleDocumentos
             {
                 return null;
             }
-            
+
 
         }
 
@@ -180,15 +180,16 @@ namespace ControleDocumentos
         /// <returns></returns>
         public static bool GeraCertificado(int idEvento)
         {
+            AlunoRepository ar = new AlunoRepository();
             Evento ev = eventoRepository.GetEventoById(idEvento);
             bool flag = true;
             string templatePath = caminhoTemplates + "template-certificado.docx"; //caminhoDoTemplate
             List<Documento> certificadosDoc = new List<Documento>();
             var template = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
             List<Aluno> alunos = eventoRepository.GetAlunosPresentes(ev); //alunos com presença            
-          
+
             foreach (Aluno al in alunos)
-            {         
+            {
                 string curso = al.AlunoCurso.Select(x => x.Curso.Nome).FirstOrDefault().ToString();
                 string novoArquivo = CriaDiretorio(new string[] { curso, al.IdAluno.ToString(), "Certificado" });
                 novoArquivo = novoArquivo + "temp" + ev.NomeEvento + ".docx";
@@ -198,14 +199,14 @@ namespace ControleDocumentos
                 documento.IdTipoDoc = tipoDoc.IdTipoDoc;
                 documento.NomeDocumento = ev.NomeEvento + ".docx";
                 documento.Data = DateTime.Now;
-                
+
                 documento.IdAlunoCurso = al.AlunoCurso.Select(x => x.IdAlunoCurso).FirstOrDefault();
                 documento.IdEvento = ev.IdEvento;
 
                 if (File.Exists(novoArquivo))
                 {
-                    certificadosDoc.Add(documento);                                        
-                }                
+                    certificadosDoc.Add(documento);
+                }
                 else
                 {
                     {
@@ -214,7 +215,7 @@ namespace ControleDocumentos
                         #region substitui informaçoes seguindo a template       
 
                         DocX doc = DocX.Create(novoArquivo);
-                    
+
                         doc.ApplyTemplate(template, true);
 
 
@@ -248,35 +249,40 @@ namespace ControleDocumentos
                     }
                     #region criptografa certificado
                     try
-                        {
+                    {
                         string caminhonovo = novoArquivo.Replace("temp", "");
-                            FileStream fs = new FileStream(caminhonovo, FileMode.Create);
-                            byte[] arquivo = File.ReadAllBytes(novoArquivo);
-                            File.Delete(novoArquivo);
-                            RijndaelManaged rmCryp = new RijndaelManaged();
-                            CryptoStream cs = new CryptoStream(fs, rmCryp.CreateEncryptor(Key, Key), CryptoStreamMode.Write);
+                        FileStream fs = new FileStream(caminhonovo, FileMode.Create);
+                        byte[] arquivo = File.ReadAllBytes(novoArquivo);
+                        File.Delete(novoArquivo);
+                        RijndaelManaged rmCryp = new RijndaelManaged();
+                        CryptoStream cs = new CryptoStream(fs, rmCryp.CreateEncryptor(Key, Key), CryptoStreamMode.Write);
 
-                            foreach (var data in arquivo)
-                            {
-                                cs.WriteByte((byte)data);
-                            }
-                            cs.Close();
-                            fs.Close();
+                        foreach (var data in arquivo)
+                        {
+                            cs.WriteByte((byte)data);
+                        }
+                        cs.Close();
+                        fs.Close();
                         documento.CaminhoDocumento = caminhonovo;
                         certificadosDoc.Add(documento);
-                        }
-                        catch (Exception e)
-                        {
-                            flag = false;
-                        }
-                        #endregion
+                        ar.AdicionaHoras(ev.CargaHoraria, al.IdAluno, ev.IdEvento);
+                    }
+                    catch (Exception e)
+                    {
+                        flag = false;
                     }
                     #endregion
                 }
-            
+                #endregion
+            }
 
             if (!documentoRepository.PersisteCertificados(certificadosDoc))
+            {
                 flag = false;
+            }
+            else
+            {
+            }
 
             return flag;
 
@@ -332,6 +338,6 @@ namespace ControleDocumentos
             return novoNome;
 
         }
-        
+
     }
 }
