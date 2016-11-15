@@ -18,7 +18,7 @@
             <div class="form-group row">
                 <div class="col-md-9">
                     @Html.Label("Coordenador*")
-                    @Html.DropDownListFor(x => x.IdCoordenador, (SelectList)ViewBag.Coordenadores, new { @id = "ddlCoordenador", @class = "form-control", @required = "required" })
+                    @Html.DropDownListFor(x => x.IdCoordenador, (SelectList)ViewBag.Coordenadores,string.Empty, new { @id = "ddlCoordenador", @class = "form-control", @required = "required" })
                 </div>
                 <div class="col-md-3" style="padding-top:30px">
                     <a class="form-inline refreshCoordenadores" data-rel="tooltip" title="Atualizar lista de coordenadores" href="#" url="@Url.Action("AtualizarCoordenadores","Curso")">

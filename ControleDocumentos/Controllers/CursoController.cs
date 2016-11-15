@@ -101,7 +101,7 @@ namespace ControleDocumentos.Controllers
             // lucciros, buscar coordenadores
             var listCoordenadores = usuarioRepository.GetCoordenadores().Select(item => new SelectListItem
             {
-                Value = item.IdUsuario.ToString(),
+                Value = item.IdFuncionario.ToString(),
                 Text = item.Usuario.Nome.ToString(),
             });
             ViewBag.Coordenadores = new SelectList(listCoordenadores, "Value", "Text");
