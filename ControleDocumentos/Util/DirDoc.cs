@@ -9,6 +9,8 @@ using System.Text;
 using ControleDocumentos.Repository;
 using Novacode;
 using ControleDocumentos.Filter;
+using Spire.Doc;
+using System.Globalization;
 
 namespace ControleDocumentos
 {
@@ -197,20 +199,19 @@ namespace ControleDocumentos
                 TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc("Certificado");
 
                 documento.IdTipoDoc = tipoDoc.IdTipoDoc;
-                documento.NomeDocumento = ev.NomeEvento + ".docx";
+                documento.NomeDocumento = ev.NomeEvento + ".pdf";
                 documento.Data = DateTime.Now;
 
                 documento.IdAlunoCurso = al.AlunoCurso.Select(x => x.IdAlunoCurso).FirstOrDefault();
                 documento.IdEvento = ev.IdEvento;
 
-                if (File.Exists(novoArquivo))
+                if (File.Exists(Path.ChangeExtension(novoArquivo, ".pdf")))
                 {
-                    certificadosDoc.Add(documento);
+                   // certificadosDoc.Add(documento);
                 }
                 else
                 {
                     {
-
 
                         #region substitui informaçoes seguindo a template       
 
@@ -237,7 +238,8 @@ namespace ControleDocumentos
                         }
                         if (doc.Text.Contains("<MES>"))
                         {
-                            doc.ReplaceText("<MES>", DateTime.Now.Month.ToString());
+                            string mes = DateTime.Now.ToString("MMMM", CultureInfo.CreateSpecificCulture("pt-BR"));
+                            doc.ReplaceText("<MES>", mes);
                         }
                         if (doc.Text.Contains("<ANO>"))
                         {
@@ -246,6 +248,11 @@ namespace ControleDocumentos
 
                         doc.Save();
                         doc.Dispose();
+                        Document pdf = new Document();
+                        pdf.LoadFromFile(novoArquivo);
+                        File.Delete(novoArquivo);
+                        novoArquivo = Path.ChangeExtension(novoArquivo, ".pdf");
+                        pdf.SaveToFile(novoArquivo, FileFormat.PDF);
                     }
                     #region criptografa certificado
                     try
@@ -287,6 +294,14 @@ namespace ControleDocumentos
             return flag;
 
         }
+
+        //private static string GetMes(int month)
+        //{
+        //    switch(month)
+        //    {
+
+        //    }
+        //}
 
 
         /// <summary>

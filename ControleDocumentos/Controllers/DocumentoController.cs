@@ -199,12 +199,20 @@ namespace ControleDocumentos.Controllers
             // valida se o aluno está matriculado no curso que coordena
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
-                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
-                if (!cursos.Any(x => x.AlunoCurso.Any(y => y.IdAluno == doc.AlunoCurso.IdAluno)))
+                List<Curso> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+
+                List<int> alunos = new List<int>();
+                doc = documentoRepository.GetDocumentoById(doc.IdDocumento);
+
+                foreach (Curso c in cursos)
+                {
+                    alunos.AddRange(c.AlunoCurso.Select(x => x.IdAluno));
+                }
+
+                if (!alunos.Contains(doc.AlunoCurso.IdAluno))
                     return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
             }
 
-            doc = documentoRepository.GetDocumentoById(doc.IdDocumento);
             if (documentoRepository.DeletaArquivo(doc))
             {
                 Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, doc, (int?)doc.IdDocumento);
