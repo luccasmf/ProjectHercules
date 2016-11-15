@@ -119,6 +119,30 @@ namespace ControleDocumentos.Repository
             }
         }
 
+        public string DeletaCurso(int idCurso)
+        {
+            Curso curso = db.Curso.Find(idCurso);
+
+            if(curso.AlunoCurso.Count > 0)
+            {
+                return "Alunos";
+            }
+            else
+            {
+                try
+                {
+                    db.Curso.Remove(curso);
+                    db.SaveChanges();
+                    return "Excluido";
+                }
+                catch (Exception e)
+                {
+                    return "Erro";
+                }
+                
+            }
+        }
+
         public AlunoCurso GetAlunoCurso(int idAluno, int idCurso)
         {
             return db.AlunoCurso.Where(x => x.IdAluno == idAluno && x.IdCurso == idCurso).FirstOrDefault();

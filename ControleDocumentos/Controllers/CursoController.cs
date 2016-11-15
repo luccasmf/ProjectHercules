@@ -14,6 +14,7 @@ namespace ControleDocumentos.Controllers
     public class CursoController : BaseController
     {
         CursoRepository cursoRepository = new CursoRepository();
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
         // GET: Curso
         public ActionResult Index()
         {
@@ -31,6 +32,7 @@ namespace ControleDocumentos.Controllers
                 //pega model pelo id
                 curso = cursoRepository.GetCursoById(idCurso.Value);
             }
+            PopularDropDowns();
             //retorna model
             return PartialView("_CadastroCurso", curso);
         }
@@ -38,7 +40,7 @@ namespace ControleDocumentos.Controllers
         public ActionResult CarregaModalExclusao(int idCurso)
         {
             Curso curso = cursoRepository.GetCursoById(idCurso);
-
+            PopularDropDowns();
             return PartialView("_ExclusaoCurso", curso);
         }
 
@@ -65,22 +67,28 @@ namespace ControleDocumentos.Controllers
         }
 
         public object ExcluirCurso(Curso curso)
-        {
-            // lucciros, tem que ver se precisa validar se tem aluno matriculado e impedir de excluir se tiver
+        {            
             curso = cursoRepository.GetCursoById(curso.IdCurso);
-            //if (cursoRepository.DeletaCurso(curso.IdCurso))
-            //{
-            //    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, curso, curso.IdCurso);
-            //    return Json(new { Status = true, Type = "success", Message = "Curso deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
-            //}
-            return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+            string msg = cursoRepository.DeletaCurso(curso.IdCurso);
+            switch (msg)
+            {
+                case "Excluido":
+                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, curso, curso.IdCurso);
+                    return Json(new { Status = true, Type = "success", Message = "Curso deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                case "Alunos":
+                    return Json(new { Status = false, Type = "error", Message = "Não é possível excluir cursos com alunos cadastrados" }, JsonRequestBehavior.AllowGet);
+                default:
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
+
+            }
 
         }
 
         public JsonResult AtualizarCoordenadores()
         {
-            // lucciros, atualizar lista de coordenadores
-            var lstCoordenadores = new List<Funcionario>();
+            
+            Utilidades.BuscarCoords();
+            List<Funcionario> lstCoordenadores = usuarioRepository.GetCoordenadores();
             return Json(lstCoordenadores.Select(x => new { Value = x.IdUsuario, Text = x.Usuario.Nome }));
         }
 
@@ -89,7 +97,7 @@ namespace ControleDocumentos.Controllers
         private void PopularDropDowns()
         {
             // lucciros, buscar coordenadores
-            var listCoordenadores = new List<Funcionario>().Select(item => new SelectListItem
+            var listCoordenadores = usuarioRepository.GetCoordenadores().Select(item => new SelectListItem
             {
                 Value = item.IdUsuario.ToString(),
                 Text = item.Usuario.Nome.ToString(),
