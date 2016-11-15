@@ -68,9 +68,13 @@ namespace ControleDocumentos.Repository
             db.SaveChanges();
         }
 
-        public void AdicionaHoras(int cargaHoraria, int idSolicitacaoDocumento)
+        public bool AdicionaHoras(int cargaHoraria, int idSolicitacaoDocumento)
         {
-           
+            SolicitacaoDocumento sol = db.SolicitacaoDocumento.Find(idSolicitacaoDocumento);
+
+            sol.AlunoCurso.HoraCompleta += cargaHoraria;
+
+            return db.SaveChanges() > 0;
 
         }
     }

@@ -96,15 +96,7 @@ namespace ControleDocumentos.Repository
             db.AlunoCurso.Add(matricula);
 
             return db.SaveChanges() > 0;
-        }
-
-        public bool AtribuiHoras(int idAluno, int idCurso, int hora)
-        {
-            AlunoCurso ac = db.AlunoCurso.Find(idAluno, idCurso);
-            ac.HoraCompleta += hora;
-
-            return db.SaveChanges() > 0;
-        }
+        }        
 
         private string ComparaInfos(Curso c)
         {
