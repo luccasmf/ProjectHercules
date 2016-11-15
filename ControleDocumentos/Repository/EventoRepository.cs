@@ -206,6 +206,9 @@ namespace ControleDocumentos.Repository
         {
             Evento ev = db.Evento.Find(idEvento);
             Funcionario f = db.Funcionario.Where(x => x.IdUsuario == idUsuario && (x.Permissao == EnumPermissaoUsuario.coordenador || x.Permissao == EnumPermissaoUsuario.professor)).FirstOrDefault();
+
+            Chamada c = GetChamada(idEvento, DateTime.Now.Date);
+
             foreach (AlunoEvento ae in ev.AlunoEvento)
             {
                 if (idAluno.Contains(ae.IdAluno))
@@ -214,8 +217,9 @@ namespace ControleDocumentos.Repository
                     Presenca p = new Presenca();
                     p.IdAluno = ae.IdAluno;
                     p.IdEvento = idEvento;
-                    p.Data = DateTime.Now;
+                    p.Data = DateTime.Now.Date;
                     p.IdProfessor = f.IdFuncionario;
+                    p.IdChamada = c.IdChamada;
                     ae.Presenca.Add(p);
                 }
             }
@@ -223,6 +227,33 @@ namespace ControleDocumentos.Repository
             return db.SaveChanges() > 0;
         }
 
+        public Chamada GetChamada(int idEvento, DateTime data)
+        {
+            Chamada c = db.Chamada.Where(x => x.IdEvento == idEvento && x.Data == data).FirstOrDefault();
+
+            if(c.IdChamada == 0)
+            {
+                c = new Chamada();
+                c.IdEvento = idEvento;
+                c.Data = data;
+
+                db.Chamada.Add(c);
+                db.SaveChanges();
+            }
+
+            return c;
+        }
+
+        public bool ChamadaFeita(int idEvento, DateTime data)
+        {
+            Chamada c = db.Chamada.Where(x => x.IdEvento == idEvento && x.Data == data).FirstOrDefault();
+
+            if(c.IdChamada>0)
+            {
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Pega relação de alunos inscritos no evento
         /// </summary>

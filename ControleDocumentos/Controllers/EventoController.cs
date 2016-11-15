@@ -97,20 +97,43 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult Chamada(int idEvento)
         {
-            List<int> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y=> y.IdCurso).ToList();
+            //Lurde veja essa parada toda
 
-            List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento).Where(x=> cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
+            bool chamadaFeita = eventoRepository.ChamadaFeita(idEvento, DateTime.Now.Date);
+            Chamada c;
+            List<Presenca> presencas;
+
+            List<int> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y => y.IdCurso).ToList();
+
+            List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento).Where(x => cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
             var evento = eventoRepository.GetEventoById(idEvento);
 
-            return PartialView("_Chamada",new ChamadaModel {
+            if (chamadaFeita)
+            {
+                c = eventoRepository.GetChamada(idEvento, DateTime.Now.Date);
+
+                return PartialView("_Chamada", new ChamadaModel
+                {
+                    Alunos = alunos,
+                    IdEvento = idEvento,
+                    NomeEvento = evento.NomeEvento,
+                    Presentes = c.Presenca.ToList()
+                });
+
+            }
+
+            return PartialView("_Chamada", new ChamadaModel
+            {
                 Alunos = alunos,
                 IdEvento = idEvento,
                 NomeEvento = evento.NomeEvento
             });
+
         }
 
         public object FazerChamada(int[] idAlunos, int idEvento)
         {
+
             bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento, Utilidades.UsuarioLogado.IdUsuario);
 
             if (flag)

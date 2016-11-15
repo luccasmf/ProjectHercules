@@ -28,7 +28,11 @@ namespace ControleDocumentosLibrary
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdProfessor { get; set; }
 
+        public int? IdChamada { get; set; }
+
         public virtual AlunoEvento AlunoEvento { get; set; }
+
+        public virtual Chamada Chamada { get; set; }
 
         public virtual Funcionario Funcionario { get; set; }
     }
