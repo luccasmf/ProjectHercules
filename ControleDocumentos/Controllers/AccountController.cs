@@ -44,8 +44,12 @@ namespace ControleDocumentos.Controllers
 
             GetSessionUser();
 
+            // lucciros, validar se n tem email e redirecionar:
+            return RedirectToAction("DadosCadastrais", "Account");
+
             return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
 
+            
             #endregion
 
             #region login teste
@@ -97,6 +101,12 @@ namespace ControleDocumentos.Controllers
 
             //}
             #endregion
+        }
+
+        public ActionResult DadosCadastrais()
+        {
+            var usuario = new Repository.UsuarioRepository().GetUsuarioById(Util.Utilidades.UsuarioLogado.IdUsuario);
+            return View(usuario);
         }
 
         public ActionResult LogOff()

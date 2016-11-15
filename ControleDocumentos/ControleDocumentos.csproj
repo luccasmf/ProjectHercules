@@ -581,6 +581,7 @@
     <Content Include="Views\Curso\_ExclusaoCurso.cshtml" />
     <Content Include="Views\Curso\_List.cshtml" />
     <Content Include="Views\Curso\Index.cshtml" />
+    <Content Include="Views\Account\DadosCadastrais.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
