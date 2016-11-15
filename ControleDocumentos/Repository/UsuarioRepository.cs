@@ -119,5 +119,12 @@ namespace ControleDocumentos.Repository
 
         }
 
+        public List<Funcionario> GetCoordenadores()
+        {
+            List<Funcionario> funcs = db.Funcionario.Where(x => x.Permissao == EnumPermissaoUsuario.coordenador).ToList();
+
+            return funcs;
+        }
+
     }
 }
