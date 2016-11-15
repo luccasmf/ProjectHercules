@@ -18,12 +18,13 @@ namespace ControleDocumentos.Controllers
         // GET: Curso
         public ActionResult Index()
         {
-            PopularDropDowns();
             return View(cursoRepository.GetCursos());
         }
 
         public ActionResult CarregaModalCadastro(int? idCurso)
         {
+            PopularDropDowns();
+
             //instancia model
             Curso curso = new Curso();
 
