@@ -7,6 +7,7 @@ using ControleDocumentos.Repository;
 using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
 using ControleDocumentos.Filter;
+using ControleDocumentos.Util.Extension;
 
 namespace ControleDocumentos.Controllers
 {
@@ -56,7 +57,7 @@ namespace ControleDocumentos.Controllers
                     Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, curso, curso.IdCurso);
                     return Json(new { Status = true, Type = "success", Message = "Curso alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Erro":
-                    return Json(new { Status = false, Type = "error", Message = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
                 default:
                     return Json(new { Status = false, Type = "error", Message = "" }, JsonRequestBehavior.AllowGet);
             }
@@ -68,7 +69,7 @@ namespace ControleDocumentos.Controllers
         }
 
         public object ExcluirCurso(Curso curso)
-        {            
+        {
             curso = cursoRepository.GetCursoById(curso.IdCurso);
             string msg = cursoRepository.DeletaCurso(curso.IdCurso);
             switch (msg)
@@ -87,7 +88,7 @@ namespace ControleDocumentos.Controllers
 
         public JsonResult AtualizarCoordenadores()
         {
-            
+
             Utilidades.BuscarCoords();
             List<Funcionario> lstCoordenadores = usuarioRepository.GetCoordenadores();
             return Json(lstCoordenadores.Select(x => new { Value = x.IdUsuario, Text = x.Usuario.Nome }));
@@ -104,6 +105,15 @@ namespace ControleDocumentos.Controllers
                 Text = item.Usuario.Nome.ToString(),
             });
             ViewBag.Coordenadores = new SelectList(listCoordenadores, "Value", "Text");
+
+            var listNivel = Enum.GetValues(typeof(EnumNivelCurso)).
+                Cast<EnumNivelCurso>().Select(v => new SelectListItem
+                {
+                    Text = EnumExtensions.GetEnumDescription(v),
+                    Value = ((int)v).ToString(),
+                }).ToList();
+            ViewBag.Niveis = new SelectList(listNivel, "Value", "Text");
+
         }
 
         #endregion

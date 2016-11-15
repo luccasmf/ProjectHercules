@@ -58,4 +58,17 @@ namespace ControleDocumentosLibrary
         secretaria
     }
 
+    public enum EnumNivelCurso : int {
+        [Description("Técnico")]
+        tecnico = 1,
+
+        [Description("Tecnólogo")]
+        tecnologo,
+
+        [Description("Graduação")]
+        graduacao,
+
+        [Description("Pós-Graduação")]
+        pos_graduacao
+    }
 }

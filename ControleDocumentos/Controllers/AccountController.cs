@@ -45,7 +45,7 @@ namespace ControleDocumentos.Controllers
             GetSessionUser();
 
             // lucciros, validar se n tem email e redirecionar:
-            return RedirectToAction("DadosCadastrais", "Account");
+            ///return RedirectToAction("DadosCadastrais", "Account");
 
             return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
 
