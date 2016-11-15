@@ -443,6 +443,7 @@
     <Content Include="Scripts\PageScripts\SolicitacaoDocumentoAluno.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
+    <Content Include="Scripts\PageScripts\SolicitacaoHoraComplementar.js" />
     <Content Include="Scripts\PageScripts\TipoDocumento.js" />
     <Content Include="Scripts\PageScripts\Util.js" />
     <Content Include="Scripts\raphael.2.1.0.min.js" />
@@ -470,6 +471,7 @@
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SolicitacaoDocumentoController.cs" />
+    <Compile Include="Controllers\SolicitacaoHoraComplementarController.cs" />
     <Compile Include="Controllers\TipoDocumentoController.cs" />
     <Compile Include="Filter\AuthorizeADAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -558,6 +560,10 @@
     <Content Include="Views\HoraComplementar\_ExclusaoSolicitacao.cshtml" />
     <Content Include="Views\HoraComplementar\_List.cshtml" />
     <Content Include="Views\HoraComplementar\Index.cshtml" />
+    <Content Include="Views\SolicitacaoHoraComplementar\Index.cshtml" />
+    <Content Include="Views\SolicitacaoHoraComplementar\_AlteracaoStatus.cshtml" />
+    <Content Include="Views\SolicitacaoHoraComplementar\_CadastroSolicitacao.cshtml" />
+    <Content Include="Views\SolicitacaoHoraComplementar\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

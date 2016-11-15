@@ -9,5 +9,6 @@ namespace ControleDocumentos.Models
     {
         public int? IdCurso { get; set; }
         public int? IdStatus { get; set; }
+        public bool ApenasPendentes { get; set; }
     }
 }
