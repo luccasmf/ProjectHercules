@@ -47,6 +47,34 @@ namespace ControleDocumentos.Repository
             return al;
         }
 
+        public bool PersisteAluno(string idUsuario, int idCurso)
+        {
+            Aluno al = GetAlunoByIdUsuario(idUsuario);
+            Curso c = db.Curso.Find(idCurso);
+            AlunoCurso ac;
+            if (al.AlunoCurso.Count == 0)
+            {
+                ac = new AlunoCurso();
+                ac.IdCurso = c.IdCurso;
+                ac.HoraNecessaria = c.HoraComplementar;
+
+                al.AlunoCurso.Add(ac);
+            }
+            else
+            {
+                ac = al.AlunoCurso.FirstOrDefault();
+                al.AlunoCurso.Remove(ac);
+                if(ac.IdCurso != idCurso)
+                {
+                    ac.IdCurso = c.IdCurso;
+                    ac.HoraNecessaria = c.HoraComplementar;
+                }
+                al.AlunoCurso.Add(ac);
+            }
+
+            return db.SaveChanges() > 0;
+        }
+
         public void AdicionaHoras(int cargaHoraria, int idAluno, int idEvento)
         {
             int idCurso = 0;
