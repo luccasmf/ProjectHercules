@@ -29,9 +29,8 @@ namespace ControleDocumentos.Controllers
             ViewBag.HrsComputadas = al.HoraCompleta;
             ViewBag.HrsNecessarias = al.HoraNecessaria;
 
-            // retornar as solicitações feitas pelo aluno com status "processando"
-            List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetMinhaSolicitacao(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.Status == EnumStatusSolicitacao.processando).ToList();
-            return View(new List<SolicitacaoDocumento>());
+            List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetMinhaSolicitacao(Utilidades.UsuarioLogado.IdUsuario).ToList();
+            return View(retorno);
         }
 
         public ActionResult CadastrarSolicitacao(int? idSol)
@@ -210,7 +209,7 @@ namespace ControleDocumentos.Controllers
                     Text = EnumExtensions.GetEnumDescription(v),
                     Value = ((int)v).ToString(),
                 }).ToList();
-            ViewBag.Status = new SelectList(listStatus, "Value", "Text", ((int)EnumStatusSolicitacao.processando).ToString());
+            ViewBag.Status = new SelectList(listStatus, "Value", "Text");
         }
 
     }
