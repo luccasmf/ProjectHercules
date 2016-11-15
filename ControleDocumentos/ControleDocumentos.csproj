@@ -456,6 +456,7 @@
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoHoraComplementar.js" />
+    <Content Include="Scripts\PageScripts\Curso.js" />
     <Content Include="Scripts\PageScripts\TipoDocumento.js" />
     <Content Include="Scripts\PageScripts\Util.js" />
     <Content Include="Scripts\raphael.2.1.0.min.js" />
@@ -576,6 +577,10 @@
     <Content Include="Views\SolicitacaoHoraComplementar\_AlteracaoStatus.cshtml" />
     <Content Include="Views\SolicitacaoHoraComplementar\_CadastroSolicitacao.cshtml" />
     <Content Include="Views\SolicitacaoHoraComplementar\_List.cshtml" />
+    <Content Include="Views\Curso\_CadastroCurso.cshtml" />
+    <Content Include="Views\Curso\_ExclusaoCurso.cshtml" />
+    <Content Include="Views\Curso\_List.cshtml" />
+    <Content Include="Views\Curso\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -586,7 +591,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Curso\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControleDocumentosLibrary\ControleDocumentosLibrary.csproj">

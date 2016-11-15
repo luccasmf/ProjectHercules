@@ -6,8 +6,10 @@ $(document).ready(function () {
     bindFormFilter();
     bindCancelar();
     bindCadastro();
+    bindFormSubmitModal();
 
     bindSubmitDocumento();
+    bindSubmitCancelarSolicitacao();
 });
 
 function bindSubmitDocumento() {
@@ -27,6 +29,38 @@ function bindSubmitDocumento() {
                 if (result.Status == true) {
                     showNotificationRefresh(result, false, true);
                 }
+                else
+                    showNotification(result);
+            },
+            error: function (result) {
+                var obj = {
+                    Type: "error",
+                    Message: "Ocorreu um erro ao realizar esta operação"
+                }
+                showNotification(obj);
+            },
+            complete: function () {
+                hideLoader();
+            },
+        });
+        return false;
+    });
+}
+
+function bindSubmitCancelarSolicitacao() {
+    $(document).on("submit", ".frm-submit-modal-cancelamento", function (e) {
+        e.preventDefault();
+        var frm = $('.frm-submit-modal-cancelamento');
+        $.ajax({
+            url: frm.attr("action"),
+            type: frm.attr("method"),
+            data: frm.serialize(),
+            beforeSend: function () {
+                showLoader();
+            },
+            success: function (result) {
+                if (result.Status == true)
+                    showNotificationRefresh(result, true, true);
                 else
                     showNotification(result);
             },

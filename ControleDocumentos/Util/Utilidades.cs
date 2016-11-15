@@ -82,7 +82,7 @@ namespace ControleDocumentos.Util
                 //user.Permissao = EnumPermissaoUsuario.coordenador;
                 //user.IdUsuario = "160220040209";
 
-                user.Permissao = EnumPermissaoUsuario.aluno;
+                user.Permissao = EnumPermissaoUsuario.secretaria;
                 user.IdUsuario = "10077401272";
 
             }
