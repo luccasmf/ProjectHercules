@@ -122,6 +122,31 @@ namespace ControleDocumentos.Repository
             return solicitacosDocumento;
         }
 
+        public string AlteraDocumento(SolicitacaoDocumento sol)
+        {
+            SolicitacaoDocumento solic = db.SolicitacaoDocumento.Find(sol.IdSolicitacao);
+            try
+            {
+                File.Delete(solic.Documento.CaminhoDocumento);
+
+            }
+            catch
+            {
+
+            }
+            solic.Documento.arquivo = sol.Documento.arquivo;
+            solic.Documento.NomeDocumento = sol.Documento.NomeDocumento;
+            solic.DataAbertura = DateTime.Now;
+            solic.DataLimite = solic.DataAbertura.AddDays(7);
+            string msgDoc = DirDoc.SalvaArquivo(solic.Documento);
+
+            if(db.SaveChanges()>0)
+            {
+                return "Alterado";
+            }
+            return "Erro";
+        }
+
         public bool DeletaArquivo(SolicitacaoDocumento sol)
         {
             if (sol.Documento != null && sol.Documento.CaminhoDocumento != null)

@@ -65,6 +65,7 @@ namespace ControleDocumentos.Controllers
 
         public object SalvarSolicitacao(SolicitacaoDocumento sol, HttpPostedFileBase uploadFile)
         {
+            string msg = "Erro";
             if (uploadFile == null)
                 return Json(new { Status = false, Type = "error", Message = "Selecione um documento" }, JsonRequestBehavior.AllowGet);
 
@@ -88,16 +89,24 @@ namespace ControleDocumentos.Controllers
                     sol.Documento.arquivo = converterFileToArray(uploadFile);
                     sol.Documento.NomeDocumento = uploadFile.FileName;
                     sol.Documento.IdAlunoCurso = sol.IdAlunoCurso;
-
-                    // lucciros select do tipo doc certificado
+                    
                     sol.Documento.IdTipoDoc = tipoDocumentoRepository.GetTipoDoc("certificado").IdTipoDoc;
 
                     string msgDoc = DirDoc.SalvaArquivo(sol.Documento);
-                    sol.DataLimite = sol.DataAbertura.AddDays(7);
-                }
 
-                // lucciros n ta funcionando vo morre
-                string msg = solicitacaoRepository.PersisteSolicitacao(sol);
+                    sol.DataLimite = sol.DataAbertura.AddDays(7);
+                    msg = solicitacaoRepository.PersisteSolicitacao(sol);
+
+                }
+                else
+                {
+                    sol.Documento = new Documento();
+                    sol.Documento.arquivo = converterFileToArray(uploadFile);
+                    sol.Documento.NomeDocumento = uploadFile.FileName;
+
+                    msg = solicitacaoRepository.AlteraDocumento(sol);
+                }
+                
 
                 if (msg != "Erro")
                 {
