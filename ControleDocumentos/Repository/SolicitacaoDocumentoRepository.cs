@@ -226,7 +226,13 @@ namespace ControleDocumentos.Repository
             //                                     select so).Where(x => x.Status == (EnumStatusSolicitacao)filter.IdStatus).ToList();
 
             Funcionario f = db.Funcionario.Where(x => x.IdUsuario == idCoord).FirstOrDefault();
-            List<SolicitacaoDocumento> solics = GetByFilter(filter).Where(x => x.IdFuncionario == f.IdFuncionario).ToList();
+            List<int> cursos = new List<int>();
+
+            foreach(Curso c in f.Curso)
+            {
+                cursos.Add(c.IdCurso);
+            }
+            List<SolicitacaoDocumento> solics = GetByFilter(filter).Where(x => cursos.Contains(x.AlunoCurso.IdCurso)).ToList();
 
             return solics;
         }
