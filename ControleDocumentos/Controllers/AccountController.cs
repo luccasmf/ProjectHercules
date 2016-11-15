@@ -1,4 +1,5 @@
 ﻿using ControleDocumentos.Models;
+using ControleDocumentos.Util;
 using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
 using System;
@@ -22,7 +23,7 @@ namespace ControleDocumentos.Controllers
 
             var model = new LoginModel();
 
-            model.ReturnUrl = returnUrl;            
+            model.ReturnUrl = returnUrl;
 
             return this.View(model);
         }
@@ -44,12 +45,12 @@ namespace ControleDocumentos.Controllers
 
             GetSessionUser();
 
-            // lucciros, validar se n tem email e redirecionar:
-            return RedirectToAction("DadosCadastrais", "Account");
+            if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
+                return RedirectToAction("DadosCadastrais", "Account");
 
             return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
 
-            
+
             #endregion
 
             #region login teste
@@ -87,6 +88,10 @@ namespace ControleDocumentos.Controllers
             //            return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl }, JsonRequestBehavior.AllowGet);
             //        }
             //        GetSessionUser();
+            //
+            //        if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
+            //            return RedirectToAction("DadosCadastrais", "Account");
+            //
             //        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
             //    }
             //    else
@@ -105,7 +110,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult DadosCadastrais()
         {
-            var usuario = new Repository.UsuarioRepository().GetUsuarioById(Util.Utilidades.UsuarioLogado.IdUsuario);
+            var usuario = new Repository.UsuarioRepository().GetUsuarioById(Utilidades.UsuarioLogado.IdUsuario);
             return View(usuario);
         }
 
