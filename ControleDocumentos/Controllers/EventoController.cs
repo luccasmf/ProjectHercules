@@ -155,9 +155,19 @@ namespace ControleDocumentos.Controllers
             Chamada c;
             List<Presenca> presencas;
 
-            List<int> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y => y.IdCurso).ToList();
+            List<int> cursos;
+            List<Aluno> alunos;
 
-            List<Aluno> alunos = eventoRepository.GetListaChamada(idEvento).Where(x => cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
+            //if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            //{
+            //    cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y => y.IdCurso).ToList();
+            //    alunos = eventoRepository.GetListaChamada(idEvento).Where(x => cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
+            //}
+            
+                alunos = eventoRepository.GetListaChamada(idEvento);
+            
+           
+
             var evento = eventoRepository.GetEventoById(idEvento);
 
             if (chamadaFeita)
