@@ -184,6 +184,26 @@ namespace ControleDocumentos.Repository
             return eventos.Where(x => cursos.Contains(x.Curso.FirstOrDefault().IdCurso)).ToList();
         }
 
+        public string AlteraStatusEvento(int idEvento, EnumStatusEvento status)
+        {
+            Evento ev = db.Evento.Find(idEvento);
+
+            if(status != ev.Status)
+            {
+                ev.Status = status;
+                if(db.SaveChanges() > 0)
+                {
+                    return "Alterado";
+                }
+                else
+                {
+                    return "Erro";
+                }
+            }
+            return "Mantido";
+
+        }
+
         public List<Evento> GetByFilterCoord(string idUsuario, EventoFilter filter)
         {
             List<Evento> eventos = GetByFilter(filter);

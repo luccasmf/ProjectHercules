@@ -62,10 +62,9 @@ namespace ControleDocumentos.Controllers
             {
                 var ev = eventoRepository.GetEventoById(evento.IdEvento);
                 ev.Status = evento.Status;
-
-                // lucciros cancela o evento
-                //string msg = eventoRepository.PersisteEvento(ev);
-                string msg = "";
+               
+                string msg = eventoRepository.AlteraStatusEvento(evento.IdEvento, evento.Status);
+               
                 if (msg != "Erro")
                 {
                     //try
