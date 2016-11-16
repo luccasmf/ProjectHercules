@@ -70,25 +70,34 @@
             <div id="sidebar-left" class="col-sm-1">
                 <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
                     <ul class="nav nav-tabs nav-stacked main-menu">
-                        <li class="dropmenu drop-top">
-                            <a class="dropmenu" href="index.cshtml"><i class="fa fa-folder-open"></i><span class="hidden-sm">Documentação</span></a>
-                            <ul>
-                                @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
-                Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
-                                {
-                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Documentos de alunos</span></a></li>
-                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumento")"><span class="submenu-m">Solicitações de documentos</span></a></li>
-                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "TipoDocumento")"><span class="submenu-m">Tipos de documentos</span></a></li>
-                                }
-                                else if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
-                                {
-                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Meus documentos</span></a></li>
-                                    <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumentoAluno")"><span class="submenu-m">Solicitações de documentos</span></a></li>
-                                }
-                            </ul>
-                        </li>
+
+                        @* Documentos*@
+                        @if (Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
+                        {
+                            <li class="dropmenu drop-top">
+
+                                <a class="dropmenu" href="#"><i class="fa fa-folder-open"></i><span class="hidden-sm">Documentação</span></a>
+                                <ul>
+                                    @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
+                                        Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
+                                    {
+                                        <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Documentos de alunos</span></a></li>
+                                            <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumento")"><span class="submenu-m">Solicitações de documentos</span></a></li>
+                                            <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "TipoDocumento")"><span class="submenu-m">Tipos de documentos</span></a></li>
+                                    }
+                                    else if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                                    {
+                                        <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "Documento")"><span class="submenu-m">Meus documentos</span></a></li>
+                                            <li><a onclick="showLoader()" class="submenu" href="@Url.Action("Index", "SolicitacaoDocumentoAluno")"><span class="submenu-m">Solicitações de documentos</span></a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @* Eventos*@
                         @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
-                            Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
+                            Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria ||
+                            Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
                         {
                             <li class="drop-middle"><a onclick="showLoader()" href="@Url.Action("Index", "Evento")"><i class="fa fa-calendar"></i><span class="hidden-sm submenu-m">Eventos</span></a></li>
                         }
@@ -96,13 +105,19 @@
                         {
                             <li class="drop-middle"><a onclick="showLoader()" href="@Url.Action("MeusEventos", "Evento")"><i class="fa fa-calendar"></i><span class="hidden-sm submenu-m">Meus eventos</span></a></li>
                         }
+
+                        @* Horas complementares*@
                         @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                         {
                             <li class="drop-bottom"><a onclick="showLoader()" href="@Url.Action("Index", "HoraComplementar")"><i class="fa fa-clock-o"></i><span class="hidden-sm submenu-m">Horas complementares</span></a></li>
                         }
-                        else {
+                        else if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador ||
+                            Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
+                        {
                             <li class="drop-bottom"><a onclick="showLoader()" href="@Url.Action("Index", "SolicitacaoHoraComplementar")"><i class="fa fa-clock-o"></i><span class="hidden-sm submenu-m">Solicitações de horas complementares</span></a></li>
                         }
+
+                        @* Cursos*@
                         @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.secretaria)
                         {
                             <li class="drop-bottom"><a onclick="showLoader()" href="@Url.Action("Index", "Curso")"><i class="fa fa-cog"></i><span class="hidden-sm submenu-m">Cursos</span></a></li>

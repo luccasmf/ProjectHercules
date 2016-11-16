@@ -79,7 +79,7 @@ namespace ControleDocumentos.Util
                 user.Nome = "Teste";
                 user.E_mail = "teste@teste";
 
-                user.Permissao = EnumPermissaoUsuario.coordenador;
+                user.Permissao = EnumPermissaoUsuario.professor;
                 user.IdUsuario = "160220040209";
 
                 //user.Permissao = EnumPermissaoUsuario.aluno;
