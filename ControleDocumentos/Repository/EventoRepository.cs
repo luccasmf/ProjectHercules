@@ -227,10 +227,18 @@ namespace ControleDocumentos.Repository
             Evento ev = db.Evento.Find(idEvento);
             Funcionario f = db.Funcionario.Where(x => x.IdUsuario == idUsuario && (x.Permissao == EnumPermissaoUsuario.coordenador || x.Permissao == EnumPermissaoUsuario.professor)).FirstOrDefault();
 
-            Chamada c = GetChamada(idEvento, DateTime.Now.Date);
+            Chamada c = GetChamada(idEvento, DateTime.Now.Date);              
+
+            c.Presenca.Clear();
+
+            if(idAluno == null)
+            {
+                return db.SaveChanges()>0;
+            }
 
             foreach (AlunoEvento ae in ev.AlunoEvento)
             {
+
                 if (idAluno.Contains(ae.IdAluno))
                 {
                     ae.QuantidadePresenca++;
@@ -242,6 +250,7 @@ namespace ControleDocumentos.Repository
                     p.IdChamada = c.IdChamada;
                     ae.Presenca.Add(p);
                 }
+
             }
 
             return db.SaveChanges() > 0;
@@ -274,6 +283,19 @@ namespace ControleDocumentos.Repository
             }
             return false;
         }
+
+        public void AtualizaStatus()
+        {
+            List<Evento> evs = db.Evento.Where(x => x.Status == EnumStatusEvento.ativo && x.DataFim < DateTime.Now).ToList();
+
+            foreach(var e in evs)
+            {
+                e.Status = EnumStatusEvento.concluido;
+            }
+
+            db.SaveChanges();
+        }
+
         /// <summary>
         /// Pega relação de alunos inscritos no evento
         /// </summary>
