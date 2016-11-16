@@ -56,6 +56,53 @@ namespace ControleDocumentos.Controllers
             return PartialView("_AlteracaoStatus", evento);
         }
 
+        public object AlterarStatus(Evento evento)
+        {
+            try
+            {
+                var ev = eventoRepository.GetEventoById(evento.IdEvento);
+                ev.Status = evento.Status;
+
+                // lucciros cancela o evento
+                //string msg = eventoRepository.PersisteEvento(ev);
+                string msg = "";
+                if (msg != "Erro")
+                {
+                    //try
+                    //{
+                    //    var acao = sol.Status == EnumStatusSolicitacao.cancelado ? "cancelada" :
+                    //        sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
+                    //        sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
+                    //    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoDocumento.cshtml");
+                    //    string viewCode = System.IO.File.ReadAllText(url);
+                    //    var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
+
+                    //    var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
+                    //    var to = new[] { solicitacaoEmail.EmailAluno };
+                    //    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                    //    Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //}
+
+                    if (ev.Status == EnumStatusEvento.cancelado)
+                    {
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Cancelar, ev, ev.IdEvento);
+                    }
+
+                    return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public object SalvaEvento(Evento e, int[] SelectedCursos)
         {

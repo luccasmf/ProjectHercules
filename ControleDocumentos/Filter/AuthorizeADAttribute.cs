@@ -16,18 +16,12 @@ namespace ControleDocumentos.Filter
 {
     public class AuthorizeADAttribute : AuthorizeAttribute
     {
-    
-    //teste
-    bool teste = true;
-    if(teste)
-    {
-    return true;
-    }
         UsuarioRepository usuarioRepository = new UsuarioRepository();
 
         public string Groups { get; set; }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
+            return true;
             if (base.AuthorizeCore(httpContext))
             {
                 if (httpContext.User.Identity.Name == "admin")

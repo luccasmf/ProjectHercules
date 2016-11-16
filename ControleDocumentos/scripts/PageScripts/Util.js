@@ -151,10 +151,10 @@ function bindFormSubmit() {
     });
 }
 
-function bindFormSubmitLogin() {
-    $(document).on("submit", ".frm-submit-login", function (e) {
+function bindFormSubmitRedirect() {
+    $(document).on("submit", ".frm-submit-redirect", function (e) {
         e.preventDefault();
-        var frm = $('.frm-submit-login');
+        var frm = $('.frm-submit-redirect');
         $.ajax({
             url: frm.attr("action"),
             type: frm.attr("method"),

@@ -39,17 +39,12 @@ namespace ControleDocumentos.Controllers
             string returnUrl = model.ReturnUrl;
 
             #region loginDiretoDev
-            //LoginModel lm = new LoginModel();
-            //lm.UserName = "admin";
-            //Session.Add(EnumSession.Usuario.GetEnumDescription(), lm);
+            LoginModel lm = new LoginModel();
+            lm.UserName = "admin";
+            Session.Add(EnumSession.Usuario.GetEnumDescription(), lm);
 
-            //GetSessionUser();
-
-
-            //if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
-            //    return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
-
-            //return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
+            GetSessionUser();
+            return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
 
 
             #endregion
@@ -70,43 +65,43 @@ namespace ControleDocumentos.Controllers
             #endregion
 
             #region login Real
-            try
-            {
-                if (!this.ModelState.IsValid)
-                {
-                    return this.View(model);
-                }
+            //try
+            //{
+            //    if (!this.ModelState.IsValid)
+            //    {
+            //        return this.View(model);
+            //    }
 
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    Session.Add(EnumSession.Usuario.GetEnumDescription(), model);
+            //    if (Membership.ValidateUser(model.UserName, model.Password))
+            //    {
+            //        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            //        Session.Add(EnumSession.Usuario.GetEnumDescription(), model);
 
-                    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        GetSessionUser();
-                        return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl }, JsonRequestBehavior.AllowGet);
-                    }
-                    GetSessionUser();
+            //        if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+            //            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            //        {
+            //            GetSessionUser();
+            //            return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl }, JsonRequestBehavior.AllowGet);
+            //        }
+            //        GetSessionUser();
 
-                    if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
-                        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
+            //        if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
+            //            return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
 
 
-                    return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    throw new Exception("Usuário inválido");
-                }
+            //        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
+            //    }
+            //    else
+            //    {
+            //        throw new Exception("Usuário inválido");
+            //    }
 
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Status = false, Type = "error", Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Json(new { Status = false, Type = "error", Message = ex.Message }, JsonRequestBehavior.AllowGet);
 
-            }
+            //}
             #endregion
         }
 

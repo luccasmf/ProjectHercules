@@ -585,6 +585,7 @@
     <Content Include="Views\Home\DadosCadastrais.cshtml" />
     <None Include="Properties\PublishProfiles\Facul Bkp.pubxml" />
     <None Include="Properties\PublishProfiles\Facul Oficial.pubxml" />
+    <Content Include="Views\Evento\_AlteracaoStatus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

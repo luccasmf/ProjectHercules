@@ -31,13 +31,19 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult DadosCadastrais()
         {
-            var listCursosSelectList = cursoRepository.GetCursos().Select(item => new SelectListItem
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
             {
-                Value = item.IdCurso.ToString(),
-                Text = item.Nome.ToString(),
-            });
-            ViewBag.Cursos = new SelectList(listCursosSelectList, "Value", "Text");
-           
+                var aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                var idCurso = aluno.AlunoCurso != null ? aluno.AlunoCurso.Select(x => x.IdCurso).FirstOrDefault() : 0;
+
+                var listCursosSelectList = cursoRepository.GetCursos().Select(item => new SelectListItem
+                {
+                    Value = item.IdCurso.ToString(),
+                    Text = item.Nome.ToString(),
+                });
+                ViewBag.Cursos = new SelectList(listCursosSelectList, "Value", "Text", idCurso.ToString());
+            }
+
             var usuario = usuarioRepository.GetUsuarioById(Utilidades.UsuarioLogado.IdUsuario);
             return View(usuario);
         }
