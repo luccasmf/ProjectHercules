@@ -30,7 +30,7 @@ namespace ControleDocumentos.Controllers
             return View(eventos);
         }
 
-        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public ActionResult CadastrarEvento(int? idEvento)
         {
             PopularDropDownsCadastro(idEvento);
