@@ -91,7 +91,8 @@ namespace ControleDocumentos.Controllers
                     GetSessionUser();
 
                     if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
-                        return RedirectToAction("DadosCadastrais", "Account");
+                        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
+
 
                     return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
                 }

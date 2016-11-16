@@ -1,4 +1,5 @@
-﻿@model ControleDocumentosLibrary.Usuario
+﻿@using ControleDocumentos.Util
+@model ControleDocumentosLibrary.Usuario
 @{
     ViewBag.Title = "Dados Cadastrais";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,12 +24,18 @@
                 @Html.TextBoxFor(x => x.E_mail, new { @class = "form-control", @maxlength = 50, @required = "required" })
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                @Html.Label("Curso*")
-                @Html.DropDownList("IdCurso", (SelectList)ViewBag.Cursos, string.Empty, new { @class = "form-control", @required = "required" })
+        @if (Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+        {
+            <div class="form-group row">
+                <div class="col-md-6">
+                    @Html.Label("Curso*")
+                     @Html.DropDownList("IdCurso", (SelectList)ViewBag.Cursos, string.Empty, new { @class = "form-control", @required = "required" })
+                   @* @Html.DropDownListFor(x=> x.Aluno.FirstOrDefault().AlunoCurso.FirstOrDefault().IdCurso ,(SelectList)ViewBag.Cursos, string.Empty, new { @class = "form-control", @required = "required" })*@
+
+                </div>
             </div>
-        </div>
+        }
+        
     </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Voltar</button>

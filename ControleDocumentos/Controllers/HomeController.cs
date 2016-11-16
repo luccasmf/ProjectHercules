@@ -37,7 +37,7 @@ namespace ControleDocumentos.Controllers
                 Text = item.Nome.ToString(),
             });
             ViewBag.Cursos = new SelectList(listCursosSelectList, "Value", "Text");
-
+           
             var usuario = usuarioRepository.GetUsuarioById(Utilidades.UsuarioLogado.IdUsuario);
             return View(usuario);
         }
