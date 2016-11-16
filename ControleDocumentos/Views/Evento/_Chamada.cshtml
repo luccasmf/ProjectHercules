@@ -8,25 +8,31 @@
     @Html.Hidden("idEvento", Model.IdEvento)
 
     <div class="form-group">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Nome do aluno</th>
-                    <th>Presente?</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var aluno in Model.Alunos)
-                {
+        @foreach (var curso in Model.Alunos.GroupBy(x => x.AlunoCurso.FirstOrDefault().Curso.Nome))
+        {
+            <h2><b>@curso.Key</b></h2>
+            <table class="table table-striped table-bordered">
+                <thead>
                     <tr>
-                        <td>@aluno.Usuario.Nome</td>
-                        <td>
-                            <input type="checkbox" name="idAlunos" value="@aluno.IdAluno" @(Model.Presentes != null && Model.Presentes.Any(x => x.IdAluno == aluno.IdAluno) ? "checked" : "")>
-                        </td>
+                        <th>Nome do aluno</th>
+                        <th>Presente?</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var aluno in curso)
+                    {
+                        <tr>
+                            <td>@aluno.Usuario.Nome</td>
+                            <td>
+                                <input type="checkbox" name="idAlunos" value="@aluno.IdAluno" @(Model.Presentes != null && Model.Presentes.Any(x => x.IdAluno == aluno.IdAluno) ? "checked" : "")>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br/>
+            <hr />
+        }
     </div>
 
 

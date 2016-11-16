@@ -63,9 +63,9 @@ namespace ControleDocumentos.Controllers
             {
                 var ev = eventoRepository.GetEventoById(evento.IdEvento);
                 ev.Status = evento.Status;
-               
+
                 string msg = eventoRepository.AlteraStatusEvento(evento.IdEvento, evento.Status);
-               
+
                 if (msg != "Erro")
                 {
                     //try
@@ -149,8 +149,6 @@ namespace ControleDocumentos.Controllers
         [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
         public ActionResult Chamada(int idEvento)
         {
-            //Lurde veja essa parada toda
-
             bool chamadaFeita = eventoRepository.ChamadaFeita(idEvento, DateTime.Now.Date);
             Chamada c;
             List<Presenca> presencas;
@@ -163,10 +161,8 @@ namespace ControleDocumentos.Controllers
             //    cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y => y.IdCurso).ToList();
             //    alunos = eventoRepository.GetListaChamada(idEvento).Where(x => cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
             //}
-            
-                alunos = eventoRepository.GetListaChamada(idEvento);
-            
-           
+
+            alunos = eventoRepository.GetListaChamada(idEvento);
 
             var evento = eventoRepository.GetEventoById(idEvento);
 

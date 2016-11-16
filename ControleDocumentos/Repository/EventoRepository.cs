@@ -116,29 +116,38 @@ namespace ControleDocumentos.Repository
 
         public string PersisteEvento(Evento ev, int[] idsCurso)
         {
-            if (ev.IdEvento > 0)
+            try
             {
-                return ComparaInfos(ev, idsCurso);
-            }
-            else
-            {
-                List<Curso> cursos = db.Curso.Where(c => idsCurso.Contains(c.IdCurso)).ToList();
-
-                foreach(var c in cursos)
+                if (ev.IdEvento > 0)
                 {
-                    ev.Curso.Add(c);
+                    return ComparaInfos(ev, idsCurso);
                 }
-                db.Evento.Add(ev);
+                else
+                {
+                    List<Curso> cursos = db.Curso.Where(c => idsCurso.Contains(c.IdCurso)).ToList();
 
+                    foreach (var c in cursos)
+                    {
+                        ev.Curso.Add(c);
+                    }
+                    db.Evento.Add(ev);
+
+                }
+                if (db.SaveChanges() > 0)
+                {
+                    return "Cadastrado";
+                }
+                else
+                {
+                    return "Erro";
+                }
             }
-            if (db.SaveChanges() > 0)
-            {
-                return "Cadastrado";
-            }
-            else
+            catch (Exception)
             {
                 return "Erro";
+                throw;
             }
+            
         }
 
         public bool InscreveAluno(int idAluno, int idEvento)
