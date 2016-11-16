@@ -451,6 +451,7 @@
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\PageScripts\Evento.js" />
+    <Content Include="Scripts\PageScripts\Home.js" />
     <Content Include="Scripts\PageScripts\HoraComplementar.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumentoAluno.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
@@ -581,7 +582,7 @@
     <Content Include="Views\Curso\_ExclusaoCurso.cshtml" />
     <Content Include="Views\Curso\_List.cshtml" />
     <Content Include="Views\Curso\Index.cshtml" />
-    <Content Include="Views\Account\DadosCadastrais.cshtml" />
+    <Content Include="Views\Home\DadosCadastrais.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
