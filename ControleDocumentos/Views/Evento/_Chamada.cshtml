@@ -21,7 +21,7 @@
                     <tr>
                         <td>@aluno.Usuario.Nome</td>
                         <td>
-                            <input type="checkbox" name="idAlunos" value="@aluno.IdAluno">
+                            <input type="checkbox" name="idAlunos" value="@aluno.IdAluno" @(Model.Presentes != null && Model.Presentes.Any(x => x.IdAluno == aluno.IdAluno) ? "checked" : "")>
                         </td>
                     </tr>
                 }
