@@ -26,6 +26,16 @@ namespace ControleDocumentos.Controllers
 
             // LOCAL
             GetSessionUser();
+
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+                return RedirectToAction("Index", "SolicitacaoDocumentoAluno");
+            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+                return RedirectToAction("Index", "SolicitacaoHoraComplementar");
+            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.professor)
+                return RedirectToAction("Index", "Evento");
+            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.secretaria)
+                return RedirectToAction("Index", "Documento");
+
             return View(Utilidades.UsuarioLogado);
         }
 
