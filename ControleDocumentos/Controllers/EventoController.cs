@@ -24,6 +24,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult Index()
         {
+            eventoRepository.AtualizaStatus();
             PopularDropDownsFiltro();
             List<Evento> eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
 
@@ -185,7 +186,6 @@ namespace ControleDocumentos.Controllers
         [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
         public object FazerChamada(int[] idAlunos, int idEvento)
         {
-
             bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento, Utilidades.UsuarioLogado.IdUsuario);
 
             if (flag)
@@ -201,7 +201,7 @@ namespace ControleDocumentos.Controllers
         [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult MeusEventos()
         {
-
+            eventoRepository.AtualizaStatus();
             List<Evento> eventos = eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter()).Where(x => DateTime.Now < x.DataFim).ToList();
 
             return View(eventos);
