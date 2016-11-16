@@ -45,8 +45,9 @@ namespace ControleDocumentos.Controllers
 
             GetSessionUser();
 
-            // lucciros, validar se n tem email e redirecionar:
-            //return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
+           
+            if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
+                return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
 
             return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
 

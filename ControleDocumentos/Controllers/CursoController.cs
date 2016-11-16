@@ -98,7 +98,6 @@ namespace ControleDocumentos.Controllers
 
         private void PopularDropDowns()
         {
-            // lucciros, buscar coordenadores
             var listCoordenadores = usuarioRepository.GetCoordenadores().Select(item => new SelectListItem
             {
                 Value = item.IdFuncionario.ToString(),

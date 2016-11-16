@@ -17,6 +17,7 @@ namespace ControleDocumentos.Controllers
     {
         UsuarioRepository usuarioRepository = new UsuarioRepository();
         CursoRepository cursoRepository = new CursoRepository();
+        AlunoRepository alunoRepository = new AlunoRepository();
         // GET: Home
         public ActionResult Index()
         {
@@ -45,10 +46,10 @@ namespace ControleDocumentos.Controllers
         {
             try
             {
-                var msg = "Erro";
-                // lucciros vincula com o curso pfvr
-                //msg =  salva td as coisa
-                if (msg != "Erro")
+                bool flag = alunoRepository.PersisteAluno(usuario.IdUsuario, IdCurso);
+                
+                
+                if (flag)
                 {
                     Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, usuario, null);
                     return Json(new { Status = true, Type = "success", Message = "Salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
