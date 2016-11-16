@@ -13,7 +13,7 @@ using ControleDocumentos.Util;
 namespace ControleDocumentos.Controllers
 {
     // autorizar coordenador, aluno e secretaria
-    //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+    [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
     public class DocumentoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();
@@ -41,7 +41,7 @@ namespace ControleDocumentos.Controllers
             return View(documentoRepository.GetAllDocs());
         }
 
-        // autoriza coordenação e secretaria
+        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]        
         public ActionResult CadastrarDocumento(int? idDoc)
         {
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
@@ -77,7 +77,7 @@ namespace ControleDocumentos.Controllers
 
         }
 
-        // autoriza coordenação e secretaria
+        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public ActionResult CarregaModalExclusao(int idDoc)
         {
             Documento doc = documentoRepository.GetDocumentoById(idDoc);
@@ -139,7 +139,7 @@ namespace ControleDocumentos.Controllers
             ViewBag.Alunos = new SelectList(listAlunos, "Value", "Text");
         }
 
-        // autoriza coordenador e secretaria
+        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public object SalvarDocumento(Documento doc, HttpPostedFileBase uploadFile)
         {
             if (ModelState.IsValid)
@@ -193,7 +193,7 @@ namespace ControleDocumentos.Controllers
             }
         }
 
-        // autoriza coordenador e secretaria
+        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public object ExcluirDocumento(Documento doc)
         {
             // valida se o aluno está matriculado no curso que coordena

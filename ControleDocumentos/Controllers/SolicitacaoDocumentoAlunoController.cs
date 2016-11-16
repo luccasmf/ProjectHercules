@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
-    //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
+    [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
     public class SolicitacaoDocumentoAlunoController : BaseController
     {
         TipoDocumentoRepository tipoDocumentoRepository = new TipoDocumentoRepository();

@@ -8,10 +8,11 @@ using ControleDocumentosLibrary;
 using ControleDocumentos.Util;
 using ControleDocumentos.Models;
 using ControleDocumentos.Util.Extension;
+using ControleDocumentos.Filter;
 
 namespace ControleDocumentos.Controllers
 {
-    //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+    [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
     public class EventoController : BaseController
     {
         EventoRepository eventoRepository = new EventoRepository();
@@ -29,6 +30,7 @@ namespace ControleDocumentos.Controllers
             return View(eventos);
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public ActionResult CadastrarEvento(int? idEvento)
         {
             PopularDropDownsCadastro(idEvento);
@@ -54,6 +56,7 @@ namespace ControleDocumentos.Controllers
             return PartialView("_AlteracaoStatus", evento);
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public object SalvaEvento(Evento e, int[] SelectedCursos)
         {
             if (SelectedCursos == null)
@@ -82,6 +85,7 @@ namespace ControleDocumentos.Controllers
             }
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
         public object GeraCertificados(int idEvento)
         {
             // falta testar esse metodo depois que a chamada estiver funcionando
@@ -95,6 +99,7 @@ namespace ControleDocumentos.Controllers
 
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
         public ActionResult Chamada(int idEvento)
         {
             //Lurde veja essa parada toda
@@ -131,6 +136,7 @@ namespace ControleDocumentos.Controllers
 
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
         public object FazerChamada(int[] idAlunos, int idEvento)
         {
 
@@ -146,7 +152,7 @@ namespace ControleDocumentos.Controllers
         #endregion
 
         #region Lado do aluno
-        //[AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
+        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult MeusEventos()
         {
 
@@ -155,11 +161,13 @@ namespace ControleDocumentos.Controllers
             return View(eventos);
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult ListAluno(EventoFilter filter)
         {
             return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter).Where(x => DateTime.Now < x.DataFim).ToList());
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult CarregaModalConfirmacaoParticipacao(int idEvento, bool presente)
         {
             Evento ev = eventoRepository.GetEventoById(idEvento);
@@ -167,6 +175,7 @@ namespace ControleDocumentos.Controllers
             return PartialView("_ConfirmacaoPresenca", ev);
         }
 
+        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public object ConfirmaCancelaPartipacao(Evento evento, bool Presente)
         {
             try
