@@ -231,7 +231,7 @@ namespace ControleDocumentos.Repository
         {
             Chamada c = db.Chamada.Where(x => x.IdEvento == idEvento && x.Data == data).FirstOrDefault();
 
-            if(c.IdChamada == 0)
+            if(c == null)
             {
                 c = new Chamada();
                 c.IdEvento = idEvento;
@@ -248,7 +248,7 @@ namespace ControleDocumentos.Repository
         {
             Chamada c = db.Chamada.Where(x => x.IdEvento == idEvento && x.Data == data).FirstOrDefault();
 
-            if(c.IdChamada>0)
+            if(c!=null)
             {
                 return true;
             }
