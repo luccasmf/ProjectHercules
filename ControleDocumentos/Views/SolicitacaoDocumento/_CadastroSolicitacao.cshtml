@@ -10,7 +10,7 @@
     <div class="form-group box-content">
         <i>Solicitação atendida em @data às @hora</i>
         <br />
-        <i>Documento: </i>&nbsp;<a href="@Url.Action("Download", "SolicitacaoDocumento", new { nomeDoc = Model.Documento.NomeDocumento })">@Model.Documento.NomeDocumento</a>
+        <i>Documento: </i>&nbsp;<a href="@Url.Action("Download", "Documento", new { nomeDoc = Model.Documento.NomeDocumento })">@Model.Documento.NomeDocumento</a>
     </div>
 }
 @using (Html.BeginForm("SalvarSolicitacao", "SolicitacaoDocumento", FormMethod.Post, new { @class = "frm-submit" }))

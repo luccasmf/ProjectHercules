@@ -30,10 +30,10 @@ namespace ControleDocumentos
         static byte[] Key = ue.GetBytes(@"qA!$p(SK");
 
         //facul
-        private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
+        //private static string caminhoBase = @"\\DEVELOPER\Temp\hercules\";
 
         //casa
-        //private static string caminhoBase = @"C:/Hercules/";
+        private static string caminhoBase = @"C:/Hercules/";
 
         private static string caminhoPadrao = caminhoBase + "Documentos/";
         private static string caminhoTemplates = caminhoBase + "Templates/";
@@ -48,7 +48,7 @@ namespace ControleDocumentos
         {
             string curso;
             string idAluno;
-            AlunoCurso al = cursoRepository.GetAlunoCurso(doc.IdAlunoCurso);
+            AlunoCurso al = cursoRepository.GetAlunoCurso(doc.AlunoCurso.IdAluno);
 
             try
             {

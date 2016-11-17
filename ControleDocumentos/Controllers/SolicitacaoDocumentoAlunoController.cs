@@ -132,39 +132,6 @@ namespace ControleDocumentos.Controllers
             }
         }
 
-        /// <summary>
-        /// Baixa arquivo
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <returns>retorna o arquivo pra download</returns>
-        public ActionResult Download(string nomeDoc)
-        {
-            Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
-
-            if (Utilidades.UsuarioLogado.IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
-
-            string nomeArquivo = doc.NomeDocumento;
-            string extensao = Path.GetExtension(nomeArquivo);
-
-            string contentType = "application/" + extensao.Substring(1);
-
-            byte[] bytes = DirDoc.BaixaArquivo(doc);
-
-            return File(bytes, contentType, nomeArquivo);
-        }
-
-        public static byte[] converterFileToArray(HttpPostedFileBase x)
-        {
-            MemoryStream tg = new MemoryStream();
-            x.InputStream.CopyTo(tg);
-            byte[] data = tg.ToArray();
-
-            return data;
-        }
-
         #endregion
     }
 }

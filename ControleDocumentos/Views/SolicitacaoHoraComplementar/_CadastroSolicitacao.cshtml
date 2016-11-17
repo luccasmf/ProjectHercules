@@ -6,7 +6,7 @@
 @if (Model.Documento != null && !string.IsNullOrEmpty(Model.Documento.CaminhoDocumento))
 {
     <div class="form-group box-content">
-        <i>Certificado: </i>&nbsp;<a href="@Url.Action("Download", "SolicitacaoHoraComplementar", new { nomeDoc = Model.Documento.NomeDocumento })">@Model.Documento.NomeDocumento</a>
+        <i>Certificado: </i>&nbsp;<a href="@Url.Action("Download", "Documento", new { nomeDoc = Model.Documento.NomeDocumento })">@Model.Documento.NomeDocumento</a>
     </div>
 }
 <div class="form-group row">

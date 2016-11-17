@@ -41,7 +41,7 @@ namespace ControleDocumentos.Controllers
             return View(documentoRepository.GetAllDocs());
         }
 
-        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]        
+        [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public ActionResult CadastrarDocumento(int? idDoc)
         {
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
@@ -231,6 +231,10 @@ namespace ControleDocumentos.Controllers
         public ActionResult Download(string nomeDoc)
         {
             Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.professor)
+            {
+                return RedirectToAction("Unauthorized", "Error");
+            }
 
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
@@ -246,6 +250,8 @@ namespace ControleDocumentos.Controllers
 
             byte[] bytes = DirDoc.BaixaArquivo(doc);
 
+            if (bytes == null)
+                return RedirectToAction("Unauthorized", "Error");
             return File(bytes, contentType, nomeArquivo);
         }
 
