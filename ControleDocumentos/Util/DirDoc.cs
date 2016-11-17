@@ -11,6 +11,7 @@ using Novacode;
 using ControleDocumentos.Filter;
 using Spire.Doc;
 using System.Globalization;
+using ControleDocumentos.Util;
 
 namespace ControleDocumentos
 {
@@ -47,6 +48,7 @@ namespace ControleDocumentos
         {
             string curso;
             string idAluno;
+            AlunoCurso al = cursoRepository.GetAlunoCurso(doc.IdAlunoCurso);
 
             try
             {
@@ -55,7 +57,6 @@ namespace ControleDocumentos
             }
             catch
             {
-                AlunoCurso al = cursoRepository.GetAlunoCurso(doc.IdAlunoCurso);
                 curso = cursoRepository.GetCursoById(al.IdCurso).Nome;
                 idAluno = al.IdAluno.ToString();
             }
@@ -71,7 +72,7 @@ namespace ControleDocumentos
             caminho.Add(tipoDoc);
 
             CriaDiretorio(caminho.ToArray());
-            doc.NomeDocumento = GeraNomeArquivo(doc.NomeDocumento);
+            doc.NomeDocumento = "("+al.Aluno.IdUsuario+")"+ GeraNomeArquivo(doc.NomeDocumento);
 
             string outputFile = CriaDiretorio(caminho.ToArray()) + doc.NomeDocumento;
             doc.CaminhoDocumento = outputFile;
@@ -118,6 +119,14 @@ namespace ControleDocumentos
         /// <returns>um caminho temporário para baixar o arquivo</returns>
         public static byte[] BaixaArquivo(Documento doc)
         {
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+            {
+                if(Utilidades.UsuarioLogado.IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
+                {
+                    return null;
+                }
+            }
+
             try
             {
                 //Documento doc = documentoRepository.GetDocumentoByNome(nomeArquivo);
@@ -194,7 +203,7 @@ namespace ControleDocumentos
             {
                 string curso = al.AlunoCurso.Select(x => x.Curso.Nome).FirstOrDefault().ToString();
                 string novoArquivo = CriaDiretorio(new string[] { curso, al.IdAluno.ToString(), "Certificado" });
-                novoArquivo = novoArquivo + "temp" + ev.NomeEvento + ".docx";
+                novoArquivo = novoArquivo + "(" +al.IdUsuario+") "+ ev.IdEvento +" - " + "temp" + ev.NomeEvento + ".docx";
                 Documento documento = new Documento();
                 TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc("Certificado");
 
