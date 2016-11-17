@@ -111,7 +111,9 @@ namespace ControleDocumentos.Controllers
                                     // TODO talvez aqui tenha que buscar todos os usuarios tipo secretaria e enviar o email a todos
                                     var to = new[] { solicitacaoEmail.EmailFuncionario };
                                     var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                                    Email.EnviarEmail(from, to, string.Format("Solicitação de documento atendida - {0} - {1}", solicitacaoEmail.NomeTipoDocumento, solicitacaoEmail.NomeAluno), html);
+
+                                    //Lurde eh nessa linha de baixo o problema
+                                  //  Email.EnviarEmail(from, to, string.Format("Solicitação de documento atendida - {0} - {1}", solicitacaoEmail.NomeTipoDocumento, solicitacaoEmail.NomeAluno), html);
                                 }
                                 catch (Exception)
                                 {

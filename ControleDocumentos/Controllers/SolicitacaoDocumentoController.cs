@@ -211,7 +211,8 @@ namespace ControleDocumentos.Controllers
                     if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
                     {
                         var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
-                        if (!cursos.Any(x => x.AlunoCurso.Any(y => y.IdAluno == sol.AlunoCurso.IdAluno)))
+                        AlunoCurso ac = cursoRepository.GetAlunoCurso(sol.IdAlunoCurso);
+                        if (!cursos.Contains(ac.Curso))
                             return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
                     }
 
