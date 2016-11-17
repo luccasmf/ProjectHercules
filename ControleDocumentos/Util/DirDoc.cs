@@ -233,7 +233,7 @@ namespace ControleDocumentos
                 TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc("Certificado");
 
                 documento.IdTipoDoc = tipoDoc.IdTipoDoc;
-                documento.NomeDocumento = ev.NomeEvento + ".pdf";
+                documento.NomeDocumento = "(" + al.IdUsuario + ") " + ev.IdEvento + " - " + "temp" + ev.NomeEvento + ".pdf";
                 documento.Data = DateTime.Now;
 
                 documento.IdAlunoCurso = al.AlunoCurso.Select(x => x.IdAlunoCurso).FirstOrDefault();
