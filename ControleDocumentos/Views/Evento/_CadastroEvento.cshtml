@@ -187,7 +187,8 @@
             {
                 <button type="submit" class="btn btn-primary">Salvar</button>
             }
-            if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido)
+            if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido &&
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.coordenador)
             {
                 <a type="button" class="btn btn-success btnGerarCertificados" url="@Url.Action("GeraCertificados", "Evento", new { idEvento = Model.IdEvento })">Gerar Certificados</a>
             }
