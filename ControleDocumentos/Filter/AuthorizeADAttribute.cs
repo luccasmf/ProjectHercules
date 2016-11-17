@@ -22,12 +22,12 @@ namespace ControleDocumentos.Filter
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             //return true;
-            //if (base.AuthorizeCore(httpContext))
-            //{
-            //    if (httpContext.User.Identity.Name == "admin")
-            //    {
-            //        return true;
-            //    }
+            if (base.AuthorizeCore(httpContext))
+            {
+                if (httpContext.User.Identity.Name == "admin")
+                {
+                    return true;
+                }
 
 
                 if (string.IsNullOrEmpty(Groups))

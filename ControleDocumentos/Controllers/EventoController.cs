@@ -26,12 +26,21 @@ namespace ControleDocumentos.Controllers
         {
             eventoRepository.AtualizaStatus();
             PopularDropDownsFiltro();
-            List<Evento> eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
+            List<Evento> eventos;
+            if(Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            {
+                eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
+
+            }
+            else
+            {
+                eventos = eventoRepository.GetByFilter(new EventoFilter());
+            }
 
             return View(eventos);
         }
 
-        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
+        [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS, G_FACULDADE_PROFESSOR_R, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public ActionResult CadastrarEvento(int? idEvento)
         {
             PopularDropDownsCadastro(idEvento);
@@ -139,7 +148,8 @@ namespace ControleDocumentos.Controllers
             bool flag = DirDoc.GeraCertificado(idEvento);
 
             if (flag)
-            {
+            {                
+                eventoRepository.AlteraStatusEvento(idEvento, EnumStatusEvento.certificados);
                 return Json(new { Status = true, Type = "success", Message = "Certificados gerados com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Houve um erro, tente novamente mais tarde!" }, JsonRequestBehavior.AllowGet);

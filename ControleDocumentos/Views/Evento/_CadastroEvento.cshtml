@@ -5,7 +5,7 @@
 
 @using (Html.BeginForm("SalvaEvento", "Evento", FormMethod.Post, new { @class = "frm-submit" }))
 {
-    Model.Status = Model.DataFim != DateTime.MinValue && DateTime.Now > Model.DataFim ? ControleDocumentosLibrary.EnumStatusEvento.concluido : Model.Status;
+    //Model.Status = Model.DataFim != DateTime.MinValue && DateTime.Now > Model.DataFim ? ControleDocumentosLibrary.EnumStatusEvento.concluido : Model.Status;
 
     @Html.HiddenFor(x => x.IdEvento)
     @Html.HiddenFor(x => x.Status)
@@ -15,6 +15,7 @@
             @Html.Label("Nome do evento*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
                 @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @disabled = true })
@@ -30,6 +31,7 @@
         <div class="col-md-10">
             @Html.Label("Local do evento*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                 ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
@@ -47,6 +49,7 @@
             @Html.Label("Cursos*")
             <div class="controls">
                 @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                     Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                     ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                 {
@@ -64,8 +67,10 @@
         <div class="col-md-4">
             @Html.Label("Data/hora de início*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
-                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 @Html.TextBoxFor(x => x.DataInicio, new { @class = "form-control datetimepicker", @disabled = true, @Value = Model.DataInicio == DateTime.MinValue ? "" : Model.DataInicio.ToString() })
             }
@@ -77,8 +82,10 @@
         <div class="col-md-4">
             @Html.Label("Data/hora de fim*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
-                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 @Html.TextBoxFor(x => x.DataFim, new { @class = "form-control datetimepicker", @disabled = true, @Value = Model.DataFim == DateTime.MinValue ? "" : Model.DataFim.ToString() })
             }
@@ -90,8 +97,10 @@
         <div class="col-md-2">
             @Html.Label("Qtde hrs*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
-                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
@@ -106,8 +115,10 @@
         <div class="col-md-2">
             @Html.Label("Qtde vagas*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
-                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
@@ -126,8 +137,10 @@
         <div class="col-md-4">
             @Html.Label("Qtde presenças necessárias*")
             @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
-                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
@@ -141,9 +154,11 @@
     <div class="form-group row">
         <div class="col-md-10">
             @Html.Label("Observações")
-            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||  
+            @if (Model.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado ||
+                Model.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ||
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
-                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno ||
+                ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows = 10, @disabled = true })
             }
@@ -156,16 +171,19 @@
 
     <div class="text-right form-group">
         <a type="button" class="btn btn-default btnCancelar" url="@Url.Action("Index", "Evento")">Voltar</a>
-        @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno &&
-            ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
+        @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno )
         {
             if (Model.IdEvento > 0 && Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
-                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido &&
+                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.certificados &&
+            ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 <a type="button" class="btn btn-danger btnConfirm" url="@Url.Action("CarregaModalConfirmacao", "Evento", new { novoStatus = ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado, idEvento = Model.IdEvento })">Cancelar evento</a>
             }
             if (Model.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado &&
-                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido)
+                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.certificados &&
+                Model.Status != ControleDocumentosLibrary.EnumStatusEvento.concluido &&
+            ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 <button type="submit" class="btn btn-primary">Salvar</button>
             }
