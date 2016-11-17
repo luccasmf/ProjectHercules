@@ -57,7 +57,18 @@ namespace ControleDocumentos
         {
             string curso;
             string idAluno;
-            AlunoCurso al = cursoRepository.GetAlunoCurso(doc.AlunoCurso.IdAluno);
+            AlunoCurso al;
+
+            try
+            {
+                al = cursoRepository.GetAlunoCurso(doc.AlunoCurso.Aluno.IdUsuario);
+
+            }
+            catch
+            {
+                al = cursoRepository.GetAlunoCurso(doc.IdAlunoCurso);
+
+            }
 
             try
             {
