@@ -1,6 +1,6 @@
 ﻿@model ControleDocumentosLibrary.Evento
 
-<h1>Cadastro de Evento</h1>
+<h1>Cadastro de evento</h1>
 <br />
 
 @using (Html.BeginForm("SalvaEvento", "Evento", FormMethod.Post, new { @class = "frm-submit" }))
@@ -21,7 +21,7 @@
             }
             else
             {
-                @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @required = true, @max_length = 30 })
+                @Html.TextBoxFor(x => x.NomeEvento, new { @class = "form-control", @required = true, @maxlength = 30 })
             }
         </div>
     </div>
@@ -37,7 +37,7 @@
             }
             else
             {
-                @Html.TextBoxFor(x => x.Local, new { @class = "form-control", @required = true, @max_length = 50 })
+                @Html.TextBoxFor(x => x.Local, new { @class = "form-control", @required = true, @maxlength = 50 })
             }
         </div>
     </div>
@@ -93,11 +93,11 @@
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                 ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
-                @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
             else
             {
-                @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @required = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.CargaHoraria, new { @type = "number", @class = "form-control", @required = true, maxlength = 3 })
             }
         </div>
     </div>
@@ -109,18 +109,18 @@
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                 ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
-                @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
             else
             {
-                @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @required = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.Vagas, new { @type = "number", @class = "form-control", @required = true, maxlength = 3 })
             }
         </div>
         <div class="col-md-2">
             @if (Model.IdEvento > 0)
             {
                 @Html.Label("Vagas Preenchidas")
-                @Html.TextBoxFor(x => x.VagasPreenchidas, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.VagasPreenchidas, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
         </div>
         <div class="col-md-4">
@@ -129,11 +129,11 @@
                 Model.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ||
                 ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
             {
-                @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @disabled = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @disabled = true, maxlength = 3 })
             }
             else
             {
-                @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @required = true, max_length = 3 })
+                @Html.TextBoxFor(x => x.PresencaNecessaria, new { @type = "number", @class = "form-control", @required = true, maxlength = 3 })
             }
         </div>
     </div>

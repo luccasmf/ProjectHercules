@@ -18,14 +18,14 @@
             {
                 <div class="col-md-6">
                     <label>Quantidade de Horas*</label>
-                    @Html.TextBox("Horas", string.Empty, new { @class = "form-control", @type = "number", @required = true })
+                    @Html.TextBox("Horas", string.Empty, new { @class = "form-control", @type = "number", @required = true, @maxlength="3" })
                 </div>
             }
             else
             {
                 <div class="col-md-12">
                     <label> Observações*</label>
-                    @Html.TextArea("Observacao", string.Empty, new { @style = "resize: none;", @class = "form-control", @rows = 10, @required = true })
+                    @Html.TextArea("Observacao", string.Empty, new { @style = "resize: none;", @class = "form-control", @rows = 10, @required = true, @maxlength="500" })
                 </div>
             }
         </div>

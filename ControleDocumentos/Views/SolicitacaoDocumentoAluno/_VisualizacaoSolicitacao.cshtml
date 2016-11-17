@@ -1,11 +1,18 @@
 ﻿@model ControleDocumentosLibrary.SolicitacaoDocumento
 
-<h1>Visualização de Solicitação</h1>
+<h1>Visualização de solicitação de documento</h1>
 <br />
 
 @using (Html.BeginForm("EnviarDocumento", "SolicitacaoDocumentoAluno", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "frm-submit" }))
 {
     @Html.HiddenFor(x => x.IdSolicitacao)
+    if (Model.Documento != null && !string.IsNullOrEmpty(Model.Documento.CaminhoDocumento))
+    {
+        <div class="form-group box-content">
+            <i>Documento salvo: </i>&nbsp;<a href="@Url.Action("Download", "Documento", new { nomeDoc = Model.Documento.NomeDocumento })">@Model.Documento.NomeDocumento</a>
+        </div>
+    }
+
     <div class="form-group row">
         <div class="col-md-6">
             @Html.Label("Tipo de documento: ")

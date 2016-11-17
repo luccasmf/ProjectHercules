@@ -1,6 +1,6 @@
 ﻿@model ControleDocumentosLibrary.SolicitacaoDocumento
 
-<h1>Cadastro de Solicitação</h1>
+<h1>Cadastro de solicitação de documento</h1>
 <br />
 
 @if (Model.Documento != null && !string.IsNullOrEmpty(Model.Documento.CaminhoDocumento))
@@ -78,7 +78,7 @@
             }
             else
             {
-                @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows = 10 })
+                @Html.TextAreaFor(x => x.Observacao, new { @style = "resize: none;", @class = "form-control", @rows = 10,@maxlength="500" })
             }
         </div>
     </div>
