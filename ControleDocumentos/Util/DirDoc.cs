@@ -39,6 +39,15 @@ namespace ControleDocumentos
         private static string caminhoTemplates = caminhoBase + "Templates/";
         private static string caminhoDownload = caminhoBase + "Download/";
 
+        public static byte[] converterFileToArray(HttpPostedFileBase x)
+        {
+            MemoryStream tg = new MemoryStream();
+            x.InputStream.CopyTo(tg);
+            byte[] data = tg.ToArray();
+
+            return data;
+        }
+
         /// <summary>
         /// Salva o arquivo enviado
         /// </summary>
@@ -72,7 +81,7 @@ namespace ControleDocumentos
             caminho.Add(tipoDoc);
 
             CriaDiretorio(caminho.ToArray());
-            doc.NomeDocumento = "("+al.Aluno.IdUsuario+")"+ GeraNomeArquivo(doc.NomeDocumento);
+            doc.NomeDocumento = "(" + al.Aluno.IdUsuario + ")" + GeraNomeArquivo(doc.NomeDocumento);
 
             string outputFile = CriaDiretorio(caminho.ToArray()) + doc.NomeDocumento;
             doc.CaminhoDocumento = outputFile;
@@ -119,9 +128,14 @@ namespace ControleDocumentos
         /// <returns>um caminho temporário para baixar o arquivo</returns>
         public static byte[] BaixaArquivo(Documento doc)
         {
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.deslogado)
+            {
+                return null;
+            }
+
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
             {
-                if(Utilidades.UsuarioLogado.IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
+                if (Utilidades.UsuarioLogado.IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
                 {
                     return null;
                 }
@@ -203,7 +217,7 @@ namespace ControleDocumentos
             {
                 string curso = al.AlunoCurso.Select(x => x.Curso.Nome).FirstOrDefault().ToString();
                 string novoArquivo = CriaDiretorio(new string[] { curso, al.IdAluno.ToString(), "Certificado" });
-                novoArquivo = novoArquivo + "(" +al.IdUsuario+") "+ ev.IdEvento +" - " + "temp" + ev.NomeEvento + ".docx";
+                novoArquivo = novoArquivo + "(" + al.IdUsuario + ") " + ev.IdEvento + " - " + "temp" + ev.NomeEvento + ".docx";
                 Documento documento = new Documento();
                 TipoDocumento tipoDoc = tipoDocumentoRepository.GetTipoDoc("Certificado");
 
@@ -216,7 +230,7 @@ namespace ControleDocumentos
 
                 if (File.Exists(Path.ChangeExtension(novoArquivo, ".pdf")))
                 {
-                   // certificadosDoc.Add(documento);
+                    // certificadosDoc.Add(documento);
                 }
                 else
                 {

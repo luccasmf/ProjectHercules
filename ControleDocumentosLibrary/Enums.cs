@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace ControleDocumentosLibrary
 {
-    public enum EnumPermissaoUsuario :int
+    public enum EnumPermissaoUsuario : int
     {
+        [Description("Deslogado")]
+        deslogado=0,
         [Description("Aluno")]
         aluno=1,
         [Description("Professor")]

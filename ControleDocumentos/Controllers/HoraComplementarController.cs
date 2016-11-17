@@ -87,7 +87,7 @@ namespace ControleDocumentos.Controllers
                     edit = false;
 
                     sol.Documento = new Documento();
-                    sol.Documento.arquivo = converterFileToArray(uploadFile);
+                    sol.Documento.arquivo = DirDoc.converterFileToArray(uploadFile);
                     sol.Documento.NomeDocumento = uploadFile.FileName;
                     sol.Documento.IdAlunoCurso = sol.IdAlunoCurso;
                     
@@ -102,7 +102,7 @@ namespace ControleDocumentos.Controllers
                 else
                 {
                     sol.Documento = new Documento();
-                    sol.Documento.arquivo = converterFileToArray(uploadFile);
+                    sol.Documento.arquivo = DirDoc.converterFileToArray(uploadFile);
                     sol.Documento.NomeDocumento = uploadFile.FileName;
 
                     msg = solicitacaoRepository.AlteraDocumento(sol);

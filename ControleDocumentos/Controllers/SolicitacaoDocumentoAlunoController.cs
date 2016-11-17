@@ -86,7 +86,7 @@ namespace ControleDocumentos.Controllers
                     solicitacao.Status = EnumStatusSolicitacao.processando;
                     solicitacao.DataAtendimento = DateTime.Now;
 
-                    solicitacao.Documento.arquivo = converterFileToArray(uploadFile);
+                    solicitacao.Documento.arquivo = DirDoc.converterFileToArray(uploadFile);
                     solicitacao.Documento.NomeDocumento = uploadFile.FileName;
 
                     string msgDoc = DirDoc.SalvaArquivo(solicitacao.Documento);

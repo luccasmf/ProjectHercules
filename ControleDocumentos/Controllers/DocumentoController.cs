@@ -163,7 +163,7 @@ namespace ControleDocumentos.Controllers
 
                     }
 
-                    doc.arquivo = converterFileToArray(uploadFile);
+                    doc.arquivo = DirDoc.converterFileToArray(uploadFile);
                     doc.NomeDocumento = uploadFile.FileName;
                     string mensagem = DirDoc.SalvaArquivo(doc);
 
@@ -252,16 +252,8 @@ namespace ControleDocumentos.Controllers
 
             if (bytes == null)
                 return RedirectToAction("Unauthorized", "Error");
+
             return File(bytes, contentType, nomeArquivo);
-        }
-
-        public static byte[] converterFileToArray(HttpPostedFileBase x)
-        {
-            MemoryStream tg = new MemoryStream();
-            x.InputStream.CopyTo(tg);
-            byte[] data = tg.ToArray();
-
-            return data;
         }
 
         public JsonResult GetAlunosByIdCurso(int idCurso)

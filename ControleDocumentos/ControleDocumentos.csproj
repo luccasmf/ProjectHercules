@@ -235,7 +235,8 @@
     <Content Include="Content\fonts\glyphiconshalflings-regular.ttf" />
     <Content Include="Content\fonts\glyphiconshalflings-regular.woff" />
     <Content Include="Content\img\chosen-sprite%402x.png" />
-    <Content Include="Content\img\Faculdade-CNEC-Campo-Largo-Logo.jpg" />
+    <Content Include="Content\img\logo-hercules.jpg" />
+    <Content Include="Content\img\logo_cnec.png" />
     <Content Include="Content\img\sort_asc.png" />
     <Content Include="Content\img\sort_asc_disabled.png" />
     <Content Include="Content\img\sort_both.png" />
