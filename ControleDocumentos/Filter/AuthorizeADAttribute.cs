@@ -47,8 +47,8 @@ namespace ControleDocumentos.Filter
                 try
                 {
                     DocumentosModel db = new DocumentosModel();
-                    Usuario user = usuarioRepository.GetUsuarioById(httpContext.User.Identity.Name);
-
+                    // Usuario user = usuarioRepository.GetUsuarioById(httpContext.User.Identity.Name);
+                    Usuario user = db.Usuario.Where(x => x.IdUsuario == httpContext.User.Identity.Name).FirstOrDefault();
                     if (user == null)
                     {
                         user = new Usuario();

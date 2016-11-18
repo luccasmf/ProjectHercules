@@ -83,10 +83,17 @@ namespace ControleDocumentos.Controllers
                         GetSessionUser();
                         return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl }, JsonRequestBehavior.AllowGet);
                     }
-                    GetSessionUser();
+                    try
+                    {
+                        GetSessionUser();
+                        if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
+                            return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
+                    }
+                    catch(Exception e)
+                    {
 
-                    if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
-                        return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
+                    }
+                    
 
 
                     return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);

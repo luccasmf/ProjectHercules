@@ -26,7 +26,8 @@ namespace ControleDocumentos.Controllers
 
             // LOCAL
             GetSessionUser();
-
+            if (Utilidades.UsuarioLogado.E_mail == null)
+                return RedirectToAction("DadosCadastrais");
             if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
                 return RedirectToAction("Index", "SolicitacaoDocumentoAluno");
             else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
@@ -53,17 +54,31 @@ namespace ControleDocumentos.Controllers
                 });
                 ViewBag.Cursos = new SelectList(listCursosSelectList, "Value", "Text", idCurso.ToString());
             }
+            GetSessionUser();
 
             var usuario = usuarioRepository.GetUsuarioById(Utilidades.UsuarioLogado.IdUsuario);
             return View(usuario);
         }
 
-        public object SalvarDadosCadastrais(Usuario usuario, int IdCurso)
+        public object SalvarDadosCadastrais(Usuario usuario, int? IdCurso)
         {
+            usuario.Permissao = Utilidades.UsuarioLogado.Permissao;
             try
             {
-                bool flag = alunoRepository.PersisteAluno(usuario.IdUsuario, IdCurso);
-                
+                bool flag=false;
+                if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+                {
+                     flag = alunoRepository.PersisteAluno(usuario.IdUsuario, (int)IdCurso);
+                }
+                else
+                {
+                    string msg = usuarioRepository.PersisteUsuario(new Usuario[] { usuario });
+
+                        if(msg != "Erro")
+                    {
+                        flag = true;
+                    }
+                }
                 
                 if (flag)
                 {
