@@ -27,7 +27,7 @@ namespace ControleDocumentos.Controllers
             eventoRepository.AtualizaStatus();
             PopularDropDownsFiltro();
             List<Evento> eventos;
-            if(Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
             {
                 eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
 
@@ -77,23 +77,29 @@ namespace ControleDocumentos.Controllers
 
                 if (msg != "Erro")
                 {
-                    //try
-                    //{
-                    //    var acao = sol.Status == EnumStatusSolicitacao.cancelado ? "cancelada" :
-                    //        sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
-                    //        sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
-                    //    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoDocumento.cshtml");
-                    //    string viewCode = System.IO.File.ReadAllText(url);
-                    //    var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
+                    try
+                    {
+                        if (ev.Status == EnumStatusEvento.cancelado)
+                        {
+                            var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoEvento.cshtml");
+                            string viewCode = System.IO.File.ReadAllText(url);
+                            var eventoEmail = eventoRepository.ConverToEmailModel(ev, Url.Action("Login", "Account", null, Request.Url.Scheme));
 
-                    //    var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                    //    var to = new[] { solicitacaoEmail.EmailAluno };
-                    //    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                    //    Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //}
+                            var html = RazorEngine.Razor.Parse(viewCode, eventoEmail);
+
+                            var alunosConfirmados = eventoRepository.GetListaChamada(ev.IdEvento);
+
+                            if (alunosConfirmados != null && alunosConfirmados.Count > 0 && alunosConfirmados.Any(x => x.Usuario.E_mail != ""))
+                            {
+                                var to = alunosConfirmados.Where(x => !string.IsNullOrEmpty(x.Usuario.E_mail)).Select(x => x.Usuario.E_mail).ToArray();
+                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                Email.EnviarEmail(from, to, "Alteração de evento", html);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                    }
 
                     if (ev.Status == EnumStatusEvento.cancelado)
                     {
@@ -129,11 +135,61 @@ namespace ControleDocumentos.Controllers
                 case "Mantido":
                     return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Cadastrado":
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, null);
-                    return Json(new { Status = true, Type = "success", Message = "Evento cadastrado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    {
+                        try
+                        {
+                            var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovoEvento.cshtml");
+                            string viewCode = System.IO.File.ReadAllText(url);
+                            var eventoEmail = eventoRepository.ConverToEmailModel(e, Url.Action("Login", "Account", null, Request.Url.Scheme));
+
+                            var html = RazorEngine.Razor.Parse(viewCode, eventoEmail);
+                            var alunosMatriculados = new List<Aluno>();
+
+                            foreach (var c in SelectedCursos)
+                            {
+                                alunosMatriculados.AddRange(alunoRepository.GetAlunoByIdCurso(c));
+                            }
+
+                            if (alunosMatriculados != null && alunosMatriculados.Count > 0 && alunosMatriculados.Any(x => x.Usuario.E_mail != ""))
+                            {
+                                var to = alunosMatriculados.Where(x => !string.IsNullOrEmpty(x.Usuario.E_mail)).Select(x => x.Usuario.E_mail).ToArray();
+                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                Email.EnviarEmail(from, to, "Novo evento", html);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, null);
+                        return Json(new { Status = true, Type = "success", Message = "Evento cadastrado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    }
                 case "Alterado":
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, e.IdEvento);
-                    return Json(new { Status = true, Type = "success", Message = "Evento alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    {
+                        try
+                        {
+                            var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoEvento.cshtml");
+                            string viewCode = System.IO.File.ReadAllText(url);
+                            var eventoEmail = eventoRepository.ConverToEmailModel(e, Url.Action("Login", "Account", null, Request.Url.Scheme));
+
+                            var html = RazorEngine.Razor.Parse(viewCode, eventoEmail);
+
+                            var alunosConfirmados = eventoRepository.GetListaChamada(e.IdEvento);
+
+                            if (alunosConfirmados != null && alunosConfirmados.Count > 0 && alunosConfirmados.Any(x => x.Usuario.E_mail != ""))
+                            {
+                                var to = alunosConfirmados.Where(x => !string.IsNullOrEmpty(x.Usuario.E_mail)).Select(x => x.Usuario.E_mail).ToArray();
+                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                Email.EnviarEmail(from, to, "Alteração de evento", html);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+
+                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, e.IdEvento);
+                        return Json(new { Status = true, Type = "success", Message = "Evento alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
+                    }
                 case "Erro":
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
                 default:
@@ -148,7 +204,28 @@ namespace ControleDocumentos.Controllers
             bool flag = DirDoc.GeraCertificado(idEvento);
 
             if (flag)
-            {                
+            {
+                try
+                {
+                    var evento = eventoRepository.GetEventoById(idEvento);
+                    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/CertificadoGerado.cshtml");
+                    string viewCode = System.IO.File.ReadAllText(url);
+                    var eventoEmail = eventoRepository.ConverToEmailModel(evento, Url.Action("Login", "Account", null, Request.Url.Scheme));
+
+                    var html = RazorEngine.Razor.Parse(viewCode, eventoEmail);
+                    List<Aluno> alunosPresentes = eventoRepository.GetAlunosPresentes(evento);
+
+                    if (alunosPresentes != null && alunosPresentes.Count > 0 && alunosPresentes.Any(x => x.Usuario.E_mail != ""))
+                    {
+                        var to = alunosPresentes.Where(x => !string.IsNullOrEmpty(x.Usuario.E_mail)).Select(x => x.Usuario.E_mail).ToArray();
+                        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                        Email.EnviarEmail(from, to, string.Format("Certificado do evento {0} gerado",evento.NomeEvento), html);
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+
                 eventoRepository.AlteraStatusEvento(idEvento, EnumStatusEvento.certificados);
                 return Json(new { Status = true, Type = "success", Message = "Certificados gerados com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }

@@ -181,23 +181,23 @@ namespace ControleDocumentos.Controllers
 
                 if (msg != "Erro")
                 {
-                    //try
-                    //{
-                    //    var acao = sol.Status == EnumStatusSolicitacao.cancelado ? "cancelada" :
-                    //        sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
-                    //        sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
-                    //    var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoDocumento.cshtml");
-                    //    string viewCode = System.IO.File.ReadAllText(url);
-                    //    var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
+                    try
+                    {
+                        var acao = sol.Status == EnumStatusSolicitacao.concluido ? "aprovada" :
+                            sol.Status == EnumStatusSolicitacao.pendente ? "reprovada" : "";
 
-                    //    var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                    //    var to = new[] { solicitacaoEmail.EmailAluno };
-                    //    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                    //    Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //}
+                        var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoStatusSolicitacaoHoras.cshtml");
+                        string viewCode = System.IO.File.ReadAllText(url);
+                        var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
+
+                        var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
+                        var to = new[] { solicitacaoEmail.EmailAluno };
+                        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                        Email.EnviarEmail(from, to, "Solicitação de horas complementares " + acao, html);
+                    }
+                    catch (Exception e)
+                    {
+                    }
 
                     if (sol.Status == EnumStatusSolicitacao.concluido)
                     {

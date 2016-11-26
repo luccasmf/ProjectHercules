@@ -28,18 +28,6 @@ namespace ControleDocumentos.Repository
             return db.Aluno.Find(idAluno);
         }
         
-        public List<Aluno> GetAlunoByCursoId(int idCurso)
-        {
-            List<Aluno> alunos = (from al in db.Aluno
-                                  join ac in db.AlunoCurso on al.IdAluno equals ac.IdAluno
-                                  join c in db.Curso on ac.IdCurso equals c.IdCurso
-                                  where c.IdCurso == idCurso
-                                  select al
-                                  ).ToList();
-
-            return alunos;
-        }
-        
         public Aluno GetAlunoByIdUsuario(string idUsuario)
         {
             Aluno al = db.Aluno.Where(x => x.IdUsuario == idUsuario).FirstOrDefault();

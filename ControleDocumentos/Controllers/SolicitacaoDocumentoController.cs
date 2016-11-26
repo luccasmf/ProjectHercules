@@ -232,18 +232,24 @@ namespace ControleDocumentos.Controllers
                                 string viewCode = System.IO.File.ReadAllText(url);
 
                                 var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                                var to = new[] { solicitacaoEmail.EmailAluno };
-                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                                Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
+                                if (!string.IsNullOrEmpty(solicitacaoEmail.EmailAluno))
+                                {
+                                    var to = new[] { solicitacaoEmail.EmailAluno };
+                                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                    Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
+                                }
                             }
                             else {
                                 var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoDocumento.cshtml");
                                 string viewCode = System.IO.File.ReadAllText(url);
 
                                 var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                                var to = new[] { solicitacaoEmail.EmailAluno };
-                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                                Email.EnviarEmail(from, to, "Nova solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
+                                if (!string.IsNullOrEmpty(solicitacaoEmail.EmailAluno))
+                                {
+                                    var to = new[] { solicitacaoEmail.EmailAluno };
+                                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                    Email.EnviarEmail(from, to, "Nova solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
+                                }
                             }
                         }
                         catch (Exception e)
@@ -323,9 +329,12 @@ namespace ControleDocumentos.Controllers
                         var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
 
                         var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                        var to = new[] { solicitacaoEmail.EmailAluno };
-                        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                        Util.Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
+                        if (!string.IsNullOrEmpty(solicitacaoEmail.EmailFuncionario))
+                        {
+                            var to = new[] { solicitacaoEmail.EmailFuncionario };
+                            var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                            Email.EnviarEmail(from, to, "Solicitação de documento " + acao, html);
+                        }
                     }
                     catch (Exception e)
                     {

@@ -108,12 +108,14 @@ namespace ControleDocumentos.Controllers
 
                                     var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
                                     var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                                    // TODO talvez aqui tenha que buscar todos os usuarios tipo secretaria e enviar o email a todos
-                                    var to = new[] { solicitacaoEmail.EmailFuncionario };
-                                    var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
 
-                                    //Lurde eh nessa linha de baixo o problema
-                                  //  Email.EnviarEmail(from, to, string.Format("Solicitação de documento atendida - {0} - {1}", solicitacaoEmail.NomeTipoDocumento, solicitacaoEmail.NomeAluno), html);
+                                    if (!string.IsNullOrEmpty(solicitacaoEmail.EmailFuncionario))
+                                    {
+                                        var to = new[] { solicitacaoEmail.EmailFuncionario };
+                                        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+
+                                        Email.EnviarEmail(from, to, string.Format("Solicitação de documento atendida - {0} - {1}", solicitacaoEmail.NomeTipoDocumento, solicitacaoEmail.NomeAluno), html);
+                                    }
                                 }
                                 catch (Exception)
                                 {

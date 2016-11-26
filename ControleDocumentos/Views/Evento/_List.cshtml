@@ -54,11 +54,11 @@
                         }
                     }
                     else {
-                        <a class="btnCadastro" data-rel="tooltip" title="@(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarEvento", "Evento", new { idEvento = ev.IdEvento })">
-                            <i class="icon-action @(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido ? "fa fa-eye" : "fa fa-edit")"></i>
+                        <a class="btnCadastro" data-rel="tooltip" title="@(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ? "Visualizar" : "Editar")" href="#" url="@Url.Action("CadastrarEvento", "Evento", new { idEvento = ev.IdEvento })">
+                            <i class="icon-action @(ev.Status == ControleDocumentosLibrary.EnumStatusEvento.cancelado || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.concluido || ev.Status == ControleDocumentosLibrary.EnumStatusEvento.certificados ? "fa fa-eye" : "fa fa-edit")"></i>
                         </a>
 
-                        if (ev.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado)
+                        if (ev.Status != ControleDocumentosLibrary.EnumStatusEvento.cancelado && ev.Status != ControleDocumentosLibrary.EnumStatusEvento.certificados)
                         {
                             <a class="btnChamada" data-rel="tooltip" title="Fazer Chamada" href="#" url="@Url.Action("Chamada", "Evento", new { idEvento = ev.IdEvento })">
                                 <i class="icon-action fa fa-list"></i>

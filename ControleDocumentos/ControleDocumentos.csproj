@@ -495,6 +495,7 @@
     <Compile Include="Models\ChamadaModel.cs" />
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\EventoEmail.cs" />
     <Compile Include="Models\SolicitacaoDocumentoEmail.cs" />
     <Compile Include="Models\EventoFilter.cs" />
     <Compile Include="Models\SolicitacaoDocumentoFilter.cs" />
@@ -558,7 +559,7 @@
     <Content Include="Views\SolicitacaoDocumentoAluno\Index.cshtml" />
     <Content Include="Views\Email\AlteracaoSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\NovaSolicitacaoDocumento.cshtml" />
-    <Content Include="Views\Email\AlteracaoStatusSolicitacaoDocumento.cshtml" />
+    <Content Include="Views\Email\AlteracaoStatusSolicitacaoHoras.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalServer.cshtml" />
@@ -587,6 +588,11 @@
     <None Include="Properties\PublishProfiles\Facul Bkp.pubxml" />
     <None Include="Properties\PublishProfiles\Facul Oficial.pubxml" />
     <Content Include="Views\Evento\_AlteracaoStatus.cshtml" />
+    <Content Include="Views\Email\NovoEvento.cshtml" />
+    <Content Include="Views\Email\AlteracaoEvento.cshtml" />
+    <Content Include="Views\Email\CertificadoGerado.cshtml" />
+    <Content Include="Views\Email\AlteracaoStatusSolicitacaoDocumento.cshtml" />
+    <Content Include="Views\Email\NovaSolicitacaoHoras.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

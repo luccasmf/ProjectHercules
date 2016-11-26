@@ -126,5 +126,9 @@ namespace ControleDocumentos.Repository
             return funcs;
         }
 
+        public List<Usuario> GetUsuariosSecretaria()
+        {
+            return db.Usuario.Where(x => x.Permissao == EnumPermissaoUsuario.secretaria).ToList();
+        }
     }
 }

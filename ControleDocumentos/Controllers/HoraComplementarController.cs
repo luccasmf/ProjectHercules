@@ -20,6 +20,7 @@ namespace ControleDocumentos.Controllers
         AlunoRepository alunoRepository = new AlunoRepository();
         SolicitacaoDocumentoRepository solicitacaoRepository = new SolicitacaoDocumentoRepository();
         DocumentoRepository documentoRepository = new DocumentoRepository();
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
 
         // GET: HoraComplementar
         public ActionResult Index()
@@ -75,13 +76,13 @@ namespace ControleDocumentos.Controllers
                 var edit = true;
                 sol.Status = sol.IdSolicitacao > 0 ? sol.Status : EnumStatusSolicitacao.pendente;
                 sol.DataAbertura = DateTime.Now;
-                AlunoCurso al;
+                AlunoCurso al = new AlunoCurso();
 
                 if (sol.IdSolicitacao == 0)
                 {
                     al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
 
-                    sol.IdAlunoCurso = al.IdAlunoCurso;                   
+                    sol.IdAlunoCurso = al.IdAlunoCurso;
                     sol.TipoSolicitacao = EnumTipoSolicitacao.aluno;
 
                     edit = false;
@@ -90,7 +91,7 @@ namespace ControleDocumentos.Controllers
                     sol.Documento.arquivo = DirDoc.converterFileToArray(uploadFile);
                     sol.Documento.NomeDocumento = uploadFile.FileName;
                     sol.Documento.IdAlunoCurso = sol.IdAlunoCurso;
-                    
+
                     sol.Documento.IdTipoDoc = tipoDocumentoRepository.GetTipoDoc("certificado").IdTipoDoc;
 
                     string msgDoc = DirDoc.SalvaArquivo(sol.Documento);
@@ -107,40 +108,40 @@ namespace ControleDocumentos.Controllers
 
                     msg = solicitacaoRepository.AlteraDocumento(sol);
                 }
-                
+
 
                 if (msg != "Erro")
                 {
-                    //try
-                    //{
-                    //    DocumentosModel db2 = new DocumentosModel();
-                    //    var solicitacao = db2.SolicitacaoDocumento.Find(sol.IdSolicitacao);
-                    //    var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(solicitacao, Url.Action("Login", "Account", null, Request.Url.Scheme));
+                    if (!edit)
+                    {
+                        try
+                        {
+                            sol.AlunoCurso = al;
+                            var solicitacaoEmail = solicitacaoRepository.ConverToEmailModel(sol, Url.Action("Login", "Account", null, Request.Url.Scheme));
 
-                    //    if (edit)
-                    //    {
-                    //        var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/AlteracaoSolicitacaoDocumento.cshtml");
-                    //        string viewCode = System.IO.File.ReadAllText(url);
+                            var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoHoras.cshtml");
+                            string viewCode = System.IO.File.ReadAllText(url);
 
-                    //        var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                    //        var to = new[] { solicitacaoEmail.EmailAluno };
-                    //        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                    //        Email.EnviarEmail(from, to, "Alteração em solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
-                    //    }
-                    //    else {
-                    //        var url = System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Email/NovaSolicitacaoDocumento.cshtml");
-                    //        string viewCode = System.IO.File.ReadAllText(url);
+                            var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
 
-                    //        var html = RazorEngine.Razor.Parse(viewCode, solicitacaoEmail);
-                    //        var to = new[] { solicitacaoEmail.EmailAluno };
-                    //        var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
-                    //        Email.EnviarEmail(from, to, "Nova solicitação de documento - " + solicitacaoEmail.NomeTipoDocumento, html);
-                    //    }
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //}
-
+                            var toEmail = new List<Usuario>();
+                            var coord = cursoRepository.GetCoordenadorByCurso(al.IdCurso);
+                            toEmail = usuarioRepository.GetUsuariosSecretaria();
+                            if (coord != null && coord.Usuario != null)
+                            {
+                                toEmail.Add(coord.Usuario);
+                            }
+                            if (toEmail.Any(x => !string.IsNullOrEmpty(x.E_mail)))
+                            {
+                                var to = toEmail.Where(x => !string.IsNullOrEmpty(x.E_mail)).Select(x => x.E_mail).ToArray();
+                                var from = System.Configuration.ConfigurationManager.AppSettings["MailFrom"].ToString();
+                                Email.EnviarEmail(from, to, "Nova solicitação de horas complementares", html);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                    }
                     Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, sol, (sol.IdSolicitacao > 0 ? (int?)sol.IdSolicitacao : null));
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 }

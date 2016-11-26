@@ -103,6 +103,21 @@ namespace ControleDocumentos.Repository
             return eventos;
         }
 
+        public EventoEmail ConverToEmailModel(Evento ev, string url)
+        {
+            return new EventoEmail
+            {
+                UrlSistema = url,
+                CargaHoraria = ev.CargaHoraria,
+                DataFim = ev.DataFim,
+                DataInicio = ev.DataInicio,
+                Local = ev.Local,
+                NomeEvento = ev.NomeEvento,
+                Observacao = ev.Observacao,
+                Vagas = ev.Vagas
+            };
+        }
+
         public List<Aluno> GetAlunosPresentes(Evento ev)
         {
             List<Aluno> alunos = (from a in db.Aluno
