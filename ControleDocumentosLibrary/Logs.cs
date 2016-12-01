@@ -15,7 +15,6 @@ namespace ControleDocumentosLibrary
         [StringLength(20)]
         public string IdUsuario { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime Data { get; set; }
 
         public EnumAcao Acao { get; set; }

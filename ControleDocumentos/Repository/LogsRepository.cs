@@ -13,6 +13,7 @@ namespace ControleDocumentos.Repository
         DocumentosModel db = new DocumentosModel();
         public bool SalvarLog(Logs log)
         {
+            log.Data = DateTime.Now;
             db.Logs.Add(log);
 
             try
@@ -28,7 +29,26 @@ namespace ControleDocumentos.Repository
 
         public List<Logs> GetByFilter(LogFilter logFilter)
         {
-            return new List<Logs>();
+            List<Logs> logs = db.Logs.ToList();
+
+            if(logFilter.Acao != null)
+            {
+                logs = logs.Where(x => x.Acao == logFilter.Acao).ToList();
+            }
+            if(logFilter.IdObjeto != null)
+            {
+                logs = logs.Where(x => x.IdObjeto == logFilter.IdObjeto).ToList();
+            }
+            if(logFilter.TipoObjeto != null)
+            {
+                logs = logs.Where(x => x.TipoObjeto == logFilter.TipoObjeto).ToList();
+            }
+            if(logFilter.Usuario != null)
+            {
+                logs = logs.Where(x => x.Usuario.Nome.Contains(logFilter.Usuario)).ToList();
+            }
+           
+            return logs;
         }
 
         public List<Logs> GetLogByUserId(string id)
