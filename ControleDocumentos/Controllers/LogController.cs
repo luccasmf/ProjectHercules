@@ -1,4 +1,5 @@
-﻿using ControleDocumentos.Repository;
+﻿using ControleDocumentos.Filter;
+using ControleDocumentos.Repository;
 using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
 using System;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
+    [AuthorizeAD]
     public class LogController : Controller
     {
         LogsRepository logRepository = new LogsRepository();

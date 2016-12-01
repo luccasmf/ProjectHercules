@@ -19,6 +19,8 @@ namespace ControleDocumentosLibrary
         coordenador,
         [Description("Secretaria")]
         secretaria,
+        [Description("Admin")]
+        admin,
     }
 
     public enum EnumStatusSolicitacao : int

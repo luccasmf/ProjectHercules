@@ -72,6 +72,14 @@ namespace ControleDocumentos.Controllers
                     return this.View(model);
                 }
 
+                if(model.UserName == "admin" && model.Password == "admin")
+                {
+                    Session.Add(EnumSession.Usuario.GetEnumDescription(), model);
+                    GetSessionUser();
+
+                    return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Log") }, JsonRequestBehavior.AllowGet);
+                }
+
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);

@@ -21,15 +21,12 @@ namespace ControleDocumentos.Filter
         public string Groups { get; set; }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
+            if (string.IsNullOrEmpty(Groups) && Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.admin)
+                return true;
             //return true;
             if (base.AuthorizeCore(httpContext))
             {
-                if (httpContext.User.Identity.Name == "admin")
-                {
-                    return true;
-                }
-
-
+               
                 if (string.IsNullOrEmpty(Groups))
                     return true;
 

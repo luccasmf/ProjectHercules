@@ -36,6 +36,8 @@ namespace ControleDocumentos.Controllers
                 return RedirectToAction("Index", "Evento");
             else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.secretaria)
                 return RedirectToAction("Index", "Documento");
+            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.admin)
+                return RedirectToAction("Index", "Log");
 
             return View(Utilidades.UsuarioLogado);
         }
