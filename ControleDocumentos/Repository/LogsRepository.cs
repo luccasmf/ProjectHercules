@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ControleDocumentosLibrary;
 using ControleDocumentos.Util.Extension;
+using ControleDocumentos.Models;
 
 namespace ControleDocumentos.Repository
 {
@@ -23,6 +24,11 @@ namespace ControleDocumentos.Repository
             {
                 return false;
             }
+        }
+
+        public List<Logs> GetByFilter(LogFilter logFilter)
+        {
+            return new List<Logs>();
         }
 
         public List<Logs> GetLogByUserId(string id)

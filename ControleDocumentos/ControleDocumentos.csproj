@@ -454,6 +454,7 @@
     <Content Include="Scripts\PageScripts\Evento.js" />
     <Content Include="Scripts\PageScripts\Home.js" />
     <Content Include="Scripts\PageScripts\HoraComplementar.js" />
+    <Content Include="Scripts\PageScripts\Log.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumentoAluno.js" />
     <Content Include="Scripts\PageScripts\SolicitacaoDocumento.js" />
     <Content Include="Scripts\PageScripts\Documento.js" />
@@ -480,6 +481,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HoraComplementarController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\SolicitacaoDocumentoAlunoController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
@@ -498,6 +500,7 @@
     <Compile Include="Models\EventoEmail.cs" />
     <Compile Include="Models\SolicitacaoDocumentoEmail.cs" />
     <Compile Include="Models\EventoFilter.cs" />
+    <Compile Include="Models\LogFilter.cs" />
     <Compile Include="Models\SolicitacaoDocumentoFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AlunoRepository.cs" />
@@ -593,6 +596,8 @@
     <Content Include="Views\Email\CertificadoGerado.cshtml" />
     <Content Include="Views\Email\AlteracaoStatusSolicitacaoDocumento.cshtml" />
     <Content Include="Views\Email\NovaSolicitacaoHoras.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\Log\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
