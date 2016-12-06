@@ -182,6 +182,11 @@ namespace ControleDocumentos.Repository
             //db.Entry(solicitacaoOld).Reload();
             solicitacaoOld = Utilidades.ComparaValores(solicitacaoOld, sol, new string[] { "DataLimite", "DataAtendimento", "Status", "IdFuncionario", "Observacao" });
 
+            if (solicitacaoOld.Status == EnumStatusSolicitacao.cancelado)
+            {
+                db2.Documento.Remove(solicitacaoOld.Documento);
+            }
+
             if (solicitacaoOld == null)
             {
                 return "Mantido";

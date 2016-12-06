@@ -67,21 +67,20 @@ namespace ControleDocumentos.Controllers
             usuario.Permissao = Utilidades.UsuarioLogado.Permissao;
             try
             {
-                bool flag=false;
+                bool flag = false;
                 if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
                 {
-                     flag = alunoRepository.PersisteAluno(usuario.IdUsuario, (int)IdCurso);
+                    flag = alunoRepository.PersisteAluno(usuario.IdUsuario, (int)IdCurso);
                 }
-                else
-                {
-                    string msg = usuarioRepository.PersisteUsuario(new Usuario[] { usuario });
 
-                        if(msg != "Erro")
-                    {
-                        flag = true;
-                    }
+                string msg = usuarioRepository.PersisteUsuario(new Usuario[] { usuario });
+
+                if (msg != "Erro")
+                {
+                    flag = true;
                 }
-                
+
+
                 if (flag)
                 {
                     Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, usuario, null);
