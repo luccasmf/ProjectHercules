@@ -7,7 +7,7 @@
 {
     @Html.HiddenFor(x => x.IdSolicitacao)
 
-    if (Model.Documento != null && !string.IsNullOrEmpty(Model.Documento.CaminhoDocumento))
+    if (Model.Documento != null && !string.IsNullOrEmpty(Model.Documento.CaminhoDocumento) && Model.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado)
     {
         <div class="form-group box-content">
             <i>Documento salvo: </i>&nbsp;<a href="@Url.Action("Download", "Documento", new { nomeDoc = Model.Documento.NomeDocumento })">@Model.Documento.NomeDocumento</a>

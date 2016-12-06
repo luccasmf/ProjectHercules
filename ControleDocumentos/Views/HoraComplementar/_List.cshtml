@@ -23,7 +23,7 @@
                             <i class="icon-action fa fa-trash-o"></i>
                         </a>
                     }
-                    @if (sol.Documento != null && !string.IsNullOrEmpty(sol.Documento.NomeDocumento))
+                    @if (sol.Documento != null && !string.IsNullOrEmpty(sol.Documento.NomeDocumento) && sol.Status != ControleDocumentosLibrary.EnumStatusSolicitacao.cancelado)
                     {
                         <a data-rel="tooltip" title="Baixar" href="@Url.Action("Download","Documento",new { nomeDoc = sol.Documento.NomeDocumento })">
                             <i class="fa fa-download icon-action"></i>

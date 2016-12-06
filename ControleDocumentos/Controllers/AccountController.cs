@@ -99,7 +99,7 @@ namespace ControleDocumentos.Controllers
                     }
                     catch(Exception e)
                     {
-
+                        throw new Exception("Usuário ou senha inválidos");
                     }
                     
 
@@ -108,7 +108,7 @@ namespace ControleDocumentos.Controllers
                 }
                 else
                 {
-                    throw new Exception("Usuário inválido");
+                    throw new Exception("Usuário ou senha inválidos");
                 }
 
             }

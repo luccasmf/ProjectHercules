@@ -29,7 +29,7 @@ namespace ControleDocumentos.Controllers
 
             AlunoCurso al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
 
-            ViewBag.HrsComputadas = al.HoraCompleta;
+            ViewBag.HrsComputadas = al.HoraCompleta.HasValue && al.HoraCompleta.Value > 0 ? al.HoraCompleta.Value : 0;
             ViewBag.HrsNecessarias = al.HoraNecessaria;
 
             List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetMinhaSolicitacao(Utilidades.UsuarioLogado.IdUsuario).ToList();

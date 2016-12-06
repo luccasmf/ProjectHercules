@@ -58,13 +58,13 @@
                         <div class="input-wrap">
                             <div class="input-prepend input-group" title="Username">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @type = "text", @placeholder = "digite o usuário" })
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @type = "text", @placeholder = "digite o usuário", @required = true })
                             </div>
                         </div>
                         <div class="input-wrap">
                             <div class="input-prepend input-group" title="Password">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password", @placeholder = "digite a senha" })
+                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password", @placeholder = "digite a senha", @required = true })
                             </div>
                         </div>
                         <label class="remember" for="RememberMe">@Html.CheckBoxFor(x => x.RememberMe)&nbsp;Lembre me</label>
