@@ -99,11 +99,9 @@ namespace ControleDocumentos.Controllers
                     }
                     catch(Exception e)
                     {
-                        throw new Exception("Usuário ou senha inválidos");
+                       //throw new Exception("Usuário ou senha inválidos");
                     }
                     
-
-
                     return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
                 }
                 else

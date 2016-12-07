@@ -66,8 +66,10 @@ namespace ControleDocumentos.Repository
 
         public bool DeletaArquivo(Documento doc)
         {
-            if (DirDoc.DeletaArquivo(doc.CaminhoDocumento))
+            doc = db.Documento.Find(doc.IdDocumento);
+            if (DirDoc.DeletaArquivo(doc.CaminhoDocumento) || string.IsNullOrEmpty(doc.CaminhoDocumento))
             {
+                db.SolicitacaoDocumento.Remove(doc.SolicitacaoDocumento.FirstOrDefault());
                 db.Documento.Remove(doc);
 
                 return db.SaveChanges() > 0;

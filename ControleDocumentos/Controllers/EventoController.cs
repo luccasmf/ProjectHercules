@@ -234,7 +234,7 @@ namespace ControleDocumentos.Controllers
         }
 
         [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
-        public ActionResult Chamada(int idEvento)
+        public object Chamada(int idEvento)
         {
             bool chamadaFeita = eventoRepository.ChamadaFeita(idEvento, DateTime.Now.Date);
             Chamada c;
@@ -251,7 +251,12 @@ namespace ControleDocumentos.Controllers
 
             alunos = eventoRepository.GetListaChamada(idEvento);
 
-            var evento = eventoRepository.GetEventoById(idEvento);
+            Evento evento = eventoRepository.GetEventoById(idEvento);
+
+            if (evento.Chamada.Count >= (evento.DataFim - evento.DataInicio).Days)
+            {
+                return Json(new { Status = false, Type = "error", Message = "Todas as chamadas já foram efetuadas para este evento" }, JsonRequestBehavior.AllowGet);
+            }
 
             if (chamadaFeita)
             {
