@@ -78,7 +78,7 @@ namespace ControleDocumentos.Repository
                 PersisteFuncionario(user.Funcionario.ToArray());
             }
 
-            userOld = Utilidades.ComparaValores(userOld, user, new string[] {"Nome","E_mail","Permissao"});
+            userOld = Utilidades.ComparaValores(userOld, user, new string[] {"E_mail","Permissao"});
 
             
             if (userOld == null)
