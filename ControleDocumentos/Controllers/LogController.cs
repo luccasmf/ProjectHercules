@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ControleDocumentos.Controllers
 {
-    [AuthorizeAD]
+    //[AuthorizeAD]
     public class LogController : Controller
     {
         LogsRepository logRepository = new LogsRepository();
