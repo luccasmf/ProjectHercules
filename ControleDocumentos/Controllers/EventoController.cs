@@ -27,9 +27,9 @@ namespace ControleDocumentos.Controllers
             eventoRepository.AtualizaStatus();
             PopularDropDownsFiltro();
             List<Evento> eventos;
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                eventos = eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter());
+                eventos = eventoRepository.GetByFilterCoord((User as CustomPrincipal).IdUsuario, new EventoFilter());
 
             }
             else
@@ -57,7 +57,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(EventoFilter filter)
         {
-            return PartialView("_List", eventoRepository.GetByFilterCoord(Utilidades.UsuarioLogado.IdUsuario, filter));
+            return PartialView("_List", eventoRepository.GetByFilterCoord((User as CustomPrincipal).IdUsuario, filter));
         }
 
         public ActionResult CarregaModalConfirmacao(EnumStatusEvento novoStatus, int idEvento)
@@ -103,7 +103,7 @@ namespace ControleDocumentos.Controllers
 
                     if (ev.Status == EnumStatusEvento.cancelado)
                     {
-                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Cancelar, ev, ev.IdEvento);
+                        Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Cancelar, ev, ev.IdEvento);
                     }
 
                     return Json(new { Status = true, Type = "success", Message = "Evento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
@@ -126,7 +126,7 @@ namespace ControleDocumentos.Controllers
 
             if (e.IdEvento == 0)
             {
-                Funcionario f = usuarioRepository.GetFuncionarioByUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                Funcionario f = usuarioRepository.GetFuncionarioByUsuario((User as CustomPrincipal).IdUsuario);
                 e.Status = EnumStatusEvento.ativo;
                 e.IdFuncionarioCriador = f.IdFuncionario;
             }
@@ -161,7 +161,7 @@ namespace ControleDocumentos.Controllers
                         {
                         }
 
-                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, null);
+                        Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, e, null);
                         return Json(new { Status = true, Type = "success", Message = "Evento cadastrado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     }
                 case "Alterado":
@@ -187,7 +187,7 @@ namespace ControleDocumentos.Controllers
                         {
                         }
 
-                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, e, e.IdEvento);
+                        Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, e, e.IdEvento);
                         return Json(new { Status = true, Type = "success", Message = "Evento alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                     }
                 case "Erro":
@@ -243,9 +243,9 @@ namespace ControleDocumentos.Controllers
             List<int> cursos;
             List<Aluno> alunos;
 
-            //if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            //if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             //{
-            //    cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Select(y => y.IdCurso).ToList();
+            //    cursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario).Select(y => y.IdCurso).ToList();
             //    alunos = eventoRepository.GetListaChamada(idEvento).Where(x => cursos.Contains(x.AlunoCurso.FirstOrDefault().IdCurso)).ToList();
             //}
 
@@ -284,7 +284,7 @@ namespace ControleDocumentos.Controllers
         [AuthorizeAD(Groups = "G_FACULDADE_PROFESSOR_R, G_FACULDADE_PROFESSOR_RW, G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW")]
         public object FazerChamada(int[] idAlunos, int idEvento)
         {
-            bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento, Utilidades.UsuarioLogado.IdUsuario);
+            bool flag = eventoRepository.AdicionaPresenca(idAlunos, idEvento, (User as CustomPrincipal).IdUsuario);
 
             if (flag)
             {
@@ -300,7 +300,7 @@ namespace ControleDocumentos.Controllers
         public ActionResult MeusEventos()
         {
             eventoRepository.AtualizaStatus();
-            List<Evento> eventos = eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, new EventoFilter()).Where(x => DateTime.Now < x.DataFim).ToList();
+            List<Evento> eventos = eventoRepository.GetByFilterAluno((User as CustomPrincipal).IdUsuario, new EventoFilter()).Where(x => DateTime.Now < x.DataFim).ToList();
 
             return View(eventos);
         }
@@ -308,7 +308,7 @@ namespace ControleDocumentos.Controllers
         [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
         public ActionResult ListAluno(EventoFilter filter)
         {
-            return PartialView("_List", eventoRepository.GetByFilterAluno(Utilidades.UsuarioLogado.IdUsuario, filter).Where(x => DateTime.Now < x.DataFim).ToList());
+            return PartialView("_List", eventoRepository.GetByFilterAluno((User as CustomPrincipal).IdUsuario, filter).Where(x => DateTime.Now < x.DataFim).ToList());
         }
 
         [AuthorizeAD(Groups = "G_FACULDADE_ALUNOS")]
@@ -325,7 +325,7 @@ namespace ControleDocumentos.Controllers
             try
             {
                 var ev = eventoRepository.GetEventoById(evento.IdEvento);
-                var aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                var aluno = alunoRepository.GetAlunoByIdUsuario((User as CustomPrincipal).IdUsuario);
                 bool ok = false;
 
                 if (aluno != null)

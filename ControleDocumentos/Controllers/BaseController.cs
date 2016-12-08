@@ -17,6 +17,7 @@ namespace ControleDocumentos.Controllers
     public abstract class BaseController : Controller
     {
         UsuarioRepository usuarioRepository = new UsuarioRepository();
+
         public BaseController()
         {
 

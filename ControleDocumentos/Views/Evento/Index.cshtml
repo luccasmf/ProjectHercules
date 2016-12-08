@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="text-right">
-            @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
+            @if ((User as ControleDocumentos.Util.CustomPrincipal).Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
             {
                 <a type="button" class="btn btn-default btnCadastro" id="btnCadastro" url="@Url.Action("CadastrarEvento", "Evento")" href="#">Novo Evento</a>
             }

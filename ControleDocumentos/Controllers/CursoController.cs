@@ -51,10 +51,10 @@ namespace ControleDocumentos.Controllers
             switch (cursoRepository.PersisteCurso(curso))
             {
                 case "Cadastrado":
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, curso, null);
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, curso, null);
                     return Json(new { Status = true, Type = "success", Message = "Curso cadastrado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Alterado":
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, curso, curso.IdCurso);
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, curso, curso.IdCurso);
                     return Json(new { Status = true, Type = "success", Message = "Curso alterado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Erro":
                     return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
@@ -75,7 +75,7 @@ namespace ControleDocumentos.Controllers
             switch (msg)
             {
                 case "Excluido":
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, curso, curso.IdCurso);
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Excluir, curso, curso.IdCurso);
                     return Json(new { Status = true, Type = "success", Message = "Curso deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 case "Alunos":
                     return Json(new { Status = false, Type = "error", Message = "Não é possível excluir cursos com alunos cadastrados" }, JsonRequestBehavior.AllowGet);

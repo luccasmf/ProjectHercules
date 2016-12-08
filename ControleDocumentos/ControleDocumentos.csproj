@@ -512,9 +512,12 @@
     <Compile Include="Repository\TipoDocumentoRepository.cs" />
     <Compile Include="Repository\UsuarioRepository.cs" />
     <Compile Include="Repository\UtilRepository.cs" />
+    <Compile Include="Util\CustomPrincipal.cs" />
+    <Compile Include="Util\CustomPrincipalSerializeModel.cs" />
     <Compile Include="Util\DirDoc.cs" />
     <Compile Include="Util\Email.cs" />
     <Compile Include="Util\Extension\EnumExtensions.cs" />
+    <Compile Include="Util\ICustomPrincipal.cs" />
     <Compile Include="Util\Utilidades.cs" />
   </ItemGroup>
   <ItemGroup>

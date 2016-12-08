@@ -54,7 +54,7 @@ namespace ControleDocumentos.Controllers
                 
                 if (tipoDocumentoRepository.CadastraTipoDoc(model))
                 {
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, model, (model.IdTipoDoc > 0? (int?)model.IdTipoDoc:null));
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, model, (model.IdTipoDoc > 0? (int?)model.IdTipoDoc:null));
                     return Json(new { Status = true, Type = "success", Message = "Tipo de documento salvo com sucesso.", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
 
                 }
@@ -77,7 +77,7 @@ namespace ControleDocumentos.Controllers
             tipoDoc = tipoDocumentoRepository.GetTipoDocById(tipoDoc.IdTipoDoc);
             if (tipoDocumentoRepository.DeletaTipoDoc(tipoDoc.IdTipoDoc))
             {
-                Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, tipoDoc, tipoDoc.IdTipoDoc);
+                Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Excluir, tipoDoc, tipoDoc.IdTipoDoc);
                 return Json(new { Status = true, Type = "success", Message = "Tipo de documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);

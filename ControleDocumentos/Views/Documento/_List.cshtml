@@ -27,7 +27,7 @@
                                 <i class="fa fa-download icon-action"></i>
                             </a>
                         }
-                        @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+                        @if ((User as ControleDocumentos.Util.CustomPrincipal).Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
                         {
                             <a class="btnCadastro" data-rel="tooltip" title="Editar" href="#" url="@Url.Action("CadastrarDocumento", "Documento", new { idDoc = doc.IdDocumento })">
                                 <i class="fa fa-edit icon-action"></i>

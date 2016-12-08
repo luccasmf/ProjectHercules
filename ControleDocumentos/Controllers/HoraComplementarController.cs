@@ -27,12 +27,12 @@ namespace ControleDocumentos.Controllers
         {
             PopularDropDowns();
 
-            AlunoCurso al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
+            AlunoCurso al = cursoRepository.GetAlunoCurso((User as CustomPrincipal).IdUsuario);
 
             ViewBag.HrsComputadas = al.HoraCompleta.HasValue && al.HoraCompleta.Value > 0 ? al.HoraCompleta.Value : 0;
             ViewBag.HrsNecessarias = al.HoraNecessaria;
 
-            List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetMinhaSolicitacao(Utilidades.UsuarioLogado.IdUsuario).ToList();
+            List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetMinhaSolicitacao((User as CustomPrincipal).IdUsuario).ToList();
             return View(retorno);
         }
 
@@ -49,7 +49,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(Models.SolicitacaoDocumentoFilter filter)
         {
-            var list = solicitacaoRepository.GetByFilterAluno(filter, Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno);
+            var list = solicitacaoRepository.GetByFilterAluno(filter, (User as CustomPrincipal).IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno);
             return PartialView("_List", list.ToList());
         }
 
@@ -80,7 +80,7 @@ namespace ControleDocumentos.Controllers
 
                 if (sol.IdSolicitacao == 0)
                 {
-                    al = cursoRepository.GetAlunoCurso(Utilidades.UsuarioLogado.IdUsuario);
+                    al = cursoRepository.GetAlunoCurso((User as CustomPrincipal).IdUsuario);
 
                     sol.IdAlunoCurso = al.IdAlunoCurso;
                     sol.TipoSolicitacao = EnumTipoSolicitacao.aluno;
@@ -142,7 +142,7 @@ namespace ControleDocumentos.Controllers
                         {
                         }
                     }
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, sol, (sol.IdSolicitacao > 0 ? (int?)sol.IdSolicitacao : null));
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, sol, (sol.IdSolicitacao > 0 ? (int?)sol.IdSolicitacao : null));
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -170,7 +170,7 @@ namespace ControleDocumentos.Controllers
 
                 if (msg != "Erro")
                 {
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Cancelar, sol, sol.IdSolicitacao);
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Cancelar, sol, sol.IdSolicitacao);
 
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 }

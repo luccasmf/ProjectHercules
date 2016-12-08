@@ -27,15 +27,15 @@ namespace ControleDocumentos.Controllers
             // apenas se decidirmos n usar o datatables como filtro
             // PopularDropDowns();
 
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                List<Documento> retorno = documentoRepository.GetDocsByCoordenador((User as CustomPrincipal).IdUsuario);
                 return View(retorno);
             }
 
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.aluno)
             {
-                List<Documento> retorno = documentoRepository.GetDocsByAluno(Utilidades.UsuarioLogado.IdUsuario);
+                List<Documento> retorno = documentoRepository.GetDocsByAluno((User as CustomPrincipal).IdUsuario);
                 return View(retorno);
             }
             return View(documentoRepository.GetAllDocs());
@@ -44,7 +44,7 @@ namespace ControleDocumentos.Controllers
         [AuthorizeAD(Groups = "G_FACULDADE_COORDENADOR_R, G_FACULDADE_COORDENADOR_RW, G_FACULDADE_SECRETARIA_R, G_FACULDADE_SECRETARIA_RW")]
         public ActionResult CadastrarDocumento(int? idDoc)
         {
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.aluno)
                 return RedirectToAction("UnauthorizedPartial", "Error");
 
             PopularDropDowns();
@@ -67,9 +67,9 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List()
         {
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                List<Documento> retorno = documentoRepository.GetDocsByCoordenador((User as CustomPrincipal).IdUsuario);
                 return PartialView("_List", retorno);
             }
             // helenira: replicar validação da view
@@ -89,9 +89,9 @@ namespace ControleDocumentos.Controllers
         private void PopularDropDowns()
         {
             List<Curso> lstCursos = new List<Curso>();
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                lstCursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                lstCursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
             }
             else {
                 lstCursos = cursoRepository.GetCursos();
@@ -120,14 +120,14 @@ namespace ControleDocumentos.Controllers
             List<SelectListItem> listAlunos = new List<SelectListItem>();
 
             // se é coordenador, valida se usuario é coordenador do curso passado no parametro
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                var cursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
                 if (cursos.Any(x => x.IdCurso == idCurso))
                     ok = true;
             }
 
-            if (ok || Utilidades.UsuarioLogado.Permissao != EnumPermissaoUsuario.coordenador)
+            if (ok || (User as CustomPrincipal).Permissao != EnumPermissaoUsuario.coordenador)
             {
                 listAlunos = alunoRepository.GetAlunoByIdCurso(idCurso).Select(item => new SelectListItem
                 {
@@ -147,9 +147,9 @@ namespace ControleDocumentos.Controllers
                 try
                 {
                     // valida se o aluno está matriculado no curso que coordena
-                    if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+                    if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
                     {
-                        var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                        var cursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
                         if (!cursos.Any(x => x.AlunoCurso.Any(y => y.IdAluno == doc.AlunoCurso.IdAluno)))
                             return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
                     }
@@ -173,7 +173,7 @@ namespace ControleDocumentos.Controllers
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Sucesso":
                             doc.arquivo = null;
-                            Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, doc, (doc.IdDocumento > 0 ? (int?)doc.IdDocumento : null));
+                            Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, doc, (doc.IdDocumento > 0 ? (int?)doc.IdDocumento : null));
                             return Json(new { Status = true, Type = "success", Message = "Documento salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                         case "Falha ao persistir":
                             return Json(new { Status = false, Type = "error", Message = mensagem }, JsonRequestBehavior.AllowGet);
@@ -197,9 +197,9 @@ namespace ControleDocumentos.Controllers
         public object ExcluirDocumento(Documento doc)
         {
             // valida se o aluno está matriculado no curso que coordena
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<Curso> cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                List<Curso> cursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
 
                 List<int> alunos = new List<int>();
                 doc = documentoRepository.GetDocumentoById(doc.IdDocumento);
@@ -215,7 +215,7 @@ namespace ControleDocumentos.Controllers
 
             if (documentoRepository.DeletaArquivo(doc))
             {
-                Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Excluir, doc, (int?)doc.IdDocumento);
+                Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Excluir, doc, (int?)doc.IdDocumento);
                 return Json(new { Status = true, Type = "success", Message = "Documento deletado com sucesso!", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Status = false, Type = "error", Message = "Ocorreu um erro ao realizar esta operação" }, JsonRequestBehavior.AllowGet);
@@ -231,14 +231,14 @@ namespace ControleDocumentos.Controllers
         public ActionResult Download(string nomeDoc)
         {
             Documento doc = documentoRepository.GetDocumentoByNome(nomeDoc);
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.professor)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.professor)
             {
                 return RedirectToAction("Unauthorized", "Error");
             }
 
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                List<Documento> retorno = documentoRepository.GetDocsByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                List<Documento> retorno = documentoRepository.GetDocsByCoordenador((User as CustomPrincipal).IdUsuario);
                 if (!retorno.Any(x => x.IdDocumento == doc.IdDocumento))
                     return RedirectToAction("Unauthorized", "Error");
             }
@@ -259,9 +259,9 @@ namespace ControleDocumentos.Controllers
         public JsonResult GetAlunosByIdCurso(int idCurso)
         {
             // se é coordenador, valida se é coodenador do curso passado por parametro
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                var cursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
                 if (!cursos.Any(x => x.IdCurso == idCurso))
                     return Json(null);
             }

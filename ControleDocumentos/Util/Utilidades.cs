@@ -96,11 +96,11 @@ namespace ControleDocumentos.Util
             return user;
         }
 
-        public static bool SalvaLog<T>(Usuario usuario, EnumAcao e, T objeto, int? idObjeto)
+        public static bool SalvaLog<T>(string idUsuario, EnumAcao e, T objeto, int? idObjeto)
         {
             Logs log = new Logs();
 
-            log.IdUsuario = usuario.IdUsuario;
+            log.IdUsuario = idUsuario;
             log.Data = DateTime.Now;
             log.Acao = e;
             log.IdObjeto = idObjeto;

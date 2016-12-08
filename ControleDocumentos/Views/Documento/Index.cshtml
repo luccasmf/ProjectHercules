@@ -47,7 +47,7 @@
         </div>
     *@
 
-    @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
+    @if ((User as ControleDocumentos.Util.CustomPrincipal).Permissao != ControleDocumentosLibrary.EnumPermissaoUsuario.aluno)
     {
         <div class="text-right">
             <a type="button" class="btn btn-primary btnCadastro" id="btnCadastro" url="@Url.Action("CadastrarDocumento", "Documento")" href="#">Novo documento</a>

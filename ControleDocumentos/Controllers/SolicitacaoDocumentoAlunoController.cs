@@ -23,7 +23,7 @@ namespace ControleDocumentos.Controllers
         // GET: SolicitacaoDocumentoAluno
         public ActionResult Index()
         {
-            Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+            Aluno aluno = alunoRepository.GetAlunoByIdUsuario((User as CustomPrincipal).IdUsuario);
             if (aluno == null) {
                 return RedirectToAction("Unauthorized", "Error");
             }
@@ -39,7 +39,7 @@ namespace ControleDocumentos.Controllers
             {
                 sol = solicitacaoRepository.GetSolicitacaoById((int)idSol);
 
-                if (Utilidades.UsuarioLogado.IdUsuario == sol.AlunoCurso.Aluno.IdUsuario)
+                if ((User as CustomPrincipal).IdUsuario == sol.AlunoCurso.Aluno.IdUsuario)
                 {
                     // marca a solicitação como visualizada
                     if (sol.Status == EnumStatusSolicitacao.pendente)
@@ -57,7 +57,7 @@ namespace ControleDocumentos.Controllers
 
         public ActionResult List(bool apenasPendentes)
         {
-            Aluno aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+            Aluno aluno = alunoRepository.GetAlunoByIdUsuario((User as CustomPrincipal).IdUsuario);
             var id = aluno.IdAluno;
 
             if (!apenasPendentes)
@@ -81,7 +81,7 @@ namespace ControleDocumentos.Controllers
 
                 var solicitacao = solicitacaoRepository.GetSolicitacaoById(sol.IdSolicitacao);
 
-                if (solicitacao.AlunoCurso.Aluno.Usuario.IdUsuario == Utilidades.UsuarioLogado.IdUsuario)
+                if (solicitacao.AlunoCurso.Aluno.Usuario.IdUsuario == (User as CustomPrincipal).IdUsuario)
                 {
                     solicitacao.Status = EnumStatusSolicitacao.processando;
                     solicitacao.DataAtendimento = DateTime.Now;
@@ -120,7 +120,7 @@ namespace ControleDocumentos.Controllers
                                 catch (Exception)
                                 {
                                 }
-                                Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, solicitacao, solicitacao.IdSolicitacao);
+                                Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, solicitacao, solicitacao.IdSolicitacao);
                                 return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                             }
                             else

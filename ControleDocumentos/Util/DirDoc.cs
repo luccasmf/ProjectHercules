@@ -139,18 +139,19 @@ namespace ControleDocumentos
         /// <returns>um caminho temporário para baixar o arquivo</returns>
         public static byte[] BaixaArquivo(Documento doc)
         {
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.deslogado)
-            {
-                return null;
-            }
+            // LUCCIROS, AQUI N TEMOS ACESSO AO USER, VER COMO FAZER
+            //if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.deslogado)
+            //{
+            //    return null;
+            //}
 
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
-            {
-                if (Utilidades.UsuarioLogado.IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
-                {
-                    return null;
-                }
-            }
+            //if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.aluno)
+            //{
+            //    if ((User as CustomPrincipal).IdUsuario != doc.AlunoCurso.Aluno.IdUsuario)
+            //    {
+            //        return null;
+            //    }
+            //}
 
             try
             {

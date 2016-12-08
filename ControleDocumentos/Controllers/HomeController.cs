@@ -21,32 +21,28 @@ namespace ControleDocumentos.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            // PUBLICADO
-            //Utilidades.UsuarioLogado = GetSessionUser();
-
-            // LOCAL
-            GetSessionUser();
-            if (Utilidades.UsuarioLogado.E_mail == null)
+            //GetSessionUser();
+            if ((User as CustomPrincipal).Email == null)
                 return RedirectToAction("DadosCadastrais");
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.aluno)
                 return RedirectToAction("Index", "SolicitacaoDocumentoAluno");
-            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            else if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
                 return RedirectToAction("Index", "SolicitacaoHoraComplementar");
-            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.professor)
+            else if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.professor)
                 return RedirectToAction("Index", "Evento");
-            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.secretaria)
+            else if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.secretaria)
                 return RedirectToAction("Index", "Documento");
-            else if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.admin)
+            else if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.admin)
                 return RedirectToAction("Index", "Log");
 
-            return View(Utilidades.UsuarioLogado);
+            return View();
         }
 
         public ActionResult DadosCadastrais()
         {
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.aluno)
             {
-                var aluno = alunoRepository.GetAlunoByIdUsuario(Utilidades.UsuarioLogado.IdUsuario);
+                var aluno = alunoRepository.GetAlunoByIdUsuario((User as CustomPrincipal).IdUsuario);
                 var idCurso = aluno.AlunoCurso != null ? aluno.AlunoCurso.Select(x => x.IdCurso).FirstOrDefault() : 0;
 
                 var listCursosSelectList = cursoRepository.GetCursos().Select(item => new SelectListItem
@@ -58,17 +54,17 @@ namespace ControleDocumentos.Controllers
             }
             GetSessionUser();
 
-            var usuario = usuarioRepository.GetUsuarioById(Utilidades.UsuarioLogado.IdUsuario);
+            var usuario = usuarioRepository.GetUsuarioById((User as CustomPrincipal).IdUsuario);
             return View(usuario);
         }
 
         public object SalvarDadosCadastrais(Usuario usuario, int? IdCurso)
         {
-            usuario.Permissao = Utilidades.UsuarioLogado.Permissao;
+            usuario.Permissao = (User as CustomPrincipal).Permissao;
             try
             {
                 bool flag = false;
-                if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.aluno)
+                if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.aluno)
                 {
                     flag = alunoRepository.PersisteAluno(usuario.IdUsuario, (int)IdCurso);
                 }
@@ -83,7 +79,7 @@ namespace ControleDocumentos.Controllers
 
                 if (flag)
                 {
-                    Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Persistir, usuario, null);
+                    Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Persistir, usuario, null);
                     return Json(new { Status = true, Type = "success", Message = "Salvo com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
                 }
                 else

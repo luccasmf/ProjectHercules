@@ -1,4 +1,5 @@
 ﻿using ControleDocumentos.Models;
+using ControleDocumentos.Repository;
 using ControleDocumentos.Util;
 using ControleDocumentos.Util.Extension;
 using ControleDocumentosLibrary;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 
 namespace ControleDocumentos.Controllers
@@ -23,7 +25,7 @@ namespace ControleDocumentos.Controllers
 
             var model = new LoginModel();
 
-            model.ReturnUrl = returnUrl;            
+            model.ReturnUrl = returnUrl;
 
             return this.View(model);
         }
@@ -66,7 +68,7 @@ namespace ControleDocumentos.Controllers
 
             #region login Real
             try
-            {
+             {
                 if (!this.ModelState.IsValid)
                 {
                     return this.View(model);
@@ -82,26 +84,46 @@ namespace ControleDocumentos.Controllers
 
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    Session.Add(EnumSession.Usuario.GetEnumDescription(), model);
+                    UsuarioRepository usuarioRepository = new UsuarioRepository();
+                    var usuario = usuarioRepository.GetUsuarioById(model.UserName);
+
+                    CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+                    serializeModel.IdUsuario = usuario.IdUsuario;
+                    serializeModel.Nome = usuario.Nome;
+                    serializeModel.Email = usuario.E_mail;
+                    serializeModel.Permissao = usuario.Permissao;
+
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                    string userData = serializer.Serialize(serializeModel);
+
+                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                             1,
+                             model.UserName,
+                             DateTime.Now,
+                             DateTime.Now.AddMinutes(30),
+                             model.RememberMe,
+                             userData);
+
+                    string encTicket = FormsAuthentication.Encrypt(authTicket);
+                    HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                    Response.Cookies.Add(faCookie);
 
                     if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
-                        GetSessionUser();
                         return Json(new { Status = true, Type = "success", ReturnUrl = returnUrl }, JsonRequestBehavior.AllowGet);
                     }
                     try
                     {
-                        GetSessionUser();
-                        if (string.IsNullOrEmpty(Utilidades.UsuarioLogado.E_mail))
+                        if (string.IsNullOrEmpty(usuario.E_mail))
                             return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("DadosCadastrais", "Home") }, JsonRequestBehavior.AllowGet);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
-                       //throw new Exception("Usuário ou senha inválidos");
+                        //throw new Exception("Usuário ou senha inválidos");
                     }
-                    
+
                     return Json(new { Status = true, Type = "success", ReturnUrl = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
                 }
                 else

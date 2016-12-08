@@ -20,14 +20,14 @@
                 <td>@(ev.Vagas - ev.VagasPreenchidas)</td>
                 <td>@(ControleDocumentos.Util.Extension.EnumExtensions.GetEnumDescription(ev.Status))</td>
                 <td class="center">
-                    @if (ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno || ControleDocumentos.Util.Utilidades.UsuarioLogado.Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
+                    @if ((User as ControleDocumentos.Util.CustomPrincipal).Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.aluno || (User as ControleDocumentos.Util.CustomPrincipal).Permissao == ControleDocumentosLibrary.EnumPermissaoUsuario.professor)
                     {
                         <a class="btnCadastro" data-rel="tooltip" title="Visualizar" href="#" url="@Url.Action("CadastrarEvento", "Evento", new { idEvento = ev.IdEvento })">
                             <i class="icon-action fa fa-eye"></i>
                         </a>
                         if (ev.Status == ControleDocumentosLibrary.EnumStatusEvento.ativo)
                         {
-                            if (ev.AlunoEvento.Any(x => x.Aluno.IdUsuario == ControleDocumentos.Util.Utilidades.UsuarioLogado.IdUsuario))
+                            if (ev.AlunoEvento.Any(x => x.Aluno.IdUsuario == (User as ControleDocumentos.Util.CustomPrincipal).IdUsuario))
                             {
                                 <a class="btnConfirm" data-rel="tooltip" title="Cancelar participação" href="#" url="@Url.Action("CarregaModalConfirmacaoParticipacao", "Evento", new { idEvento = ev.IdEvento, presente = false })">
                                     <i class="icon-action presencaConfirmada fa fa-thumbs-up"></i>
@@ -41,9 +41,9 @@
                             }
                         }
                         if (ev.Documento != null && ev.Documento.Any(x =>
-                            x.AlunoCurso.Aluno.IdUsuario == ControleDocumentos.Util.Utilidades.UsuarioLogado.IdUsuario))
+                            x.AlunoCurso.Aluno.IdUsuario == (User as ControleDocumentos.Util.CustomPrincipal).IdUsuario))
                         {
-                            var doc = ev.Documento.Where(x => x.AlunoCurso.Aluno.IdUsuario == ControleDocumentos.Util.Utilidades.UsuarioLogado.IdUsuario &&
+                            var doc = ev.Documento.Where(x => x.AlunoCurso.Aluno.IdUsuario == (User as ControleDocumentos.Util.CustomPrincipal).IdUsuario &&
                             !string.IsNullOrEmpty(x.NomeDocumento)).FirstOrDefault();
                             if (doc != null)
                             {

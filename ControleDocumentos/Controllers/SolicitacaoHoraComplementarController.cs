@@ -25,10 +25,10 @@ namespace ControleDocumentos.Controllers
         public ActionResult Index()
         {
             PopularDropDowns();
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
                 List<SolicitacaoDocumento> retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(
-                    Utilidades.UsuarioLogado.IdUsuario).Where(x =>
+                    (User as CustomPrincipal).IdUsuario).Where(x =>
                     (x.Status == EnumStatusSolicitacao.pendente ||
                     x.Status == EnumStatusSolicitacao.visualizado) &&
                     x.TipoSolicitacao == EnumTipoSolicitacao.aluno).ToList();
@@ -44,9 +44,9 @@ namespace ControleDocumentos.Controllers
 
             if (idSol.HasValue)
             {
-                if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+                if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
                 {
-                    var retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno).ToList();
+                    var retorno = solicitacaoRepository.GetSolicitacaoByCoordenador((User as CustomPrincipal).IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno).ToList();
                     if (!retorno.Any(x => x.IdSolicitacao == idSol))
                         return PartialView("_UnauthorizedPartial", "Error");
                 }
@@ -68,9 +68,9 @@ namespace ControleDocumentos.Controllers
         public ActionResult List(Models.SolicitacaoDocumentoFilter filter)
         {
             List<SolicitacaoDocumento> retorno = new List<SolicitacaoDocumento>();
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                retorno = solicitacaoRepository.GetByFilterCoordenador(filter, Utilidades.UsuarioLogado.IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno).ToList();
+                retorno = solicitacaoRepository.GetByFilterCoordenador(filter, (User as CustomPrincipal).IdUsuario).Where(x => x.TipoSolicitacao == EnumTipoSolicitacao.aluno).ToList();
             }
             else {
                 retorno = solicitacaoRepository.GetByFilter(filter);
@@ -93,9 +93,9 @@ namespace ControleDocumentos.Controllers
         private void PopularDropDowns()
         {
             List<Curso> lstCursos = new List<Curso>();
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                lstCursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                lstCursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
             }
             else {
                 lstCursos = cursoRepository.GetCursos();
@@ -121,9 +121,9 @@ namespace ControleDocumentos.Controllers
         public JsonResult GetAlunosByIdCurso(int idCurso)
         {
             // se é coordenador, valida se é coodenador do curso passado por parametro
-            if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+            if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
             {
-                var cursos = cursoRepository.GetCursoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                var cursos = cursoRepository.GetCursoByCoordenador((User as CustomPrincipal).IdUsuario);
                 if (!cursos.Any(x => x.IdCurso == idCurso))
                     return Json(null);
             }
@@ -140,9 +140,9 @@ namespace ControleDocumentos.Controllers
         {
             try
             {
-                if (Utilidades.UsuarioLogado.Permissao == EnumPermissaoUsuario.coordenador)
+                if ((User as CustomPrincipal).Permissao == EnumPermissaoUsuario.coordenador)
                 {
-                    var retorno = solicitacaoRepository.GetSolicitacaoByCoordenador(Utilidades.UsuarioLogado.IdUsuario);
+                    var retorno = solicitacaoRepository.GetSolicitacaoByCoordenador((User as CustomPrincipal).IdUsuario);
                     if (!retorno.Any(x => x.IdSolicitacao == solic.IdSolicitacao))
                         return Json(new { Status = false, Type = "error", Message = "Não autorizado!" }, JsonRequestBehavior.AllowGet);
                 }
@@ -201,11 +201,11 @@ namespace ControleDocumentos.Controllers
 
                     if (sol.Status == EnumStatusSolicitacao.concluido)
                     {
-                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Aprovar, sol, sol.IdSolicitacao);
+                        Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Aprovar, sol, sol.IdSolicitacao);
                     }
                     else if (sol.Status == EnumStatusSolicitacao.pendente)
                     {
-                        Utilidades.SalvaLog(Utilidades.UsuarioLogado, EnumAcao.Reprovar, sol, sol.IdSolicitacao);
+                        Utilidades.SalvaLog((User as CustomPrincipal).IdUsuario, EnumAcao.Reprovar, sol, sol.IdSolicitacao);
                     }
 
                     return Json(new { Status = true, Type = "success", Message = "Solicitação salva com sucesso", ReturnUrl = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
